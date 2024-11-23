@@ -1,68 +1,28 @@
-import React, { Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import RestrictedRoute from './Routes/RestrictedRoute';
-import PrivateRoute from './Routes/PrivateRoute';
-import SharedLayout from './SharedLayout/SharedLayout';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import SharedLayout from '../components/SharedLayout/SharedLayout';
+import HomePage from '../pages/HomePage/HomePage';
+import SignInPage from '../pages/SignInPage/SignInPage';
+import SignUpPage from '../pages/SignUpPage/SignUpPage';
+import TrackerPage from '../pages/TrackerPage/TrackerPage';
 
-// Заглушки для компонентів
-const HomePage = () => <div>Home Page</div>;
-const SignUpPage = () => <div>Sign Up Page</div>;
-const SignInPage = () => <div>Sign In Page</div>;
-const TrackerPage = () => <div>Tracker Page</div>;
-const RefreshLoader = () => <div>Loading...</div>;
-const WaterLoader = () => <div>Loading Water...</div>;
-
-// Заглушка для isRefreshing
-const isRefreshing = false;
-
-function App() {
+const App = () => {
   return (
-    <>
-      <SharedLayout>
-        {isRefreshing ? (
-          <RefreshLoader />
-        ) : (
-          <Suspense fallback={<WaterLoader />}>
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <RestrictedRoute
-                    component={<HomePage />}
-                    redirectTo="/tracker"
-                  />
-                }
-              />
-              <Route
-                path="/signup"
-                element={
-                  <RestrictedRoute
-                    component={<SignUpPage />}
-                    redirectTo="/tracker"
-                  />
-                }
-              />
-              <Route
-                path="/signin"
-                element={
-                  <RestrictedRoute
-                    component={<SignInPage />}
-                    redirectTo="/tracker"
-                  />
-                }
-              />
-              <Route
-                path="/tracker"
-                element={
-                  <PrivateRoute component={<TrackerPage />} redirectTo="/" />
-                }
-              />
-            </Routes>
-          </Suspense>
-        )}
-      </SharedLayout>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<SharedLayout />}>
+          {/* Головна сторінка */}
+          <Route index element={<HomePage />} />
+          {/* Сторінка входу */}
+          <Route path="/signin" element={<SignInPage />} />
+          {/* Сторінка реєстрації */}
+          <Route path="/signup" element={<SignUpPage />} />
+          {/* Сторінка трекера */}
+          <Route path="/tracker" element={<TrackerPage />} />
+        </Route>
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;

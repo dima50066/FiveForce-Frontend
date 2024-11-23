@@ -1,9 +1,15 @@
-// import clsx from 'clsx';
-// import css from './SharedLayout.module.css';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 
-// Заглушка для контенту
-const PlaceholderContent = () => <div>Placeholder Content</div>;
-
-export default function SharedLayout({ children }) {
-  return <div className={''}>{children || <PlaceholderContent />}</div>;
+export default function SharedLayout() {
+  return (
+    <div>
+      <header>
+        <h1>Shared Layout Header</h1>
+      </header>
+      <main>
+        <Outlet />
+      </main>
+    </div>
+  );
 }
