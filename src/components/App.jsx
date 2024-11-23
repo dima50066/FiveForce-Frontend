@@ -1,35 +1,24 @@
-// import { Suspense, useEffect } from 'react';
-// import { Route, Routes } from 'react-router';
-// import RestrictedRoute from '../Routes/RestrictedRoute';
-// import PrivateRoute from '../Routes/PrivateRoute';
-// import '../App/App.css';
-// import SignUpPage from '../../pages/SignUpPage/SignUpPage';
-// import SignInPage from '../../pages/SignInPage/SignInPage';
-// import TrackerPage from '../../pages/TrackerPage/TrackerPage';
-// import SharedLayout from '../SharedLayout/SharedLayout';
-// import HomePage from '../../pages/HomePage/HomePage';
-// import { Toaster } from 'react-hot-toast';
-// import { useDispatch, useSelector } from 'react-redux';
-// // import { refreshUserToken } from '../../redux/user/operations';
-// import { selectIsRefreshing } from '../../redux/user/selectors.js';
+import React, { Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom'; // Імпортуємо Routes і Route
+import RestrictedRoute from './Routes/RestrictedRoute';
+import PrivateRoute from './Routes/PrivateRoute';
+import SharedLayout from './SharedLayout/SharedLayout';
+
+// Заглушки для компонентів
+const HomePage = () => <div>Home Page</div>;
+const SignUpPage = () => <div>Sign Up Page</div>;
+const SignInPage = () => <div>Sign In Page</div>;
+const TrackerPage = () => <div>Tracker Page</div>;
+const RefreshLoader = () => <div>Loading...</div>;
+const WaterLoader = () => <div>Loading Water...</div>;
+
+// Заглушка для isRefreshing
+const isRefreshing = false;
 
 function App() {
-  // const dispatch = useDispatch();
-  // const isRefreshing = useSelector(selectIsRefreshing);
-
-  // useEffect(() => {
-  //   dispatch(refreshUserToken());
-  // }, [dispatch]);
-
   return (
     <>
-      {/* <Toaster
-        position="top-center"
-        toastOptions={{
-          duration: 5000,
-        }}
-      /> */}
-      {/* <SharedLayout>
+      <SharedLayout>
         {isRefreshing ? (
           <RefreshLoader />
         ) : (
@@ -71,8 +60,7 @@ function App() {
             </Routes>
           </Suspense>
         )}
-      </SharedLayout> */}
-      App
+      </SharedLayout>
     </>
   );
 }

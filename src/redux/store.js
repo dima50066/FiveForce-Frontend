@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import {
   persistStore,
-  persistReducer,
   FLUSH,
   REHYDRATE,
   PAUSE,
@@ -9,21 +8,13 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-// import userReducer from './user/slice';
-// import waterReducer from './water/slice';
+import { useDispatch, useSelector } from 'react-redux';
 
-const userPersistConfig = {
-  key: 'user',
-  storage,
-  whitelist: ['refreshToken'], // вказати яку властивість зберігти, поки що додав тільки токен
-};
-const persistedUserReducer = persistReducer();
+const placeholderReducer = (state = {}) => state;
 
 export const store = configureStore({
   reducer: {
-    // user: persistedUserReducer,
-    // water: waterReducer,
+    placeholder: placeholderReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
@@ -34,3 +25,6 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+
+export const useAppDispatch = () => useDispatch();
+export const useAppSelector = useSelector;
