@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom'; // Імпортуємо Routes і Route
+import { Route, Routes } from 'react-router-dom';
 import RestrictedRoute from './Routes/RestrictedRoute';
 import PrivateRoute from './Routes/PrivateRoute';
 import SharedLayout from './SharedLayout/SharedLayout';
