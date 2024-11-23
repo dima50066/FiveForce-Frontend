@@ -1,39 +1,35 @@
-import { Suspense, useEffect } from 'react';
-import { Route, Routes } from 'react-router';
-import RestrictedRoute from '../Routes/RestrictedRoute';
-import PrivateRoute from '../Routes/PrivateRoute';
-import '../App/App.css';
-import SignUpPage from '../../pages/SignUpPage/SignUpPage';
-import SignInPage from '../../pages/SignInPage/SignInPage';
-import TrackerPage from '../../pages/TrackerPage/TrackerPage';
-import SharedLayout from '../SharedLayout/SharedLayout';
-import HomePage from '../../pages/HomePage/HomePage';
-import { Toaster } from 'react-hot-toast';
-import { useDispatch, useSelector } from 'react-redux';
-import { refreshUserToken } from '../../redux/user/operations';
-import '../../translate/index.js';
-import WaterLoader from '../../shared/components/WaterLoader/WaterLoader.jsx';
-import RefreshLoader from '../RefreshLoader/RefreshLoader.jsx';
-import { selectIsRefreshing } from '../../redux/user/selectors.js';
+// import { Suspense, useEffect } from 'react';
+// import { Route, Routes } from 'react-router';
+// import RestrictedRoute from '../Routes/RestrictedRoute';
+// import PrivateRoute from '../Routes/PrivateRoute';
+// import '../App/App.css';
+// import SignUpPage from '../../pages/SignUpPage/SignUpPage';
+// import SignInPage from '../../pages/SignInPage/SignInPage';
+// import TrackerPage from '../../pages/TrackerPage/TrackerPage';
+// import SharedLayout from '../SharedLayout/SharedLayout';
+// import HomePage from '../../pages/HomePage/HomePage';
+// import { Toaster } from 'react-hot-toast';
+// import { useDispatch, useSelector } from 'react-redux';
+// // import { refreshUserToken } from '../../redux/user/operations';
+// import { selectIsRefreshing } from '../../redux/user/selectors.js';
 
 function App() {
-  const dispatch = useDispatch();
-  const isRefreshing = useSelector(selectIsRefreshing);
+  // const dispatch = useDispatch();
+  // const isRefreshing = useSelector(selectIsRefreshing);
 
-  useEffect(() => {
-    dispatch(refreshUserToken());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(refreshUserToken());
+  // }, [dispatch]);
 
   return (
     <>
-      <Toaster
+      {/* <Toaster
         position="top-center"
         toastOptions={{
           duration: 5000,
         }}
-      />
-
-      <SharedLayout>
+      /> */}
+      {/* <SharedLayout>
         {isRefreshing ? (
           <RefreshLoader />
         ) : (
@@ -75,7 +71,8 @@ function App() {
             </Routes>
           </Suspense>
         )}
-      </SharedLayout>
+      </SharedLayout> */}
+      App
     </>
   );
 }
