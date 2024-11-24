@@ -1,10 +1,19 @@
+
 import React from 'react';
+import { Link } from 'react-router-dom';
+import SignInForm from '../../components/SignInForm/SignInForm';
+import css from './SignInPage.module.css';
 
 const SignInPage = () => {
   return (
-    <div>
-      <h1>Sign In Page</h1>
-      <p>This is a placeholder for the Sign In page.</p>
+    <div className={css.container}>
+      <div className={css.logo}>
+        <h1>Sign In</h1>
+      </div>
+      <SignInForm />
+      <div className={css.signupLink}>
+        <p>Don't have an account?<Link to="/signup" className={css.link}>Sign Up</Link></p>
+      </div>
     </div>
   );
 };

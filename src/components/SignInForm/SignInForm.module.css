@@ -1,0 +1,38 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.label {
+    font-size: 16px;
+    color: #333;
+}
+
+.input {
+    border: 1px solid rgba(47, 47, 47, 0.2);
+    border-radius: 15px;
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
+    
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+.button {
+    background-color: #9be1a0;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    width: 100%;
+    padding: 16px;
+}
+
+.button:disabled {
+    background-color: #b0b0b0;
+}
