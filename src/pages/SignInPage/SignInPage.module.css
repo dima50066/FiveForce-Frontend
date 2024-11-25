@@ -17,6 +17,7 @@
 }
 .logo {
     margin-bottom: 172px;
+
 }
 .signupLink {
     font-size: 14px;
@@ -30,4 +31,29 @@
     font-weight: 700;
     color: var(--main-text);
     text-decoration-skip-ink: none ;
+}
+@media (min-width: 768px) {
+    .container {
+        min-width: 704px;
+        height: 960px;
+        padding: 281px 134px;
+        font-size: 16px;
+        position: relative;
+    }
+    .logo {
+        position: absolute;
+            /* Відносно контейнера */
+            top: 32px;
+            /* Верхній край */
+            left: 32px;
+            /* Лівий край */
+    }
+        .heroTitle {
+            line-height: 106%;
+            font-size: 36px;
+        }
+        .signupLink {
+           line-height: 150%; 
+           font-size: 16px;
+        }
 }

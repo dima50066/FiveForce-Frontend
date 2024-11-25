@@ -16,7 +16,7 @@ const SignInPage = () => {
       <div className={css.signupLink}>
         <p>Don't have an account?<Link to="/signup" className={css.link}> Sign Up</Link></p>
       </div>
-    </div>
+     </div>
   );
 };
 

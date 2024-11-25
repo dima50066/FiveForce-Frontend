@@ -1,22 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as yup from 'yup';
 import css from './SignInForm.module.css';
+import eye from '../../shared/Icons/eye.svg';
+import eyeOff from '../../shared/Icons/eyeOff.svg';
+import { toast } from 'react-toastify';
 
-const validationSchema = yup.object().shape({
+// Validation schema for SignIn
+const signInValidationSchema = yup.object().shape({
   email: yup.string().email('Invalid email format').required('Email is required'),
   password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
 });
 
+// SignInForm component
 const SignInForm = () => {
-  const handleSubmit = async (values, { setSubmitting, setFieldError }) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(prevState => !prevState);
+  };
+
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
       console.log('Form values:', values);
-      // Replace with API call for login
-      // Redirect to TrackerPage on success
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        toast.success('Sign-in successful!');
+      } else {
+        toast.error(data.message || 'Login failed');
+      }
     } catch (error) {
       console.error('SignIn error:', error);
-      setFieldError('general', 'Failed to sign in. Please try again.');
+      toast.error('Failed to sign in. Please try again.');
     } finally {
       setSubmitting(false);
     }
@@ -25,7 +47,7 @@ const SignInForm = () => {
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
-      validationSchema={validationSchema}
+      validationSchema={signInValidationSchema}
       onSubmit={handleSubmit}
     >
       {({ isSubmitting, errors, touched, setFieldTouched, isValid }) => (
@@ -40,29 +62,34 @@ const SignInForm = () => {
                 className={`${css.input} ${errors.email && touched.email ? css.errorInput : ''}`}
                 onBlur={() => setFieldTouched('email', true)}
               />
-              <ErrorMessage
-                name="email"
-                component="span"
-                className={css.error}
-              />
+              <ErrorMessage name="email" component="span" className={css.error} />
             </label>
             <label className={css.label}>
               <span className={css.labelText}>Password</span>
-              <Field
-                type="password"
-                name="password"
-                placeholder="Enter your password"
-                className={`${css.input} ${errors.password && touched.password ? css.errorInput : ''}`}
-                onBlur={() => setFieldTouched('password', true)} 
-              />
-              <ErrorMessage
-                name="password"
-                component="span"
-                className={css.error}
-              />
+              <div className={css.passwordField}>
+                <Field
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  placeholder="Enter your password"
+                  className={`${css.input} ${errors.password && touched.password ? css.errorInput : ''}`}
+                  onBlur={() => setFieldTouched('password', true)}
+                />
+                <button
+                  type="button"
+                  className={css.iconButton}
+                  onClick={togglePasswordVisibility}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  <img
+                    src={showPassword ? eye : eyeOff}
+                    alt={showPassword ? 'Hide password' : 'Show password'}
+                    className={css.icon}
+                  />
+                </button>
+              </div>
+              <ErrorMessage name="password" component="span" className={css.error} />
             </label>
           </div>
-          {errors.general && <div className={css.error}>{errors.general}</div>}
           <button
             type="submit"
             className={css.button}
@@ -77,3 +104,4 @@ const SignInForm = () => {
 };
 
 export default SignInForm;
+
