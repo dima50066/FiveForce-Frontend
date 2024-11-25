@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import SharedLayout from '../components/SharedLayout/SharedLayout';
 import HomePage from '../pages/HomePage/HomePage';
@@ -9,18 +9,16 @@ import TrackerPage from '../pages/TrackerPage/TrackerPage';
 const App = () => {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<SharedLayout />}>
-          {/* Головна сторінка */}
-          <Route index element={<HomePage />} />
-          {/* Сторінка входу */}
-          <Route path="/signin" element={<SignInPage />} />
-          {/* Сторінка реєстрації */}
-          <Route path="/signup" element={<SignUpPage />} />
-          {/* Сторінка трекера */}
-          <Route path="/tracker" element={<TrackerPage />} />
-        </Route>
-      </Routes>
+      <SharedLayout>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/signin" element={<SignInPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/tracker" element={<TrackerPage />} />
+          </Routes>
+        </Suspense>
+      </SharedLayout>
     </Router>
   );
 };
