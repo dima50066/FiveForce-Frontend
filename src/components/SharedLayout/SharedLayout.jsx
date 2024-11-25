@@ -1,15 +1,6 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
+import clsx from 'clsx';
+import css from './SharedLayout.module.css';
 
-export default function SharedLayout() {
-  return (
-    <div>
-      <header>
-        <h1>Shared Layout Header</h1>
-      </header>
-      <main>
-        <Outlet />
-      </main>
-    </div>
-  );
+export default function SharedLayout({ children }) {
+  return <div className={clsx(css.container)}>{children}</div>;
 }
