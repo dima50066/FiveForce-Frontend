@@ -1,0 +1,31 @@
+.container {
+  box-sizing: border-box;
+  margin: 0 auto;
+  min-width: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px;
+  background-color: #fff;
+}
+
+@media screen and (min-width: 375px) {
+  .container {
+    padding: 16px;
+    width: 375px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    padding: 32px;
+    width: 768px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .container {
+    gap: 32px;
+    width: 1440px;
+  }
+}

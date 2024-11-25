@@ -9,12 +9,11 @@ import {
   REGISTER,
 } from 'redux-persist';
 import { useDispatch, useSelector } from 'react-redux';
-
-const placeholderReducer = (state = {}) => state;
+import authReducer from './user/slice';
 
 export const store = configureStore({
   reducer: {
-    placeholder: placeholderReducer,
+    auth: authReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
