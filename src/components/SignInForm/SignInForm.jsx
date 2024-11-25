@@ -28,20 +28,46 @@ const SignInForm = () => {
       validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      {({ isSubmitting, errors }) => (
+      {({ isSubmitting, errors, touched, setFieldTouched, isValid }) => (
         <Form className={css.form}>
-          <label className={css.label}>
-            Email
-            <Field type="email" name="email"   placeholder="Enter your email" className={css.input} />
-            <ErrorMessage name="email" component="span"  className={css.error} />
-          </label>
-          <label className={css.label}>
-            Password
-            <Field type="password" name="password"  placeholder="Enter your password" className={css.input} />
-            <ErrorMessage name="password" component="span" className={css.error} />
-          </label>
+          <div className={css.cntInpit}>
+            <label className={css.label}>
+              <span className={css.labelText}>Email</span>
+              <Field
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                className={`${css.input} ${errors.email && touched.email ? css.errorInput : ''}`}
+                onBlur={() => setFieldTouched('email', true)}
+              />
+              <ErrorMessage
+                name="email"
+                component="span"
+                className={css.error}
+              />
+            </label>
+            <label className={css.label}>
+              <span className={css.labelText}>Password</span>
+              <Field
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                className={`${css.input} ${errors.password && touched.password ? css.errorInput : ''}`}
+                onBlur={() => setFieldTouched('password', true)} 
+              />
+              <ErrorMessage
+                name="password"
+                component="span"
+                className={css.error}
+              />
+            </label>
+          </div>
           {errors.general && <div className={css.error}>{errors.general}</div>}
-          <button type="submit" className={css.button} disabled={isSubmitting}>
+          <button
+            type="submit"
+            className={css.button}
+            disabled={isSubmitting || !isValid}
+          >
             {isSubmitting ? 'Signing In...' : 'Sign In'}
           </button>
         </Form>

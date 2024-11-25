@@ -1,20 +1,36 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
+
+ .container {
+            min-width: 320px;
+            max-width: 375px;
+            padding: 24px 16px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            border-radius: 30px;
+            background-color: var(--background);
+            height: 780px;
+        }
+.heroTitle {
+    letter-spacing: -0.01em;
+    line-height: 100%;
+    color: var(--main);
+    margin-bottom: 32px;
 }
 
-.redirect {
-    margin-top: 20px;
+.logo {
+    margin-bottom: 126px;
+}
+
+.signupLink {
     font-size: 14px;
+    text-align: center;
+    line-height: 129%;
+    letter-spacing: -0.01em;
+    color: rgba(47, 47, 47, 0.5);
 }
 
 .link {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.link:hover {
-    text-decoration: underline;
+    font-weight: 700;
+    color: var(--main-text);
+    text-decoration-skip-ink: none;
 }

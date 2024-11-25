@@ -1,12 +1,27 @@
+
 .form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
 }
 
 .label {
-    font-size: 16px;
     color: #333;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    line-height: 129%;
+   
+}
+.labelText {
+    margin-bottom: 8px;
+    display: block;
+    font-weight: 700;
+   
+}
+.cntInpit {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
 }
 
 .input {
@@ -14,25 +29,57 @@
     border-radius: 15px;
     width: 100%;
     padding: 16px;
-    box-sizing: border-box;
-    
+    color: rgba(47, 47, 47, 0.6);
+    transition: border-color 0.3s ease, color 0.3s ease;
+    outline: none;
+    background-color: transparent;
+}
+
+.input::placeholder {
+    color: rgba(47, 47, 47, 0.6);
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.input:focus::placeholder {
+    color: transparent;
+    opacity: 0;
+}
+
+.input:focus {
+    color: var(--main-text);
+}
+
+.errorInput {
+    border-color: #ef5050;
+    color: #ef5050;
+}
+
+.errorInput::placeholder {
+    color: #ef5050;
 }
 
 .error {
-    color: red;
-    font-size: 14px;
+    display: block;
+        color: #ef5050;
+        font-size: 14px;
+        margin-top: 10px;
 }
 
 .button {
-    background-color: #9be1a0;
-    color: white;
+    background-color: var(--accent);
+    color: var(--main-text);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 129%;
+    letter-spacing: -0.01em;
     border: none;
     border-radius: 30px;
     cursor: pointer;
     width: 100%;
     padding: 16px;
+    margin-bottom: 16px;
 }
 
-.button:disabled {
-    background-color: #b0b0b0;
+.button:hover {
+    background-color: var(--accent-hover);
 }

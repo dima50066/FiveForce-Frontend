@@ -1,21 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import Logo from "../components/Logo/Logo";
+import Logo from '../../shared/Logo/Logo'
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import css from "./SignUpPage.module.css";
 
 const  SignUpPage = () => {
  return (
-    <div className={css.page}>
-      {/* <Logo /> */}
-      <h1 className={css.title}>Sign Up</h1>
-      <SignUpForm />
-      <p className={css.link}>
+   <div className={css.container}>
+     <div className={css.logo}>
+       <Logo />
+     </div>
+      <h1 className={css.heroTitle}>Sign Up</h1>
+     <SignUpForm />
+     <div className={css.signupLink}>
+       <p>
         Already have an account?{" "}
-        <Link to="/signin" className={css.linkText}>
+        <Link to="/signin" className={css.link}>
           Sign In
         </Link>
-      </p>
+       </p>
+     </div>
     </div>
   );
 };
