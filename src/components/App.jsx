@@ -5,7 +5,7 @@ import HomePage from '../pages/HomePage/HomePage';
 import SignInPage from '../pages/SignInPage/SignInPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import TrackerPage from '../pages/TrackerPage/TrackerPage';
-import TestPage from '../pages/SettingModal/TestPage.jsx';
+import SettingModal from '../pages/SettingModal/SettingModal.jsx';
 
 const App = () => {
   return (
@@ -21,7 +21,7 @@ const App = () => {
           {/* Сторінка трекера */}
           <Route path="/tracker" element={<TrackerPage />} />
           {/* Модальне вікно Setting */}
-          <Route path="/setting" element={<TestPage />} />
+          <Route path="/setting" element={<SettingModal />} />
         </Route>
       </Routes>
     </Router>

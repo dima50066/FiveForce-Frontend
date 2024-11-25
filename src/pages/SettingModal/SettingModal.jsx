@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
+import Modal from "../../shared/Modal/Modal.jsx";
+import XClose from "../../shared/Icons/xClose.svg"
 
+const SettingModal = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-const SettingModal = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div
-        className="modal-content"
-        onClick={(e) => e.stopPropagation()} // Зупиняє закриття при кліку всередині модального вікна
-      >
-        <button className="modal-close" onClick={onClose}>
-          &times;
-        </button>
-        {children}
-      </div>
+    <div>
+      <h1>Test Page</h1>
+      <button onClick={openModal}>Open Modal</button>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+       
+        <h2>Setting</h2>
+        <div>
+          <button>Upload a photo</button>
+        </div>
+        
+      </Modal>
     </div>
   );
 };
