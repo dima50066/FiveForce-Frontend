@@ -149,9 +149,10 @@ const SignUpForm = () => {
 
   const onSubmit = async data => {
     try {
-      await dispatch(register(data)).unwrap();
+      const { repeatPassword, ...payload } = data;
+      await dispatch(register(payload)).unwrap();
       toast.success('Registration successful!');
-      navigate('/tracker'); // Перенаправлення на TrackerPage
+      navigate('/tracker');
     } catch (error) {
       toast.error(authError || 'Registration failed. Please try again.');
     }
