@@ -33,6 +33,7 @@
     font-weight: 700;
     color: var(--main-text);
     text-decoration-skip-ink: none;
+    text-decoration: underline;
 }
 @media (min-width: 768px) {
     .container {
@@ -61,4 +62,14 @@
         line-height: 150%;
         font-size: 16px;
     }
+}
+@media (min-width: 1440px) {
+    .container {
+        min-width: 672px;
+        height: 736px;
+        padding: 130px 118px 100px;
+        font-size: 16px;
+        position: relative;
+    }
+
 }

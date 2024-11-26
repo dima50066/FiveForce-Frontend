@@ -31,6 +31,7 @@
     font-weight: 700;
     color: var(--main-text);
     text-decoration-skip-ink: none ;
+    text-decoration: underline;
 }
 @media (min-width: 768px) {
     .container {
@@ -42,11 +43,8 @@
     }
     .logo {
         position: absolute;
-            /* Відносно контейнера */
             top: 32px;
-            /* Верхній край */
             left: 32px;
-            /* Лівий край */
     }
         .heroTitle {
             line-height: 106%;
@@ -56,4 +54,14 @@
            line-height: 150%; 
            font-size: 16px;
         }
+}
+@media (min-width: 1440px) {
+    .container {
+            min-width: 672px;
+            height: 736px;
+            padding: 169px 118px;
+            font-size: 16px;
+            position: relative;
+        }
+       
 }
