@@ -3,7 +3,7 @@ import { store } from '../redux/store';
 
 const API_URL =
   process.env.NODE_ENV === 'production'
-    ? 'https://aqua-track.onrender.com'
+    ? 'https://five-force-aqua-track.vercel.app'
     : 'http://localhost:5000';
 
 const axiosInstance = axios.create({
