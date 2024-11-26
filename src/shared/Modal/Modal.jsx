@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import css from './Modal.module.css';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
-import xClose from '../Icons/xClose.svg';
+import Icon from '../Icons/Icon.jsx';
 
 export default function Modal({ children, isOpen, onClose, btnClassName }) {
   useEffect(() => {
@@ -36,7 +36,8 @@ export default function Modal({ children, isOpen, onClose, btnClassName }) {
                 className={clsx(css.closeButton, btnClassName)}
                 onClick={onClose}
               >
-                <img src={xClose} alt="Close" className={css.closeIcon} />
+                <Icon className={css.closeIcon} id="x-close" />
+             
               </button>
               {children}
             </div>

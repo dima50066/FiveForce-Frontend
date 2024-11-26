@@ -1,3 +1,160 @@
-.formCover{
-    padding: 20px 40px;
+.modelForm {
+}
+.formCover {
+  padding: 40px 20px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+}
+.title {
+  padding-bottom: 20px;
+  font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+  
+    /* line-height: 24px; */
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #323f47;
+}
+.avatarCover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+}
+.img{
+  width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      object-fit: cover;
+}
+.imgFake{
+  width:75px;
+      height: 75px;
+      border-radius: 50%;
+      background-color: #f0f0f0;
+      display: flex;
+      align-items: center;
+      justify-content:center;
+}
+.iconFake{
+  width: 70px;
+    height: 75px;
+    fill: #323f47;
+}
+    /* FileInput */
+.fileUpload {
+  padding-top: 10px;
+  display: flex;
+}
+.customUpload {
+  display: flex;
+  align-items: center;
+  
+  cursor: pointer;
+  
+}
+.uploadIcon {
+  width: 18px;
+  height: 18px;
+}
+.inputFile {
+  display: none;
+}
+.btnUpload{   
+        font-size: 14px;
+      background-color: transparent;
+        line-height: 1.28571;
+        letter-spacing: -0.01em;
+        color: #2f2f2f;
+      cursor: pointer;
+}
+
+.secondTitle {
+  font-family: 'Poppins';
+  font-weight: 700;
+  font-size: 16px;
+
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #323f47;
+  padding-bottom: 14px;
+}
+.partCover {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 24px;
+}
+.partCover.box {
+  gap: 14px;
+}
+.radioCover {
+  display: flex;
+  align-items: center;
+}
+.labelRadio {
+  padding-right: 20px;
+
+  font-size: 14px;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  color: #2f2f2f;
+}
+.inputRadio {
+  margin-right: 10px;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #9be1a0;
+  border-radius: 50%;
+  background-color: #ffffff;
+  cursor: pointer;
+  position: relative;
+}
+
+.inputRadio:checked {
+  background-color: #ffffff;
+  border: 2px solid #9be1a0;
+  position: relative;
+}
+
+.inputRadio:checked::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background-color: #9be1a0;
+  border-radius: 50%;
+}
+
+.input {
+  width: 100%;
+  max-width: 303px;
+  border: 1px solid rgba(47, 47, 47, 0.15);
+  border-radius: 15px;
+  padding: 14px;
+  height: 46px;
+}
+
+.formulaDescr {
+}
+
+.coverMarkIcon {
+}
+.markIcon {
+}
+.descr {
+  padding-bottom: 4px;
+}
+.greenDscr {
+  padding-bottom: 12px;
+}
+
+.btnSubmit {
 }
