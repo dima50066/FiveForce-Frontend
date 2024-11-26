@@ -9,8 +9,7 @@ import { toast } from 'react-toastify';
 import { register } from '../../redux/user/operations';
 import { selectIsLoading, selectAuthError } from '../../redux/user/selectors'; // Підключення селекторів
 import css from './SignUpForm.module.css';
-import eye from '../../shared/Icons/eye.svg';
-import eyeOff from '../../shared/Icons/eyeOff.svg';
+import Icon from '../../shared/Icons/Icon';
 
 const validationSchema = yup.object({
   email: yup
@@ -90,11 +89,12 @@ const SignUpForm = () => {
               className={css.iconButton}
               onClick={() => setShowPassword(!showPassword)}
             >
-              <img
-                src={showPassword ? eye : eyeOff}
-                alt="Toggle password visibility"
-                className={css.icon}
-              />
+              <Icon
+                 className={css.icon}
+                 id={showPassword? 'eye' : 'eyeOff'}
+                 width="20"
+                 height="20"
+                            />
             </button>
           </div>
           {errors.password && (
@@ -115,11 +115,12 @@ const SignUpForm = () => {
               className={css.iconButton}
               onClick={() => setShowRepeatPassword(!showRepeatPassword)}
             >
-              <img
-                src={showRepeatPassword ? eye : eyeOff}
-                alt="Toggle repeat password visibility"
-                className={css.icon}
-              />
+              <Icon
+                 className={css.icon}
+                 id={showRepeatPassword? 'eye' : 'eyeOff'}
+                 width="20"
+                 height="20"
+                            />
             </button>
           </div>
           {errors.repeatPassword && (
