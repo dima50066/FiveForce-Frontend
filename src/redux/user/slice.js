@@ -7,7 +7,7 @@ import {
   fetchUser,
   updateUser,
   updateAvatar,
-} from './operations';
+} from './operations.js';
 
 const initialState = {
   user: null,
