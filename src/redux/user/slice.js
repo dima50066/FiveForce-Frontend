@@ -35,6 +35,7 @@ const authSlice = createSlice({
   },
   extraReducers: builder => {
     builder
+      // Login
       .addCase(login.pending, state => {
         state.isLoading = true;
         state.error = null;
@@ -43,26 +44,31 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
-        state.refreshToken = action.payload.refreshToken;
+        state.refreshToken = action.payload.refreshToken || null;
         state.isLoggedIn = true;
       })
       .addCase(login.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload?.customMessage || action.error.message;
+        state.error = action.payload?.message || action.error.message;
       })
 
+      // Register
       .addCase(register.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(register.fulfilled, state => {
+      .addCase(register.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isLoggedIn = true;
       })
       .addCase(register.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.payload?.customMessage || action.error.message;
+        state.error = action.payload?.message || action.error.message;
       })
 
+      // Logout
       .addCase(logout.pending, state => {
         state.isLoading = true;
         state.error = null;
@@ -76,9 +82,10 @@ const authSlice = createSlice({
       })
       .addCase(logout.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = action.error.message;
+        state.error = action.payload?.message || action.error.message;
       })
 
+      // Refresh User Token
       .addCase(refreshUserToken.pending, state => {
         state.isRefreshing = true;
         state.error = null;
@@ -86,13 +93,14 @@ const authSlice = createSlice({
       .addCase(refreshUserToken.fulfilled, (state, action) => {
         state.isRefreshing = false;
         state.token = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken;
+        state.refreshToken = action.payload.refreshToken || null;
       })
       .addCase(refreshUserToken.rejected, (state, action) => {
         state.isRefreshing = false;
-        state.error = action.error.message;
+        state.error = action.payload?.message || action.error.message;
       })
 
+      // Fetch User
       .addCase(fetchUser.pending, state => {
         state.isLoading = true;
         state.error = null;
@@ -106,6 +114,7 @@ const authSlice = createSlice({
         state.error = action.payload?.message || action.error.message;
       })
 
+      // Update User
       .addCase(updateUser.pending, state => {
         state.isLoading = true;
         state.error = null;
@@ -119,6 +128,7 @@ const authSlice = createSlice({
         state.error = action.payload?.message || action.error.message;
       })
 
+      // Update Avatar
       .addCase(updateAvatar.pending, state => {
         state.isLoading = true;
         state.error = null;

@@ -106,7 +106,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { toast } from 'react-toastify';
@@ -114,10 +114,17 @@ import { login } from '../../redux/user/operations';
 import css from './SignInForm.module.css';
 import eye from '../../shared/Icons/eye.svg';
 import eyeOff from '../../shared/Icons/eyeOff.svg';
+import { selectIsLoading, selectAuthError } from '../../redux/user/selectors';
 
 const validationSchema = yup.object({
-  email: yup.string().email('Invalid email format').required('Email is required'),
-  password: yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+  email: yup
+    .string()
+    .email('Invalid email format')
+    .required('Email is required'),
+  password: yup
+    .string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Password is required'),
 });
 
 const SignInForm = () => {
@@ -125,22 +132,26 @@ const SignInForm = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
+  // Використання селекторів
+  const isLoading = useSelector(selectIsLoading);
+  const authError = useSelector(selectAuthError);
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
     mode: 'onTouched',
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async data => {
     try {
       await dispatch(login(data)).unwrap();
       toast.success('Login successful!');
       navigate('/tracker'); // Перенаправлення на TrackerPage
     } catch (error) {
-      toast.error(error.customMessage || 'Login failed. Please try again.');
+      toast.error(authError || 'Login failed. Please try again.');
     }
   };
 
@@ -155,7 +166,9 @@ const SignInForm = () => {
             className={`${css.input} ${errors.email ? css.errorInput : ''}`}
             {...register('email')}
           />
-          {errors.email && <span className={css.error}>{errors.email.message}</span>}
+          {errors.email && (
+            <span className={css.error}>{errors.email.message}</span>
+          )}
         </label>
         <label className={css.label}>
           <span className={css.labelText}>Password</span>
@@ -166,15 +179,25 @@ const SignInForm = () => {
               className={`${css.input} ${errors.password ? css.errorInput : ''}`}
               {...register('password')}
             />
-            <button type="button" className={css.iconButton} onClick={() => setShowPassword(!showPassword)}>
-              <img src={showPassword ? eye : eyeOff} alt="Toggle password visibility" className={css.icon} />
+            <button
+              type="button"
+              className={css.iconButton}
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              <img
+                src={showPassword ? eye : eyeOff}
+                alt="Toggle password visibility"
+                className={css.icon}
+              />
             </button>
           </div>
-          {errors.password && <span className={css.error}>{errors.password.message}</span>}
+          {errors.password && (
+            <span className={css.error}>{errors.password.message}</span>
+          )}
         </label>
       </div>
-      <button type="submit" className={css.button} disabled={isSubmitting}>
-        {isSubmitting ? 'Signing In...' : 'Sign In'}
+      <button type="submit" className={css.button} disabled={isLoading}>
+        {isLoading ? 'Signing In...' : 'Sign In'}
       </button>
     </form>
   );
