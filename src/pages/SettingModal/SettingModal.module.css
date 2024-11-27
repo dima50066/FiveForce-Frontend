@@ -1,0 +1,243 @@
+
+input:hover {
+  outline: none;
+}
+.modelForm {
+ min-width: 344px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 20px;
+}
+
+/* Titles */
+.title {
+  padding-bottom: 20px;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #323f47;
+}
+.secondTitle {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #323f47;
+ 
+}
+/* Images */
+.img {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.iconFake {
+  width: 70px;
+  height: 75px;
+  fill: #323f47;
+  border-radius: 50%;
+    background-color: #9be1a0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* FileUploadInput */
+.fileUpload {
+  padding-top: 10px;
+  display: flex;
+}
+.customUpload {
+  display: flex;
+  align-items: center;
+
+  cursor: pointer;
+}
+.uploadIcon {
+  width: 18px;
+  height: 18px;
+}
+.inputFile {
+  display: none;
+}
+.btnUpload {
+  font-size: 14px;
+  background-color: transparent;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: #2f2f2f;
+  cursor: pointer;
+}
+
+/* All containers */
+.avatarCover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40px;
+}
+.partCover {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 24px;
+}
+.partCover.box {
+  gap: 14px;
+}
+.radioCover {
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
+}
+
+/* All inputs */
+
+.inputRadio {
+  margin-right: 10px;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #9be1a0;
+  border-radius: 50%;
+  background-color: #ffffff;
+  cursor: pointer;
+  position: relative;
+}
+
+.inputRadio:checked {
+  background-color: #ffffff;
+  border: 2px solid #9be1a0;
+  position: relative;
+}
+
+.inputRadio:checked::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  background-color: #9be1a0;
+  border-radius: 50%;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid rgba(47, 47, 47, 0.15);
+  border-radius: 15px;
+  padding: 14px;
+  height: 46px;
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: #2f2f2f;
+  margin-top: 8px;
+}
+.input:focus{
+border: 1px solid rgba(47, 47, 47, 0.2);
+  background-color: transparent;
+}
+input:hover{
+  border: 1px solid rgba(47, 47, 47, 0.4);
+  background-color: transparent;
+   
+}
+.input::placeholder {
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: #2f2f2f;
+}
+.input.options {
+  margin-top: 8px;
+}
+
+/* Errors */
+.errorInput, .errorInput:hover {
+  border: 2px solid var(--validation-error);
+}
+.error {
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.01em;
+    color: var(--validation-error);
+  margin-top: 5px;
+}
+
+/* All descriptions */
+.labelRadio {
+  padding-right: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  letter-spacing: -0.01em;
+  color: #2f2f2f;
+}
+
+.formulaCover {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 14px;
+}
+.descr {
+  padding-bottom: 4px;
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: #2f2f2f;
+}
+.descr.actives {
+  padding: 0;
+}
+.greenDscr {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: #9be1a0;
+}
+.formulaDescr {
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: rgba(47, 47, 47, 0.6);
+
+  border: 1px solid rgba(47, 47, 47, 0.15);
+  border-radius: 15px;
+  padding: 16px;
+  width: 100%;
+  margin-bottom: 14px;
+}
+.formulaStar {
+  color: #9be1a0;
+}
+.coverMarkIcon {
+  display: flex;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.limitAmount {
+  padding-bottom: 14px;
+}
+.btnSubmit {
+  margin-top: 40px;
+  padding: 14px 40px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: #323f47;
+  border-radius: 30px;
+  padding: 14px 40px;
+  width: 116px;
+  background-color: #9be1a0;
+}

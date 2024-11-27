@@ -11,6 +11,7 @@ import { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { refreshUserToken } from '../redux/user/operations';
 import { selectIsRefreshing } from '../redux/user/selectors';
+import SettingModal from '../pages/SettingModal/SettingModal';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -67,7 +68,8 @@ const App = () => {
                 element={
                   <PrivateRoute component={<TrackerPage />} redirectTo="/" />
                 }
-              />
+                />
+                <Route path="/setting" element={<SettingModal />} />
             </Routes>
           </Suspense>
         )}
