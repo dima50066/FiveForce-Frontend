@@ -4,14 +4,14 @@ import css from './WelcomeSection.module.css';
 
 const WelcomeSection = () => {
   return (
-    <div className={css.welcomeSectionWrapp}>
+    <section className={css.welcomeSectionWrapp}>
       <Logo />
 
       <h3 className={css.welcomeText}>Record daily water intake and track</h3>
       <h1 className={css.welcomeTitle}>Water consumption tracker</h1>
 
       <Navigation />
-    </div>
+    </section>
   );
 };
 
