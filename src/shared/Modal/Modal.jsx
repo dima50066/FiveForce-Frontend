@@ -37,7 +37,7 @@ export default function Modal({ children, isOpen, onClose, className, btnClassNa
   return createPortal(
     <div className={css.backdrop} onClick={handleBackdropClick}>
       <div className={css.modalWrapper} onClick={e => e.stopPropagation()}>
-        <div className={css.modal}>
+        <div className={`${css.modal} ${className}`}>
           <button
             className={clsx(css.closeButton, btnClassName)}
             onClick={() => {
