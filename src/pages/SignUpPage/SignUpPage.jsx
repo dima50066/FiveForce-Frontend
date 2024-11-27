@@ -1,12 +1,28 @@
-import React from 'react';
+import React from "react";
+import { Link } from "react-router-dom";
+import Logo from '../../shared/Logo/Logo'
+import SignUpForm from "../../components/SignUpForm/SignUpForm";
+import css from "./SignUpPage.module.css";
 
-const SignUpPage = () => {
-  return (
-    <div>
-      <h1>Sign Up Page</h1>
-      <p>This is a placeholder for the Sign Up page.</p>
+const  SignUpPage = () => {
+ return (
+   <div className={css.container}>
+     <div className={css.logo}>
+       <Logo />
+     </div>
+      <h1 className={css.heroTitle}>Sign Up</h1>
+     <SignUpForm />
+     <div className={css.signupLink}>
+       <p>
+        Already have an account?{" "}
+        <Link to="/signin" className={css.link}>
+          Sign In
+        </Link>
+       </p>
+     </div>
     </div>
   );
 };
 
-export default SignUpPage;
+
+export default  SignUpPage;

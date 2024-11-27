@@ -1,3 +1,4 @@
+import SignInPage from '../SignInPage/SignInPage';
 import React from 'react';
 
 const HomePage = () => {
@@ -5,6 +6,7 @@ const HomePage = () => {
     <div>
       <h1>Welcome to Aqua Track</h1>
       <p>Your daily hydration tracker.</p>
+      <SignInPage/>
     </div>
   );
 };
