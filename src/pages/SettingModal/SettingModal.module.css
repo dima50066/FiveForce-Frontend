@@ -1,5 +1,17 @@
-.modelForm {
+
+input:hover {
+ 
+  outline: none;
+
 }
+
+
+
+.modelForm {
+ min-width: 344px;
+
+}
+
 .formCover {
   padding: 40px 20px;
 }
@@ -9,14 +21,17 @@
 }
 .title {
   padding-bottom: 20px;
-  font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-  
-    /* line-height: 24px; */
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    color: #323f47;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #323f47;
+}
+.secondTitle {
+  font-size: 16px;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: #323f47;
+  padding-bottom: 14px;
 }
 .avatarCover {
   display: flex;
@@ -24,27 +39,27 @@
   align-items: center;
   padding-bottom: 40px;
 }
-.img{
+.img {
   width: 75px;
-      height: 75px;
-      border-radius: 50%;
-      object-fit: cover;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
 }
-.imgFake{
-  width:75px;
-      height: 75px;
-      border-radius: 50%;
-      background-color: #f0f0f0;
-      display: flex;
-      align-items: center;
-      justify-content:center;
+.imgFake {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.iconFake{
+.iconFake {
   width: 70px;
-    height: 75px;
-    fill: #323f47;
+  height: 75px;
+  fill: #323f47;
 }
-    /* FileInput */
+/* FileInput */
 .fileUpload {
   padding-top: 10px;
   display: flex;
@@ -52,9 +67,8 @@
 .customUpload {
   display: flex;
   align-items: center;
-  
+
   cursor: pointer;
-  
 }
 .uploadIcon {
   width: 18px;
@@ -63,25 +77,16 @@
 .inputFile {
   display: none;
 }
-.btnUpload{   
-        font-size: 14px;
-      background-color: transparent;
-        line-height: 1.28571;
-        letter-spacing: -0.01em;
-        color: #2f2f2f;
-      cursor: pointer;
-}
-
-.secondTitle {
-  font-family: 'Poppins';
-  font-weight: 700;
-  font-size: 16px;
-
-  line-height: 1.25;
+.btnUpload {
+  font-size: 14px;
+  background-color: transparent;
+  line-height: 1.28571;
   letter-spacing: -0.01em;
-  color: #323f47;
-  padding-bottom: 14px;
+  color: #2f2f2f;
+  cursor: pointer;
 }
+
+
 .partCover {
   display: flex;
   flex-direction: column;
@@ -135,26 +140,112 @@
 
 .input {
   width: 100%;
-  max-width: 303px;
   border: 1px solid rgba(47, 47, 47, 0.15);
   border-radius: 15px;
   padding: 14px;
   height: 46px;
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: #2f2f2f;
+  
 }
-
-.formulaDescr {
+.input:focus{
+border: 1px solid rgba(47, 47, 47, 0.2);
+  background-color: transparent;
 }
-
-.coverMarkIcon {
+input:hover{
+  border: 1px solid rgba(47, 47, 47, 0.4);
+  background-color: transparent;
+   
 }
-.markIcon {
+.input::placeholder {
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: #2f2f2f;
+}
+.errorInput, .errorInput:hover {
+  border: 2px solid var(--validation-error);
+}
+ 
+.error {
+    font-size: 14px;
+    line-height: 1.28571;
+    letter-spacing: -0.01em;
+    color: var(--validation-error);
+  margin-top: 5px;
+}
+.formulaCover {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 14px;
 }
 .descr {
   padding-bottom: 4px;
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: #2f2f2f;
+}
+.descr.actives {
+  padding: 0;
 }
 .greenDscr {
-  padding-bottom: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: #9be1a0;
+}
+.formulaDescr {
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: rgba(47, 47, 47, 0.6);
+
+  border: 1px solid rgba(47, 47, 47, 0.15);
+  border-radius: 15px;
+  padding: 16px;
+  width: 100%;
+  margin-bottom: 14px;
+}
+.formulaStar {
+  color: #9be1a0;
+}
+.coverMarkIcon {
+  display: flex;
+  gap: 4px;
 }
 
+.markIcon {
+  width: 18px;
+  height: 18px;
+  fill: #9be1a0;
+}
+.input.options {
+  margin-top: 8px;
+}
+
+
+.limitAmount {
+  padding-bottom: 14px;
+}
 .btnSubmit {
+  margin-top: 40px;
+  padding: 14px 40px;
+  font-weight: 700;
+  font-size: 14px;
+
+  /* line-height: 18px; */
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: #323f47;
+
+  border-radius: 30px;
+  padding: 14px 40px;
+  width: 116px;
+  background-color: #9be1a0;
 }

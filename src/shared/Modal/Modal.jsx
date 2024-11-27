@@ -4,7 +4,7 @@ import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import Icon from '../Icons/Icon.jsx';
 
-export default function Modal({ children, isOpen, onClose, btnClassName }) {
+export default function Modal({ children, isOpen, onClose, className, btnClassName }) {
   useEffect(() => {
     const handleEscape = event => {
       if (event.key === 'Escape') {
@@ -31,7 +31,7 @@ export default function Modal({ children, isOpen, onClose, btnClassName }) {
       {createPortal(
         <div className={css.backdrop} onClick={onClose}>
           <div className={css.modalWrapper}>
-            <div className={css.modal} onClick={e => e.stopPropagation()}>
+            <div className={`${className} ${css.modal}`} onClick={e => e.stopPropagation()}>
               <button
                 className={clsx(css.closeButton, btnClassName)}
                 onClick={onClose}

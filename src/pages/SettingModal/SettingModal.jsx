@@ -1,9 +1,7 @@
 import React, { useId, useRef, useState } from 'react';
-/* import { useDispatch, useSelector } from 'react-redux';
-import { useForm } from 'react-hook-form';
-import { updateAvatar } from '../../redux/user/operations.js';
-import { fetchUser } from 'redux/user/operations.js';
-*/
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as Yup from 'yup';
 import { AiOutlineUser } from 'react-icons/ai';
 
 import Modal from '../../shared/Modal/Modal.jsx';
@@ -14,28 +12,98 @@ const SettingModal = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+ const [waterIntake, setWaterIntake] = useState(1.5);
+  const validationSchema = Yup.object({
+    name: Yup.string()
+      .required('Name is required')
+      .min(3, 'Name must be at least 3 characters'),
+    email: Yup.string().email('Invalid email').required('Email is required'),
+    weight: Yup.number()
+      .transform((value, originalValue) =>
+      originalValue === '' ? null : value
+    )
+       .nullable()
+      .min(0, 'Weight must be at least 0 kg')
+      .max(300, 'Weight must be less than 300 kg'),
+    activeHours: Yup.number()
+       .transform((value, originalValue) =>
+      originalValue === '' ? null : value
+    )
+       .nullable()
+      .min(0, 'Cannot be less than 0')
+      .max(24, 'Cannot be more than 24 hours'),
+    waterIntake: Yup.number()
+      .required('Water intake is required')
+      .min(1.5, 'Cannot be less than 1.5')
+      .max(5, 'Cannot be more than 5 liters'),
+    gender: Yup.string().required('Gender is required'),
+  });
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    register,
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      weight: '0',
+      activeHours: '0',
+      waterIntake: '1.5',
+      gender: 'woman',
+    },
+  });
+
+  const onSubmit = async data => {
+    const formData = new FormData();
+    if (data.avatar) {
+      formData.append('avatar', data.avatar[0]);
+    }
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('weight', data.weight);
+    formData.append('activeHours', data.activeHours);
+    formData.append('waterIntake', data.waterIntake);
+    formData.append('gender', data.gender);
+
+    try {
+      
+      const response = await fetch('/your-api-endpoint', {
+        method: 'POST',
+        body: formData,
+      });
+      const result = await response.json();
+      console.log('Form submitted successfully:', result);
+      
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+  };
 
   // All for inputFile upload photo
   const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
+
   const handleFileChange = event => {
     const file = event.target.files[0];
     if (file) {
       console.log(file);
       const previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
+    } else {
+      setPreview(null);
     }
   };
   const handleButtonClick = () => {
+    event.preventDefault();
     fileInputRef.current.click();
   };
 
   //All for gender checkbox
-  const [gender, setGender] = useState('woman');
-  const handleGenderChange = event => {
-    setGender(event.target.value);
-  };
+
+  const handleChangeWater = e => setValue(e.target.value);
 
   // Generation of identifiers
   const nameId = useId();
@@ -47,46 +115,6 @@ const SettingModal = () => {
   const radioIdMan = useId();
   const fileInputId = useId();
 
-  
-  /*
-  const dispatch = useDispatch();
-  const { user, isLoading } = useSelector((state) => state.auth); 
- 
-  useEffect(() => {
-    dispatch(fetchUser());  
-  }, [dispatch]);
-
-  const { user, isLoading } = useSelector(state => state.auth); // отримуємо статус та користувача з Redu
-  const [avatarFile, setAvatarFile] = useState(null);
-
-  const handleFileChange = e => {
-    const file = e.target.files[0];
-    if (file) {
-      setAvatarFile(file);
-    }
-  }; 
-  */
-
-  /* 
-  const handleSubmit = async () => {
-    if (avatarFile) {
-      const formData = new FormData();
-      formData.append('avatar', avatarFile);
-
-      try {
-        await dispatch(updateAvatar(formData)).unwrap();
-        alert('Avatar updated successfully!');
-      } catch (error) {
-        alert('Failed to update avatar');
-      }
-    }
-  };
-  
-  const handleSubmitForm = evt => {
-    evt.preventDefault();
-    console.log(evt);
-  };
-  */
   return (
     <div>
       <h1>Test Page</h1>
@@ -98,7 +126,7 @@ const SettingModal = () => {
       >
         <div className={css.formCover}>
           <h2 className={css.title}>Setting</h2>
-          <form className={css.form}>
+          <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
             <div className={css.avatarCover}>
               {preview ? (
                 <img src={preview} alt="Avatar Preview" className={css.img} />
@@ -112,9 +140,10 @@ const SettingModal = () => {
                   ref={fileInputRef}
                   id={fileInputId}
                   className={css.inputFile}
-                  onChange={handleFileChange}
                   type="file"
                   accept="image/*"
+                  {...register('avatar')}
+                  onChange={handleFileChange}
                 />
                 <label htmlFor={fileInputId} className={css.customUpload}>
                   <Icon
@@ -138,8 +167,7 @@ const SettingModal = () => {
                   type="radio"
                   name="gender"
                   value="woman"
-                  checked={gender === 'woman'}
-                  onChange={handleGenderChange}
+                  {...register('gender')}
                 />
                 <label htmlFor={radioIdWoman} className={css.labelRadio}>
                   Woman
@@ -150,13 +178,13 @@ const SettingModal = () => {
                   type="radio"
                   name="gender"
                   value="man"
-                  checked={gender === 'man'}
-                  onChange={handleGenderChange}
+                  {...register('gender')}
                 />
                 <label htmlFor={radioIdMan} className={css.labelRadio}>
                   Man
                 </label>
               </div>
+              {errors.gender && <span className={css.error}>{errors.gender.message}</span>}
             </div>
             <div className={`${css.partCover} ${css.box}`}>
               <div>
@@ -166,8 +194,12 @@ const SettingModal = () => {
                 <input
                   type="text"
                   id={nameId}
-                  className={css.input} // value={user?.name || ''} disabled={isLoading} Автоматично заповнюємо полем name з даними користувача
+                  className={`${css.input} ${errors.name ? css.errorInput : ''}`}
+                  {...register('name')}
+
+                  /* value={user?.name || ''} disabled={isLoading} Автоматично заповнюємо полем name з даними користувача*/
                 />
+                {errors.name && <span className={css.error}>{errors.name.message}</span>}
               </div>
               <div>
                 <label htmlFor={emailId}>
@@ -176,26 +208,36 @@ const SettingModal = () => {
                 <input
                   type="email"
                   id={emailId}
-                  className={css.input}
-                  placeholder="nadia10@gmail.com"
+                  className={`${css.input} ${errors.email ? css.errorInput : ''}`}
+                  {...register('email')}
                 />
+                {errors.email && <span className={css.error}>{errors.email.message}</span>}
               </div>
             </div>
             <div className={css.partCover}>
-              <h3 className={css.secondTitle}>My daily norma</h3>
-              <p className={css.descr}>For woman:</p>
-              <p className={css.greenDscr}>V=(M*0,03) + (T*0,4)</p>
-              <p className={css.descr}>For man:</p>
-              <p className={css.greenDscr}>V=(M*0,04) + (T*0,6)</p>
+              <div className={css.formulaCover}>
+                <div>
+                  <p className={css.descr}>For woman:</p>
+                  <p className={css.greenDscr}>V=(M*0,03) + (T*0,4)</p>
+                </div>
+                <div>
+                  <p className={css.descr}>For man:</p>
+                  <p className={css.greenDscr}>V=(M*0,04) + (T*0,6)</p>
+                </div>
+              </div>
               <p className={css.formulaDescr}>
-                * V is the volume of the water norm in liters per day, M is your
-                body weight, T is the time of active sports, or another type of
-                activity commensurate in terms of loads (in the absence of
-                these, you must set 0)
+                <span className={css.formulaStar}>*</span> V is the volume of
+                the water norm in liters per day, M is your body weight, T is
+                the time of active sports, or another type of activity
+                commensurate in terms of loads (in the absence of these, you
+                must set 0)
               </p>
+              <h3 className={css.secondTitle}>My daily norma</h3>
               <div className={css.coverMarkIcon}>
-                <Icon className={css.icon} id="eye" width={20} height={20} />
-                <p className={css.descr}>Active time in hours</p>
+                <Icon className={css.icon} id="eye" width={18} height={18} />
+                <p className={`${css.descr} ${css.actives}`}>
+                  Active time in hours
+                </p>
               </div>
             </div>
             <div className={`${css.partCover} ${css.box}`}>
@@ -203,25 +245,74 @@ const SettingModal = () => {
                 <label htmlFor={weightId} className={css.descr}>
                   Your weight in kilograms:
                 </label>
-                <input type="number" id={weightId} className={css.input} />
+                <Controller
+                  name="weight"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      type="number"
+                      id={weightId}
+                      className={`${css.input} ${errors.weight ? css.errorInput : ''}`}
+                      {...field}
+                    />
+                  )}
+                />
+                {errors.weight && <span className={css.error}>{errors.weight.message}</span>}
               </div>
               <div>
                 <label htmlFor={timeId} className={css.descr}>
                   The time of active participation in sports:
                 </label>
-                <input type="number" id={timeId} className={css.input} />
+                <Controller
+                  name="activeHours"
+                  control={control}
+                  render={({ field }) => (
+                    <input
+                      type="number"
+                      id={timeId}
+                      className={`${css.input} ${errors.activeHours ? css.errorInput : ''}`}
+                      {...field}
+                    />
+                  )}
+                />
+                {errors.activeHours && (
+                  <span className={css.error}>{errors.activeHours.message}</span>
+                )}
               </div>
             </div>
-            <p className={css.descr}>
-              The required amount of water in liters per day:
-            </p>
-            <p className={css.greenDscr}>1.8 L</p>
+            <div className={css.limitAmount}>
+              <p className={css.descr}>
+                The required amount of water in liters per day:
+              </p>
+              <p className={css.greenDscr}>{waterIntake} L</p>
+            </div>
             <label htmlFor={amountId}>
               <h3 className={css.secondTitle}>
                 Write down how much water you will drink:
               </h3>
             </label>
-            <input type="number" id={amountId} className={css.input} />
+            <Controller
+                name="waterIntake"
+                control={control}
+                render={({ field }) => (
+                  <input
+                    type="number"
+                    id={amountId}
+                    step="0.1"
+                    className={`${css.input} ${errors.waterIntake ? css.errorInput : ''}`}
+                    {...field}
+                    value={waterIntake} // Значення з state
+                    onChange={e => {
+                      const value = parseFloat(e.target.value) || 0; // Перевірка на число
+                      setWaterIntake(value); // Оновлення стану
+                      field.onChange(e);
+                    }}
+                  />
+                )}
+              />
+              {errors.waterIntake && (
+                <span className={css.error}>{errors.waterIntake.message}</span>
+              )}
             <button type="submit" className={css.btnSubmit}>
               Save
             </button>
