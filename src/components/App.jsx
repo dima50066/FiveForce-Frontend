@@ -1,28 +1,78 @@
-import React, { Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Suspense, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import RestrictedRoute from './Routes/RestrictedRoute';
+import PrivateRoute from './Routes/PrivateRoute';
 import SharedLayout from '../components/SharedLayout/SharedLayout';
 import HomePage from '../pages/HomePage/HomePage';
-import SignInPage from '../pages/SignInPage/SignInPage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
+import SignInPage from '../pages/SignInPage/SignInPage';
 import TrackerPage from '../pages/TrackerPage/TrackerPage';
-import SettingModal from '../pages/SettingModal/SettingModal';
-
+import { Toaster } from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { refreshUserToken } from '../redux/user/operations';
+import { selectIsRefreshing } from '../redux/user/selectors';
 
 const App = () => {
+  const dispatch = useDispatch();
+  const isRefreshing = useSelector(selectIsRefreshing);
+
+  useEffect(() => {
+    dispatch(refreshUserToken());
+  }, [dispatch]);
+
   return (
-    <Router>
+    <>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 5000,
+        }}
+      />
+
       <SharedLayout>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/signin" element={<SignInPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/tracker" element={<TrackerPage />} />
-            <Route path="/setting" element={<SettingModal />} />
-          </Routes>
-        </Suspense>
+        {isRefreshing ? (
+          <div>Refreshing...</div>
+        ) : (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <RestrictedRoute
+                    component={<HomePage />}
+                    redirectTo="/tracker"
+                  />
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <RestrictedRoute
+                    component={<SignUpPage />}
+                    redirectTo="/tracker"
+                  />
+                }
+              />
+              <Route
+                path="/signin"
+                element={
+                  <RestrictedRoute
+                    component={<SignInPage />}
+                    redirectTo="/tracker"
+                  />
+                }
+              />
+              <Route
+                path="/tracker"
+                element={
+                  <PrivateRoute component={<TrackerPage />} redirectTo="/" />
+                }
+              />
+            </Routes>
+          </Suspense>
+        )}
       </SharedLayout>
-    </Router>
+    </>
   );
 };
 

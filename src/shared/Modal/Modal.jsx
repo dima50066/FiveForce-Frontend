@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import css from './Modal.module.css';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
-import Icon from '../Icons/Icon.jsx';
+import Icon from '../Icons/Icon';
 
 export default function Modal({ children, isOpen, onClose, className, btnClassName }) {
   useEffect(() => {
@@ -26,25 +26,36 @@ export default function Modal({ children, isOpen, onClose, className, btnClassNa
     };
   }, [isOpen, onClose]);
 
-  return (
-    <>
-      {createPortal(
-        <div className={css.backdrop} onClick={onClose}>
-          <div className={css.modalWrapper}>
-            <div className={`${className} ${css.modal}`} onClick={e => e.stopPropagation()}>
-              <button
-                className={clsx(css.closeButton, btnClassName)}
-                onClick={onClose}
-              >
-                <Icon className={css.closeIcon} id="x-close" />
-             
-              </button>
-              {children}
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
-    </>
+  if (!isOpen) return null;
+
+  const handleBackdropClick = e => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  return createPortal(
+    <div className={css.backdrop} onClick={handleBackdropClick}>
+      <div className={css.modalWrapper} onClick={e => e.stopPropagation()}>
+        <div className={css.modal}>
+          <button
+            className={clsx(css.closeButton, btnClassName)}
+            onClick={() => {
+              console.log('Close button clicked');
+              onClose();
+            }}
+          >
+            <Icon
+              id="x-close"
+              className={css.closeIcon}
+              width="24"
+              height="24"
+            />
+          </button>
+          {children}
+        </div>
+      </div>
+    </div>,
+    document.body
   );
 }

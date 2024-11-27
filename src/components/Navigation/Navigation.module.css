@@ -1,0 +1,65 @@
+/* ______Mobile adaptation _______ */
+.navButton {
+  display: flex;
+  gap: 10px;
+}
+.navButtonSignUp {
+  padding: 14px 19px;
+  border-radius: 30px;
+  background-color: var(--accent);
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--main);
+  transition: background-color 300ms ease-in-out;
+}
+
+.navButtonSignUp:hover,
+.navButtonSignUp:focus {
+  background-color: var(--accent-hover);
+}
+
+.navButtonSignIn {
+  padding: 14px 28px;
+  border-radius: 30px;
+  border: 1px solid var(--main);
+  text-decoration: none;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--main);
+  transition:
+    border 300ms ease-in-out,
+    color 300ms ease-in-out;
+}
+
+.navButtonSignIn:hover,
+.navButtonSignIn:focus {
+  border: 1px solid var(--accent-hover);
+  color: var(--accent-hover);
+}
+
+/* ______Tablet adaptation _______ */
+@media screen and (min-width: 768px) {
+  .navButton {
+    gap: 16px;
+    margin-left: 32px;
+  }
+  .navButtonSignUp {
+    padding: 18px 40px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .navButtonSignIn {
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 18px 40px;
+  }
+}
