@@ -16,8 +16,6 @@ const App = () => {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
 
-  console.log('IsRefreshing:', isRefreshing);
-
   useEffect(() => {
     dispatch(refreshUserToken());
   }, [dispatch]);

@@ -1,4 +1,3 @@
-import SignInPage from '../SignInPage/SignInPage';
 import React from 'react';
 import WelcomeSection from '../../components/WelcomeSection/WelcomeSection.jsx';
 import AdvantagesSection from '../../components/AdvantagesSection/AdvantagesSection.jsx';

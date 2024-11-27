@@ -17,6 +17,8 @@ import Customers3_2x from '../../shared/Images/Customers/customers3-tabl-desc-2x
 // import { useEffect, useState } from 'react';
 import css from './AdvantagesSection.module.css';
 
+import Icon from '../../shared/Icons/Icon';
+
 // const [usersAmount, setUsersAmount] = useState('');
 // useEffect(() => {
 //   getUsers().then(response => {
