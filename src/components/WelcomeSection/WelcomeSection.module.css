@@ -1,0 +1,59 @@
+/* ______Mobile adaptation _______ */
+.welcomeSectionWrapp {
+  width: 343px;
+  height: 411px;
+  padding: 24px 16px 67px;
+  border-radius: 30px;
+  background-color: var(--background);
+}
+
+.welcomeText {
+  font-size: 14px;
+  line-height: 1.29;
+  letter-spacing: 0.06em;
+  color: var(--main-text);
+  margin-top: 74px;
+  margin-bottom: 16px;
+}
+.welcomeTitle {
+  font-size: 38px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--main);
+  margin-bottom: 32px;
+}
+
+/* ______Tablet adaptation _______ */
+@media screen and (min-width: 768px) {
+  .welcomeSectionWrapp {
+    width: 704px;
+    height: 498px;
+    padding: 32px 32px 50px;
+  }
+  .welcomeText {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 50px;
+    margin-left: 32px;
+  }
+  .welcomeTitle {
+    font-size: 64px;
+    line-height: 1.09;
+    margin-left: 32px;
+  }
+}
+
+/* ______Desktop adaptation___ */
+@media screen and (min-width: 1440px) {
+  .welcomeSectionWrapp {
+    width: 672px;
+    height: 736px;
+  }
+  .welcomeText {
+    margin-top: 132px;
+  }
+  .welcomeTitle {
+    font-size: 80px;
+    line-height: 0.95;
+  }
+}
