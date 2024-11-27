@@ -1,3 +1,3 @@
 @import url('./shared/Styles/base.css');
 @import url('./shared/Styles/fonts.css');
-@import url('./shared/Styles/normilize.css');
+@import 'modern-normalize/modern-normalize.css';

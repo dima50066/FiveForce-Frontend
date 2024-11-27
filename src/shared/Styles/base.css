@@ -26,6 +26,7 @@ body {
 button {
   cursor: pointer;
   font-family: inherit;
+  border: none;
 }
 
 h1,
@@ -46,10 +47,18 @@ ol {
 
 ul,
 ol {
+  margin: 0;
+  padding: 0;
   list-style: none;
 }
 
 img {
   display: block;
   max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: currentColor;
+  text-decoration: none;
 }
