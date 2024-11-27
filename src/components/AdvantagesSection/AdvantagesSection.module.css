@@ -1,0 +1,195 @@
+/* ______Mobile adaptation _______ */
+.advantagesSectionWrapp {
+  width: 343px;
+  height: 353px;
+  background-image: url(../../shared/Images/ImgHomePage/bgr-img-mobile.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 30px;
+  padding: 209px 16px 32px;
+}
+
+/* Retina for mobile */
+@media only screen and (min-resolution: 192dpi) {
+  .advantagesSectionWrapp {
+    background-image: url(../../shared/Images/ImgHomePage/bgr-img-mobile-2x.png);
+  }
+}
+
+.advantagesCustomers {
+  display: flex;
+  border-radius: 30px;
+  padding: 10px 14px;
+  width: 160px;
+  height: 48px;
+  box-shadow: 0 4px 50px 0 rgba(0, 0, 0, 0.1);
+  background: var(--main-white);
+  margin-bottom: 8px;
+}
+
+.advantagesCustomersList {
+  width: 120px;
+  height: 28px;
+  display: flex;
+  position: relative;
+}
+
+.advantagesCustomersList li {
+  position: absolute;
+}
+
+.advantagesCustomersList li:nth-child(1) {
+  left: 0px;
+  top: 0;
+  z-index: 3;
+}
+
+.advantagesCustomersList li:nth-child(2) {
+  left: 17px;
+  top: 0;
+  z-index: 2;
+}
+
+.advantagesCustomersList li:nth-child(3) {
+  left: 34px;
+  top: 0;
+  z-index: 1;
+}
+
+.advantagesCustomersText {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.17;
+  color: var(--main);
+  margin-left: 4px;
+}
+
+.advantagesCustomersText span {
+  color: var(--accent);
+}
+
+.advantagesSectionBenefits {
+  display: flex;
+  flex-wrap: wrap;
+  width: 168px;
+  gap: 4px;
+  margin-left: auto;
+}
+.advantagesSectionHabit {
+  display: flex;
+  gap: 4px;
+  width: 81px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 30px;
+  padding: 9px 12px;
+  background-color: var(--main);
+  font-weight: 700;
+  font-size: 8px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--main-white);
+  position: relative;
+}
+
+.advantagesSectionView {
+  border-radius: 30px;
+  padding: 9px 12px;
+  width: 83px;
+  background-color: var(--accent);
+  color: var(--main);
+  font-weight: 700;
+  font-size: 8px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+.advantagesSectionPersonal {
+  border-radius: 30px;
+  padding: 9px 12px;
+  width: 108px;
+  background-color: var(--main-white);
+  font-weight: 700;
+  font-size: 8px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-align: center;
+  color: var(--main);
+}
+
+/* ______Tablet adaptation _______ */
+@media screen and (min-width: 768px) {
+  .advantagesSectionWrapp {
+    width: 704px;
+    height: 446px;
+    padding: 269px 32px 32px;
+    background-image: url(../../shared/Images/ImgHomePage/bgr-img-tablet.png);
+  }
+
+  /* Retina for tablet */
+  @media only screen and (min-resolution: 192dpi) {
+    .advantagesSectionWrapp {
+      background-image: url(../../shared/Images/ImgHomePage/bgr-img-tablet-2x.png);
+    }
+  }
+
+  .advantagesCustomers {
+    width: 237px;
+    height: 67px;
+    padding: 10px 20px;
+    margin-bottom: 0;
+  }
+  .advantagesCustomersText {
+    font-size: 15px;
+    line-height: 1.49;
+  }
+  .advantagesCustomersList {
+    width: 200px;
+    height: 48px;
+  }
+  .advantagesCustomersList li:nth-child(2) {
+    left: 30px;
+  }
+
+  .advantagesCustomersList li:nth-child(3) {
+    left: 60px;
+  }
+  .advantagesSectionBenefits {
+    width: 242px;
+    gap: 10px;
+  }
+  .advantagesSectionHabit {
+    width: 111px;
+    font-size: 12px;
+    padding: 11px 16px;
+  }
+  .advantagesSectionView {
+    width: 121px;
+    padding: 11px 16px;
+    font-size: 12px;
+  }
+  .advantagesSectionPersonal {
+    width: 158px;
+    padding: 11px 16px;
+    font-size: 12px;
+  }
+}
+
+/* ______Desktop adaptation___ */
+@media screen and (min-width: 1440px) {
+  .advantagesSectionWrapp {
+    width: 672px;
+    height: 736px;
+    padding: 527px 32px 64px;
+    background-image: url(../../shared/Images/ImgHomePage/bgr-img-desctop.png);
+  }
+
+  /* Retina for desctop */
+  @media only screen and (min-resolution: 192dpi) {
+    .advantagesSectionWrapp {
+      background-image: url(../../shared/Images/ImgHomePage/bgr-img-desctop-2x.png);
+    }
+  }
+}

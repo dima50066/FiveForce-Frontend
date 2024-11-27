@@ -5,7 +5,7 @@
   </path>
   <defs>
 
-    <symbol id="сircle" viewBox="0 0 8 8">
+    <symbol id="circle" viewBox="0 0 8 8">
       <circle cx="4" cy="4" r="4" fill="#9BE1A0" />
     </symbol>
 
