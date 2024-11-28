@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import Logo from '../../shared/Logo/Logo'
 import SignUpForm from "../../components/SignUpForm/SignUpForm";
 import css from "./SignUpPage.module.css";
-
+import AdvantagesSection from "../../components/AdvantagesSection/AdvantagesSection";
 const  SignUpPage = () => {
- return (
+  return (
+   <div className={css.cntSinin}>
    <div className={css.container}>
      <div className={css.logo}>
        <Logo />
@@ -20,7 +21,11 @@ const  SignUpPage = () => {
         </Link>
        </p>
      </div>
-    </div>
+      </div>
+      <div className={css.cntAdvantages}>
+        <AdvantagesSection />
+        </div>
+      </div>
   );
 };
 
