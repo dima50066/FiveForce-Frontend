@@ -4,10 +4,13 @@ import { Link } from 'react-router-dom';
 import SignInForm from '../../components/SignInForm/SignInForm';
 import css from './SignInPage.module.css';
 import Logo from '../../shared/Logo/Logo';
+import AdvantagesSection from '../../components/AdvantagesSection/AdvantagesSection';
+
 
 const SignInPage = () => {
   return (
-    <div className={css.container}>
+    <div className={css.cntSinin}>
+        <div className={css.container}>
       <div className={css.logo}>
         <Logo />
       </div>
@@ -16,7 +19,12 @@ const SignInPage = () => {
       <div className={css.signupLink}>
         <p>Don't have an account?<Link to="/signup" className={css.link}> Sign Up</Link></p>
       </div>
-     </div>
+      </div>
+      <div className={css.cntAdvantages}>
+        <AdvantagesSection />
+        </div>
+    </div>
+   
   );
 };
 
