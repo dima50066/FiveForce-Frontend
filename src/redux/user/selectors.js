@@ -8,6 +8,8 @@ export const selectIsRefreshing = state => state.auth.isRefreshing;
 
 export const selectAuthError = state => state.auth.error;
 
+export const selectUsersCount = state => state.auth.usersCount;
+
 // Додаткові селектори (за необхідністю)
 export const selectUserName = state => state.auth.user?.name || null;
 export const selectUserEmail = state => state.auth.user?.email || null;
@@ -24,4 +26,5 @@ export default {
   selectUserName,
   selectUserEmail,
   selectUserAvatar,
+  selectUsersCount,
 };

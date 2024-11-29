@@ -1,4 +1,6 @@
-
+ .cntAdvantages {
+     display: none;
+ }
  .container {
             min-width: 320px;
             max-width: 375px;
@@ -71,5 +73,12 @@
         font-size: 16px;
         position: relative;
     }
-
+         .cntSinin {
+             display: flex;
+             gap: 32px;
+         }
+    
+         .cntAdvantages {
+             display: block;
+         }
 }
