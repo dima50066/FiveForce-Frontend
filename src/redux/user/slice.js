@@ -3,20 +3,21 @@ import {
   login,
   register,
   logout,
-  refreshUserToken,
   fetchUser,
   updateUser,
-  updateAvatar,
-} from './operations.js';
+  requestPasswordResetEmail,
+  resetPassword,
+  fetchUsersCount,
+} from './operations';
 
 const initialState = {
   user: null,
   token: null,
-  refreshToken: null,
   isLoggedIn: false,
   isLoading: false,
   isRefreshing: false,
   error: null,
+  usersCount: 0,
 };
 
 const authSlice = createSlice({
@@ -26,10 +27,12 @@ const authSlice = createSlice({
     resetAuthState: state => {
       state.user = null;
       state.token = null;
-      state.refreshToken = null;
       state.isLoggedIn = false;
       state.isLoading = false;
       state.isRefreshing = false;
+      state.error = null;
+    },
+    resetError: state => {
       state.error = null;
     },
   },
@@ -44,7 +47,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
-        state.refreshToken = action.payload.refreshToken || null;
         state.isLoggedIn = true;
       })
       .addCase(login.rejected, (state, action) => {
@@ -77,7 +79,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.token = null;
-        state.refreshToken = null;
         state.isLoggedIn = false;
       })
       .addCase(logout.rejected, (state, action) => {
@@ -85,32 +86,18 @@ const authSlice = createSlice({
         state.error = action.payload?.message || action.error.message;
       })
 
-      // Refresh User Token
-      .addCase(refreshUserToken.pending, state => {
+      // Fetch User
+      .addCase(fetchUser.pending, state => {
         state.isRefreshing = true;
         state.error = null;
       })
-      .addCase(refreshUserToken.fulfilled, (state, action) => {
-        state.isRefreshing = false;
-        state.token = action.payload.accessToken;
-        state.refreshToken = action.payload.refreshToken || null;
-      })
-      .addCase(refreshUserToken.rejected, (state, action) => {
-        state.isRefreshing = false;
-        state.error = action.payload?.message || action.error.message;
-      })
-
-      // Fetch User
-      .addCase(fetchUser.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
       .addCase(fetchUser.fulfilled, (state, action) => {
-        state.isLoading = false;
+        state.isRefreshing = false;
         state.user = action.payload;
+        state.isLoggedIn = true;
       })
       .addCase(fetchUser.rejected, (state, action) => {
-        state.isLoading = false;
+        state.isRefreshing = false;
         state.error = action.payload?.message || action.error.message;
       })
 
@@ -128,22 +115,46 @@ const authSlice = createSlice({
         state.error = action.payload?.message || action.error.message;
       })
 
-      // Update Avatar
-      .addCase(updateAvatar.pending, state => {
+      // Request Password Reset Email
+      .addCase(requestPasswordResetEmail.pending, state => {
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(updateAvatar.fulfilled, (state, action) => {
+      .addCase(requestPasswordResetEmail.fulfilled, state => {
         state.isLoading = false;
-        state.user = action.payload;
       })
-      .addCase(updateAvatar.rejected, (state, action) => {
+      .addCase(requestPasswordResetEmail.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload?.message || action.error.message;
+      })
+
+      // Reset Password
+      .addCase(resetPassword.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(resetPassword.fulfilled, state => {
+        state.isLoading = false;
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.message || action.error.message;
+      })
+      // Fetch Users Count
+      .addCase(fetchUsersCount.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(fetchUsersCount.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.usersCount = action.payload;
+      })
+      .addCase(fetchUsersCount.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
       });
   },
 });
 
-export const { resetAuthState } = authSlice.actions;
+export const { resetAuthState, resetError } = authSlice.actions;
 
 export default authSlice.reducer;
