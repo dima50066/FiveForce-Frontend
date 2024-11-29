@@ -1,0 +1,54 @@
+.addWaterBtn {
+  display: flex;
+  gap: 10px;
+  width: 140px;
+  height: 46px;
+  padding: 14px 20px;
+  border-radius: 30px;
+  background-color: var(--main);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 1.29;
+  letter-spacing: -0.01em;
+  color: var(--main-white);
+  margin-left: auto;
+  transition: color 300ms ease-in-out;
+}
+
+.iconPlus {
+  stroke: var(--main-white);
+  transition: stroke 300ms ease-in-out;
+}
+
+.addWaterBtn:hover,
+.addWaterBtn:focus {
+  color: var(--accent-hover);
+}
+
+.addWaterBtn:hover .iconPlus,
+.addWaterBtn:focus .iconPlus {
+  stroke: var(--accent-hover);
+}
+
+/* ______Tablet adaptation _______ */
+@media screen and (min-width: 768px) {
+  .addWaterBtn {
+    padding: 18px 30px;
+    width: 178px;
+    height: 60px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .iconPlus {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* ______Desktop adaptation___ */
+@media screen and (min-width: 1440px) {
+  .addWaterBtn {
+    margin-bottom: 0;
+  }
+}
