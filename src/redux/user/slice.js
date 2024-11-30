@@ -8,6 +8,8 @@ import {
   requestPasswordResetEmail,
   resetPassword,
   fetchUsersCount,
+  getGoogleOAuthUrl,
+  loginWithGoogle,
 } from './operations';
 
 const initialState = {
@@ -18,6 +20,7 @@ const initialState = {
   isRefreshing: false,
   error: null,
   usersCount: 0,
+  googleOAuthUrl: null,
 };
 
 const authSlice = createSlice({
@@ -151,6 +154,33 @@ const authSlice = createSlice({
       .addCase(fetchUsersCount.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
+      })
+      // Get Google OAuth URL
+      .addCase(getGoogleOAuthUrl.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getGoogleOAuthUrl.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.googleOAuthUrl = action.payload;
+      })
+      .addCase(getGoogleOAuthUrl.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.message || action.error.message;
+      })
+      // Login with Google
+      .addCase(loginWithGoogle.pending, state => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(loginWithGoogle.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.token = action.payload;
+        state.isLoggedIn = true;
+      })
+      .addCase(loginWithGoogle.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload?.message || action.error.message;
       });
   },
 });
