@@ -112,3 +112,35 @@ export const fetchUsersCount = createAsyncThunk(
     }
   }
 );
+
+export const getGoogleOAuthUrl = createAsyncThunk(
+  'user/getGoogleOAuthUrl',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get('/users/get-oauth-url');
+      return response.data.data.url;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Failed to get Google OAuth URL'
+      );
+    }
+  }
+);
+
+export const loginWithGoogle = createAsyncThunk(
+  'user/loginWithGoogle',
+  async (code, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post('/users/confirm-oauth', {
+        code,
+      });
+      const { token } = response.data.data;
+      setAuthHeader(token);
+      return token;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Google login failed'
+      );
+    }
+  }
+);
