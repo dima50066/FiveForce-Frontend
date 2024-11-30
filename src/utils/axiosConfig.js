@@ -1,26 +1,26 @@
 import axios from 'axios';
-import { store } from '../redux/store';
 
-const API_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'https://five-force-aqua-track.vercel.app'
-    : 'http://localhost:5000';
+const API_URL = 'https://five-force-aqua-track.vercel.app';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
 });
 
-export const setAuthHeader = token => {
+const getToken = () => localStorage.getItem('token');
+
+const setAuthHeader = token => {
+  localStorage.setItem('token', token);
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
-export const clearAuthHeader = () => {
+const clearAuthHeader = () => {
+  localStorage.removeItem('token');
   delete axiosInstance.defaults.headers.common['Authorization'];
 };
 
 axiosInstance.interceptors.request.use(
   config => {
-    const token = store.getState().auth?.token;
+    const token = getToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,4 +29,5 @@ axiosInstance.interceptors.request.use(
   error => Promise.reject(error)
 );
 
+export { setAuthHeader, clearAuthHeader };
 export default axiosInstance;

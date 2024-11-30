@@ -1,0 +1,84 @@
+ .cntAdvantages {
+     display: none;
+ }
+ .container {
+            min-width: 320px;
+            max-width: 375px;
+            padding: 24px 16px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            border-radius: 30px;
+            background-color: var(--background);
+            height: 780px;
+        }
+.heroTitle {
+    letter-spacing: -0.01em;
+    line-height: 100%;
+    color: var(--main);
+    margin-bottom: 32px;
+}
+
+.logo {
+    margin-bottom: 126px;
+}
+
+.signupLink {
+    font-size: 14px;
+    text-align: center;
+    line-height: 129%;
+    letter-spacing: -0.01em;
+    color: rgba(47, 47, 47, 0.5);
+}
+
+.link {
+    font-weight: 700;
+    color: var(--main-text);
+    text-decoration-skip-ink: none;
+    text-decoration: underline;
+}
+@media (min-width: 768px) {
+    .container {
+        min-width: 704px;
+        height: 960px;
+        padding: 281px 134px;
+        font-size: 16px;
+        position: relative;
+    }
+
+    .logo {
+        position: absolute;
+        /* Відносно контейнера */
+        top: 32px;
+        /* Верхній край */
+        left: 32px;
+        /* Лівий край */
+    }
+
+    .heroTitle {
+        line-height: 106%;
+        font-size: 36px;
+    }
+
+    .signupLink {
+        line-height: 150%;
+        font-size: 16px;
+    }
+}
+@media (min-width: 1440px) {
+    .container {
+        min-width: 672px;
+        height: 736px;
+        padding: 130px 118px 100px;
+        font-size: 16px;
+        position: relative;
+    }
+         .cntSinin {
+             display: flex;
+             gap: 32px;
+         }
+    
+         .cntAdvantages {
+             display: block;
+         }
+}
