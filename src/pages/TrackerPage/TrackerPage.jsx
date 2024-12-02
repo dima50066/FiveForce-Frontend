@@ -1,10 +1,12 @@
-import React from 'react';
+import WaterMainInfo from '../../components/WaterMainInfo/WaterMainInfo.jsx';
+import css from './TrackerPage.module.css';
 
 const TrackerPage = () => {
   return (
-    <div>
-      <h1>Track Your Water Intake</h1>
-      <p>Log your daily hydration and stay healthy!</p>
+    <div className={css.container}>
+      <div className={css.trackerPageContainer}>
+        <WaterMainInfo />
+      </div>
     </div>
   );
 };

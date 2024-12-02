@@ -1,0 +1,17 @@
+/* ______Mobile adaptation _______ */
+.trackerPageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+/* ______Tablet adaptation _______ */
+@media screen and (min-width: 768px) {
+}
+
+/* ______Desktop adaptation___ */
+@media screen and (min-width: 1440px) {
+  .trackerPageContainer {
+    flex-direction: row;
+    gap: 32px;
+  }
+}

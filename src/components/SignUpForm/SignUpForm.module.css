@@ -1,0 +1,134 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.label {
+    color: #333;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+    line-height: 129%;
+}
+
+.labelText {
+    margin-bottom: 8px;
+    display: block;
+    font-weight: 700;
+}
+
+.input {
+    width: 100%;
+    padding: 16px;
+    font-size: 14px;
+    border: 1px solid rgba(47, 47, 47, 0.2);
+    border-radius: 15px;
+    color: rgba(47, 47, 47, 0.6);
+    outline: none;
+    background-color: transparent;
+    transition: border-color 0.3s ease, color 0.3s ease;
+}
+
+.input::placeholder {
+    color: rgba(47, 47, 47, 0.6);
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.input:focus {
+    color: var(--main-text);
+}
+
+.input:focus::placeholder {
+    color: transparent;
+    opacity: 0;
+}
+
+.errorInput {
+    border-color: #ef5050;
+    color: #ef5050;
+}
+
+.errorInput::placeholder {
+    color: #ef5050;
+}
+
+.error {
+    display: block;
+    color: #ef5050;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.cntInpit {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.button {
+    background-color: var(--accent);
+    color: var(--main-text);
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 129%;
+    letter-spacing: -0.01em;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    width: 100%;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+.button:hover {
+    background-color: var(--accent-hover);
+}
+.iconButton {
+    display: none;
+}
+@media (min-width: 768px) {
+    .labelText {
+        font-size: 16px;
+        line-height: 150%;
+    }
+
+    .input {
+        font-size: 16px;
+        line-height: 150%;
+
+    }
+
+    .cntInpit {
+        gap: 20px;
+        margin-bottom: 32px;
+    }
+
+    .button {
+        padding: 18px;
+        font-size: 16px;
+        line-height: 150%;
+    }
+        .error {
+            font-size: 16px;
+        }
+                                .passwordField {
+                                    position: relative;
+                                }
+                
+                                .iconButton {
+                                    position: absolute;
+                                    right: 14px;
+                                    top: 50%;
+                                    transform: translateY(-50%);
+                                    background: none;
+                                    border: none;
+                                    cursor: pointer;
+                                    display: block;
+                                }
+                
+                                .icon {
+                                    width: 20px;
+                                    height: 20px;
+                                }
+}

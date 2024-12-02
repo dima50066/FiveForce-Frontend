@@ -2,40 +2,20 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance, {
   setAuthHeader,
   clearAuthHeader,
-} from '../../API/axiosInstance';
+} from '../../utils/axiosConfig';
 
 export const login = createAsyncThunk(
   'user/login',
   async (userInfo, thunkAPI) => {
     try {
-      const { data } = await axiosInstance.post('/api/users/login', userInfo);
-      setAuthHeader(data.token);
-      return data;
+      const response = await axiosInstance.post('/users/login', userInfo);
+      const { token, user } = response.data;
+      setAuthHeader(token);
+      return { user, token };
     } catch (error) {
-      const response = {
-        message: error.response?.data?.message || 'Unknown error',
-        statusCode: error.response?.status || 500,
-      };
-
-      if (
-        response.statusCode === 401 &&
-        response.message === 'Please verify your email'
-      ) {
-        return thunkAPI.rejectWithValue({
-          ...response,
-          customMessage: 'Please verify your email',
-        });
-      } else if (response.statusCode === 401) {
-        return thunkAPI.rejectWithValue({
-          ...response,
-          customMessage: 'Email or password is wrong',
-        });
-      }
-
-      return thunkAPI.rejectWithValue({
-        ...response,
-        customMessage: 'Login failed',
-      });
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Login failed'
+      );
     }
   }
 );
@@ -44,113 +24,91 @@ export const register = createAsyncThunk(
   'user/register',
   async (userInfo, thunkAPI) => {
     try {
-      const { data } = await axiosInstance.post(
-        '/api/users/register',
-        userInfo
-      );
-      return data;
+      const response = await axiosInstance.post('/users/register', userInfo);
+      const { token, user } = response.data;
+      setAuthHeader(token);
+      return { token, user };
     } catch (error) {
-      const response = {
-        message: error.response?.data?.message || 'Unknown error',
-        statusCode: error.response?.status || 500,
-      };
-
-      if (response.statusCode === 409) {
-        return thunkAPI.rejectWithValue({
-          ...response,
-          customMessage: 'This email is already used',
-        });
-      }
-
-      return thunkAPI.rejectWithValue(response);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Registration failed'
+      );
     }
   }
 );
 
 export const logout = createAsyncThunk('user/logout', async (_, thunkAPI) => {
   try {
-    const { data } = await axiosInstance.post('/api/users/logout');
+    await axiosInstance.post('/users/logout');
     clearAuthHeader();
-    return data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.message);
+    return thunkAPI.rejectWithValue(
+      error.response?.data?.message || 'Logout failed'
+    );
   }
 });
 
-export const refreshUserToken = createAsyncThunk(
-  'user/refreshUserToken',
-  async (_, thunkAPI) => {
-    const token = thunkAPI.getState().auth?.refreshToken;
-    if (!token) {
-      throw new Error('Empty refresh token');
-    }
-
-    try {
-      const { data } = await axiosInstance.get('/api/users/refresh', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setAuthHeader(data.accessToken);
-      return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response?.data?.message || 'Refresh failed'
-      );
-    }
-  }
-);
-
 export const fetchUser = createAsyncThunk(
-  'user/fetchUser',
+  'user/refreshUser',
   async (_, thunkAPI) => {
     try {
-      const { data } = await axiosInstance.get('/api/users/current');
-      return data;
+      const response = await axiosInstance.get('/users/current');
+      return response.data;
     } catch (error) {
-      const response = {
-        message: error.response?.data?.message || 'Unknown error',
-        statusCode: error.response?.status || 500,
-      };
-      return thunkAPI.rejectWithValue(response);
+      return thunkAPI.rejectWithValue('Unable to refresh user');
     }
   }
 );
 
 export const updateUser = createAsyncThunk(
   'user/updateUser',
-  async (userData, thunkAPI) => {
+  async (updateData, thunkAPI) => {
     try {
-      const { data } = await axiosInstance.put(
-        `/api/users/${userData._id}`,
-        userData
-      );
-      return data;
+      const response = await axiosInstance.patch('/users/current', updateData);
+      return response.data.user;
     } catch (error) {
-      const response = {
-        message: error.response?.data?.message || 'Unknown error',
-        statusCode: error.response?.status || 500,
-      };
-      return thunkAPI.rejectWithValue(response);
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Failed to update user'
+      );
     }
   }
 );
 
-export const updateAvatar = createAsyncThunk(
-  'user/updateAvatar',
-  async (avatarFile, thunkAPI) => {
+export const requestPasswordResetEmail = createAsyncThunk(
+  'user/requestPasswordReset',
+  async (email, thunkAPI) => {
     try {
-      const userId = thunkAPI.getState().auth?.user?._id;
-      const { data } = await axiosInstance.put(
-        `/api/users/${userId}`,
-        avatarFile,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        }
-      );
-      return data;
+      const response = await axiosInstance.post('/users/reset-email', email);
+      return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || 'Avatar update failed'
+        error.response?.data?.message || 'Failed to reset password'
       );
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  'user/resetPassword',
+  async (data, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post('/users/reset-password', data);
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(
+        error.response?.data?.message || 'Failed to reset password'
+      );
+    }
+  }
+);
+
+export const fetchUsersCount = createAsyncThunk(
+  'user/fetchUsersCount',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosInstance.get('/users/count');
+      return response.data.countUsers;
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Failed to fetch users count');
     }
   }
 );

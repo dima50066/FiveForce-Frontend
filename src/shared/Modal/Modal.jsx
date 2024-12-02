@@ -2,9 +2,9 @@ import { useEffect } from 'react';
 import css from './Modal.module.css';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
-import xClose from '../Icons/xClose.svg';
+import Icon from '../Icons/Icon';
 
-export default function Modal({ children, isOpen, onClose, btnClassName }) {
+export default function Modal({ children, isOpen, onClose, className, btnClassName }) {
   useEffect(() => {
     const handleEscape = event => {
       if (event.key === 'Escape') {
@@ -26,24 +26,36 @@ export default function Modal({ children, isOpen, onClose, btnClassName }) {
     };
   }, [isOpen, onClose]);
 
-  return (
-    <>
-      {createPortal(
-        <div className={css.backdrop} onClick={onClose}>
-          <div className={css.modalWrapper}>
-            <div className={css.modal} onClick={e => e.stopPropagation()}>
-              <button
-                className={clsx(css.closeButton, btnClassName)}
-                onClick={onClose}
-              >
-                <img src={xClose} alt="Close" className={css.closeIcon} />
-              </button>
-              {children}
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
-    </>
+  if (!isOpen) return null;
+
+  const handleBackdropClick = e => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  return createPortal(
+    <div className={css.backdrop} onClick={handleBackdropClick}>
+      <div className={css.modalWrapper} onClick={e => e.stopPropagation()}>
+        <div className={`${css.modal} ${className}`}>
+          <button
+            className={clsx(css.closeButton, btnClassName)}
+            onClick={() => {
+              console.log('Close button clicked');
+              onClose();
+            }}
+          >
+            <Icon
+              id="x-close"
+              className={css.closeIcon}
+              width="24"
+              height="24"
+            />
+          </button>
+          {children}
+        </div>
+      </div>
+    </div>,
+    document.body
   );
 }
