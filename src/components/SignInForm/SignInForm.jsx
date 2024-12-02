@@ -10,6 +10,7 @@ import { login } from '../../redux/user/operations';
 import css from './SignInForm.module.css';
 import Icon from '../../shared/Icons/Icon';
 import { selectIsLoading, selectAuthError } from '../../redux/user/selectors';
+import GoogleAuthBtn from '../GoogleAuthBtn/GoogleAuthBtn.jsx';
 
 const validationSchema = yup.object({
   email: yup
@@ -95,6 +96,7 @@ const SignInForm = () => {
       <button type="submit" className={css.button} disabled={isLoading}>
         {isLoading ? 'Signing In...' : 'Sign In'}
       </button>
+      <GoogleAuthBtn />
     </form>
   );
 };
