@@ -10,6 +10,7 @@ import { register } from '../../redux/user/operations';
 import { selectIsLoading, selectAuthError } from '../../redux/user/selectors'; // Підключення селекторів
 import css from './SignUpForm.module.css';
 import Icon from '../../shared/Icons/Icon';
+import GoogleAuthBtn from '../GoogleAuthBtn/GoogleAuthBtn.jsx';
 
 const validationSchema = yup.object({
   email: yup
@@ -131,6 +132,7 @@ const SignUpForm = () => {
       <button type="submit" className={css.button} disabled={isLoading}>
         {isLoading ? 'Signing Up...' : 'Sign Up'}
       </button>
+      <GoogleAuthBtn />
     </form>
   );
 };
