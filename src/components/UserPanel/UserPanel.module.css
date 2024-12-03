@@ -1,0 +1,16 @@
+.userPanel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+  }
+  
+  .greeting {
+    font-size: 20px;
+  }
+  
+  .userName {
+    font-weight: bold;
+    color: #323F47;
+  }
+  

@@ -1,0 +1,12 @@
+.dateContainer {
+    font-size: 18px;
+    font-weight: bold;
+    color: #323f47;
+  }
+  
+  .date {
+    padding: 8px 16px;
+    background-color: #f0f0f0;
+    border-radius: 16px;
+  }
+  

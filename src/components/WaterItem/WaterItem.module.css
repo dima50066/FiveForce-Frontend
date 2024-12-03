@@ -1,0 +1,37 @@
+.waterItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .icon {
+    font-size: 24px;
+  }
+  
+  .info {
+    flex-grow: 1;
+    margin-left: 16px;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .editBtn,
+  .deleteBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .editBtn:hover {
+    color: #99e1a0;
+  }
+  
+  .deleteBtn:hover {
+    color: #f00;
+  }
+  
