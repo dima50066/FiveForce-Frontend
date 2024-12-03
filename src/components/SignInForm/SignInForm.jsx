@@ -40,13 +40,18 @@ const SignInForm = () => {
     mode: 'onTouched',
   });
 
-  const onSubmit = async data => {
+ const onSubmit = async data => {
     try {
       await dispatch(login(data)).unwrap();
       toast.success('Login successful!');
-      navigate('/tracker'); // Перенаправлення на TrackerPage
+      navigate('/tracker');
     } catch (error) {
-      toast.error(authError || 'Login failed. Please try again.');
+      // Обработка ошибки для незарегистрированного пользователя
+      if (authError === 'User not found') {
+        toast.error('User not found. Please register first.');
+      } else {
+        toast.error(authError || 'Login failed. Please try again.');
+      }
     }
   };
 
