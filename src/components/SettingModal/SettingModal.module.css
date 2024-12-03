@@ -1,15 +1,14 @@
-
 input:hover {
   outline: none;
 }
 .modelForm {
- min-width: 344px;
+  min-width: 320px;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  padding: 40px 20px;
+margin: 40px 20px;
 }
 
 /* Titles */
@@ -26,8 +25,11 @@ input:hover {
   line-height: 1.25;
   letter-spacing: -0.01em;
   color: #323f47;
- 
 }
+.updateDailyUp {
+  display: none;
+}
+
 /* Images */
 .img {
   width: 75px;
@@ -41,10 +43,10 @@ input:hover {
   height: 75px;
   fill: #323f47;
   border-radius: 50%;
-    background-color: #9be1a0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background-color: #9be1a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* FileUploadInput */
@@ -84,7 +86,7 @@ input:hover {
 .partCover {
   display: flex;
   flex-direction: column;
-  padding-bottom: 24px;
+  margin-bottom: 24px;
 }
 .partCover.box {
   gap: 14px;
@@ -140,14 +142,13 @@ input:hover {
   color: #2f2f2f;
   margin-top: 8px;
 }
-.input:focus{
-border: 1px solid rgba(47, 47, 47, 0.2);
+.input:focus {
+  border: 1px solid rgba(47, 47, 47, 0.2);
   background-color: transparent;
 }
-input:hover{
+input:hover {
   border: 1px solid rgba(47, 47, 47, 0.4);
   background-color: transparent;
-   
 }
 .input::placeholder {
   font-size: 14px;
@@ -160,14 +161,15 @@ input:hover{
 }
 
 /* Errors */
-.errorInput, .errorInput:hover {
+.errorInput,
+.errorInput:hover {
   border: 2px solid var(--validation-error);
 }
 .error {
-    font-size: 14px;
-    line-height: 1.28571;
-    letter-spacing: -0.01em;
-    color: var(--validation-error);
+  font-size: 14px;
+  line-height: 1.28571;
+  letter-spacing: -0.01em;
+  color: var(--validation-error);
   margin-top: 5px;
 }
 
@@ -184,7 +186,7 @@ input:hover{
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-bottom: 14px;
+  margin-bottom: 14px;
 }
 .descr {
   padding-bottom: 4px;
@@ -225,8 +227,9 @@ input:hover{
 }
 
 .limitAmount {
-  padding-bottom: 14px;
+  margin-bottom: 14px;
 }
+
 .btnSubmit {
   margin-top: 40px;
   padding: 14px 40px;
@@ -240,4 +243,94 @@ input:hover{
   padding: 14px 40px;
   width: 116px;
   background-color: #9be1a0;
+  display: flex;
+  justify-content: center;
 }
+
+@media screen and (min-width: 768px) {
+  .form {
+      min-width: 568px;
+    }
+  .title {
+    font-size: 28px;
+    line-height: 1.14286;
+  }
+  .img {
+    width: 100px;
+    height: 100px;
+  }
+  .btnUpload {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .descr {
+    padding-bottom: 8px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .secondTitle {
+    font-size: 18px;
+    line-height: 1.33333;
+  }
+  .labelRadio {
+    font-size: 16px;
+  }
+  .input {
+    padding: 16px;
+    height: 56px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .updateDailyUp {
+    display: flex;
+    padding-bottom: 14px;
+  }
+  .updateDailyDown {
+    display: none;
+  }
+  .formulaCover {
+    flex-direction: row;
+    gap: 28px;
+  }
+  .coverMarkIcon {
+    margin-top: 0;
+  }
+  .limitAmount {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .descrTablet {
+    padding-bottom: 0;
+  }
+  .greenDscr {
+    font-size: 15px;
+    line-height: 1.49333;
+  }
+  .btnSubmit {
+    padding: 16px 50px;
+    width: 141px;
+    height: 56px;
+      font-size: 16px;
+      line-height: 1.5;
+  }
+  
+}
+@media screen and (min-width: 1440px) {
+    .coverForLaptop {
+    display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      max-height: 594px;
+     gap: 40px;
+    }
+        .miniCoverLaptop{
+         width: 400px;
+         
+    }
+        .form{
+          min-width: 840px;
+        }
+        .withoutMargin{
+          margin: 0;
+        }}
