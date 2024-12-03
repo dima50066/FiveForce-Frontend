@@ -1,0 +1,192 @@
+.container {
+  margin: 40px 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    margin: 40px 0 40px 40px;
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  margin-bottom: 24px;
+}
+
+.text {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+  margin-bottom: 20px;
+}
+
+.secondaryText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.baseLabel {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.baseInput {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 303px;
+  height: 46px;
+  padding: 14px 16px;
+  border-radius: 15px;
+  border: 1px solid var(--main-text);
+  margin-top: 8px;
+  margin-bottom: 2px;
+  transition: all var(--transition);
+}
+
+.counterContainer {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.counterBtn {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--main);
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  color: var(--main);
+}
+
+.iconMinus,
+.iconPlus {
+  stroke: var(--main);
+  transition: all var(--transition);
+}
+
+.counterBtn:hover {
+  background-color: var(--main);
+  color: var(--main-white);
+}
+
+.counterBtn:hover .iconMinus,
+.counterBtn:hover .iconPlus {
+  stroke: var(--main-white);
+}
+
+.decrementBtn,
+.incrementBtn {
+  cursor: not-allowed;
+  opacity: 0.3;
+  transition: all var(--transition);
+}
+
+.count {
+  box-sizing: border-box;
+  min-width: 98px;
+  height: 40px;
+  border-radius: 30px;
+  border: none;
+  padding: 11px 20px;
+  text-align: center;
+  background-color: var(--main);
+  color: var(--main-white);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+.saveBtn {
+  width: 116px;
+  height: 46px;
+  border-radius: 30px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--accent);
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 18px;
+  transition: all var(--transition);
+}
+
+.saveBtn:hover {
+  background-color: var(--accent-hover);
+}
+
+.error {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 18px;
+  height: 22px;
+  color: var(--validation-error);
+}
+
+.errorInput {
+  border: 1px solid var(--validation-error);
+  color: var(--validation-error);
+}
+
+.secondaryLabel {
+  margin-bottom: 24px;
+}
+
+@media screen and (min-width: 768px) {
+  .header {
+    font-size: 28px;
+    line-height: 32px;
+    margin-bottom: 24px;
+  }
+  .text {
+    font-size: 18px;
+    line-height: 24px;
+  }
+  .secondaryText {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .baseLabel {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .counterBtn {
+    height: 43px;
+    width: 43px;
+  }
+  .count {
+    height: 43px;
+    font-size: 15px;
+    line-height: 22px;
+    min-width: 100px;
+  }
+  .baseInput {
+    width: 100%;
+    max-width: 438px;
+    height: 56px;
+    padding: 16px;
+    border: 1px solid var(--main-text);
+  }
+  .saveBtn {
+    width: 140px;
+    height: 60px;
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
