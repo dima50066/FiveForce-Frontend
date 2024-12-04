@@ -1,0 +1,67 @@
+.paginationControlsContainer {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.navigationButtonsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 178px;
+}
+
+.navigationButton {
+  display: flex;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+
+.navigationButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.navigationButton:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
+  letter-spacing: -1%;
+  text-align: center;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.icon {
+  stroke: var(--accent);
+  transition: all var(--transition);
+}
+
+.iconInactive {
+  opacity: 0.4;
+}
+
+@media screen and (min-width: 768px) {
+  .navigationButtonsContainer {
+    width: 200px;
+  }
+
+  .title {
+    font-size: 16px;
+    line-height: 24px;
+  }
+}

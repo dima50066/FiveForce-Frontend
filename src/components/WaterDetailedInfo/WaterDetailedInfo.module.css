@@ -1,0 +1,29 @@
+.detailedWaterInfoContainer {
+  box-sizing: border-box;
+  display: flex;
+  gap: 40px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background);
+  border-radius: 30px;
+  padding: 40px 20px;
+}
+
+@media screen and (min-width: 375px) {
+  .detailedWaterInfoContainer {
+    /* Additional styles can be added here if needed */
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .detailedWaterInfoContainer {
+    padding: 32px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .detailedWaterInfoContainer {
+    width: 672px;
+  }
+}

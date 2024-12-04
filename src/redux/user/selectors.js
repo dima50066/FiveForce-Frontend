@@ -1,6 +1,5 @@
 export const selectUser = state => state.auth.user;
 export const selectUserToken = state => state.auth.token;
-export const selectRefreshToken = state => state.auth.refreshToken;
 
 export const selectIsLoggedIn = state => !!state.auth.token;
 export const selectIsLoading = state => state.auth.isLoading;
@@ -12,7 +11,8 @@ export const selectUsersCount = state => state.auth.usersCount;
 
 export const selectGoogleOAuthUrl = state => state.auth.googleOAuthUrl;
 
-// Додаткові селектори (за необхідністю)
+export const selectUserWaterNorm = state => state.auth.user.dailyNorm;
+
 export const selectUserName = state => state.auth.user?.name || null;
 export const selectUserEmail = state => state.auth.user?.email || null;
 export const selectUserAvatar = state => state.auth.user?.avatar || null;
@@ -20,7 +20,6 @@ export const selectUserAvatar = state => state.auth.user?.avatar || null;
 export default {
   selectUser,
   selectUserToken,
-  selectRefreshToken,
   selectIsLoggedIn,
   selectIsLoading,
   selectIsRefreshing,

@@ -9,7 +9,7 @@ import {
 } from './operations';
 
 const initialState = {
-  activeDay: '',
+  activeDay: null,
   dayWater: { date: '', water: [] },
   monthWater: [],
   currentDay: [],
@@ -35,7 +35,13 @@ const waterSlice = createSlice({
       })
       .addCase(getDayWater.fulfilled, (state, action) => {
         state.loading = false;
-        state.dayWater = action.payload;
+
+        state.dayWater = {
+          ...action.payload,
+          water: Array.isArray(action.payload.water)
+            ? action.payload.water
+            : [],
+        };
       })
       .addCase(getDayWater.rejected, (state, action) => {
         state.loading = false;
@@ -63,6 +69,11 @@ const waterSlice = createSlice({
       })
       .addCase(addWater.fulfilled, (state, action) => {
         state.loading = false;
+
+        if (!Array.isArray(state.dayWater.water)) {
+          state.dayWater.water = [];
+        }
+
         state.dayWater.water.push(action.payload);
       })
       .addCase(addWater.rejected, (state, action) => {
@@ -77,6 +88,7 @@ const waterSlice = createSlice({
       })
       .addCase(updateWater.fulfilled, (state, action) => {
         state.loading = false;
+
         state.dayWater.water = state.dayWater.water.map(item =>
           item._id === action.payload._id ? action.payload : item
         );
@@ -93,6 +105,7 @@ const waterSlice = createSlice({
       })
       .addCase(deleteWater.fulfilled, (state, action) => {
         state.loading = false;
+
         state.dayWater.water = state.dayWater.water.filter(
           item => item._id !== action.payload._id
         );
