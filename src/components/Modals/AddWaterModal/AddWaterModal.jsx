@@ -27,7 +27,22 @@ const AddWaterModal = ({ onSave }) => {
       return;
     }
 
-    onSave({ amount: waterAmount, time });
+    if (waterAmount < 50 || waterAmount > 1500) {
+      setError(true);
+      return;
+    }
+
+    const today = new Date();
+    const [hours, minutes] = time.split(':');
+    const date = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+      hours,
+      minutes
+    );
+
+    onSave({ amount: waterAmount, time: date });
   };
 
   return (

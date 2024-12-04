@@ -1,4 +1,4 @@
-import React, { useId, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -10,12 +10,18 @@ import Icon from '../../shared/Icons/Icon.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/user/operations.js';
 
+import { selectUserAvatar } from '../../redux/user/selectors.js';
+
 const SettingModal = () => {
+  const userAvatar = useSelector(selectUserAvatar);
+  const [preview, setPreview] = useState(userAvatar || null);
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [waterIntake, setWaterIntake] = useState(1.5);
   const [isLoading, setIsLoading] = useState(false);
+
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
 
@@ -50,6 +56,7 @@ const SettingModal = () => {
     handleSubmit,
     formState: { errors },
     register,
+    setValue,
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
@@ -59,6 +66,7 @@ const SettingModal = () => {
       activeHours: '0',
       waterIntake: '1.5',
       gender: 'woman',
+      avatar: null,
     },
   });
 
@@ -66,18 +74,18 @@ const SettingModal = () => {
     setIsLoading(true);
 
     const formData = new FormData();
-    if (data.avatar?.length > 0) {
-      formData.append('avatar', data.avatar[0]);
+    if (data.avatar) {
+      formData.append('avatar', data.avatar);
     }
     formData.append('name', data.name);
     formData.append('email', data.email);
     formData.append('weight', data.weight);
-    formData.append('activeHours', data.activeHours);
-    formData.append('waterIntake', data.waterIntake);
+    formData.append('activeTime', data.activeHours);
+    formData.append('dailyNorm', data.waterIntake * 1000);
     formData.append('gender', data.gender);
 
     try {
-      await dispatch(updateUser(formData)).unwrap();
+      const result = await dispatch(updateUser(formData)).unwrap();
       console.log('Form submitted successfully:', result);
       alert('Дані успішно збережено!');
       setIsModalOpen(false);
@@ -89,26 +97,23 @@ const SettingModal = () => {
     }
   };
 
-  // All for inputFile upload photo
-  const [preview, setPreview] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleFileChange = event => {
     const file = event.target.files[0];
     if (file) {
-      console.log(file);
+      console.log('Selected file:', file);
       const previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
-    } else {
-      setPreview(null);
+      setValue('avatar', file);
     }
   };
+
   const handleButtonClick = () => {
     event.preventDefault();
     fileInputRef.current.click();
   };
 
-  // Generation of identifiers
   const nameId = useId();
   const emailId = useId();
   const timeId = useId();
@@ -121,10 +126,12 @@ const SettingModal = () => {
   return (
     <div>
       <button onClick={openModal}>Open Modal</button>
+
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        className={css.modelForm}
+        className={css.modalForm}
+        classNameWrapper={css.wrapper}
       >
         <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
           <h2 className={css.title}>Setting</h2>
@@ -292,7 +299,7 @@ const SettingModal = () => {
                 <p className={`${css.descr} ${css.descrTablet}`}>
                   The required amount of water in liters per day:
                 </p>
-                <p className={css.greenDscr}>{waterIntake} L</p>
+                <p className={css.greenDscr}>{waterIntake * 1000} L</p>
               </div>
               <label htmlFor={amountId} className={css.secondTitle}>
                 Write down how much water you will drink:
