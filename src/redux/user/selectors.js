@@ -11,8 +11,8 @@ export const selectUsersCount = state => state.auth.usersCount;
 
 export const selectGoogleOAuthUrl = state => state.auth.googleOAuthUrl;
 
+// Users
 export const selectUserWaterNorm = state => state.auth.user.dailyNorm;
-
 export const selectUserName = state => state.auth.user?.name || null;
 export const selectUserEmail = state => state.auth.user?.email || null;
 export const selectUserAvatar = state => state.auth.user?.avatar || null;
