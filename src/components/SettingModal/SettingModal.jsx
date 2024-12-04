@@ -1,4 +1,4 @@
-import React, { useId, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -16,8 +16,13 @@ const SettingModal = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [waterIntake, setWaterIntake] = useState(1.5);
   const [isLoading, setIsLoading] = useState(false);
+
+
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
+
+
+
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -121,10 +126,12 @@ const SettingModal = () => {
   return (
     <div>
       <button onClick={openModal}>Open Modal</button>
+
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        className={css.modelForm}
+        className={css.modalForm}
+        classNameWrapper={css.wrapper}
       >
         <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
           <h2 className={css.title}>Setting</h2>

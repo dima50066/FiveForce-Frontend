@@ -1,9 +1,34 @@
 input:hover {
   outline: none;
 }
-.modelForm {
-  min-width: 320px;
+.wrapper{
+position: fixed;
+  top: 80px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 344px;
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  transition: top 0.3s ease, max-width 0.3s ease, padding 0.3s ease;
 }
+.modalForm {
+  min-width: 320px;
+  position: relative;
+    width: 100%;
+    max-height: calc(100vh - 80px);
+
+    border-radius: 0;
+border-top-left-radius: 15px;
+border-top-right-radius: 15px;
+    padding-bottom: 0;
+   
+    overflow-y: auto;
+    transition: padding-bottom 0.3s ease;
+}
+
 
 .form {
   display: flex;
@@ -245,9 +270,22 @@ input:hover {
   background-color: #9be1a0;
   display: flex;
   justify-content: center;
+  transition: background-color 0.3s ease;
+}
+.btnSubmit:focus{
+  background-color: #87d28d;
 }
 
 @media screen and (min-width: 768px) {
+  .wrapper {
+      
+      top: 64px;
+          max-width: 650px;
+    }
+  
+    .modalForm {
+      max-height: calc(100vh - 64px);
+    }
   .form {
       min-width: 568px;
     }
@@ -317,6 +355,10 @@ input:hover {
   
 }
 @media screen and (min-width: 1440px) {
+  .wrapper {
+  
+      max-width: 920px;
+    }
     .coverForLaptop {
     display: flex;
       flex-direction: column;
