@@ -82,15 +82,8 @@ margin: 40px 20px;
 .customUpload {
   display: flex;
   align-items: center;
-
   cursor: pointer;
-}
-.uploadIcon {
-  width: 18px;
-  height: 18px;
-}
-.inputFile {
-  display: none;
+  gap: 8px;
 }
 .btnUpload {
   font-size: 14px;
@@ -100,6 +93,14 @@ margin: 40px 20px;
   color: #2f2f2f;
   cursor: pointer;
 }
+.uploadIcon {
+  width: 18px;
+  height: 18px;
+}
+.inputFile {
+  display: none;
+}
+
 
 /* All containers */
 .avatarCover {

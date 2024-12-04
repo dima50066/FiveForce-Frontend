@@ -84,7 +84,6 @@ const App = () => {
                   <PrivateRoute component={<TrackerPage />} redirectTo="/" />
                 }
               />
-              <Route path="/setting" element={<SettingModal />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
