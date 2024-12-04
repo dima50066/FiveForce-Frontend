@@ -19,31 +19,33 @@
 }
 
 .progressBar {
+  width: 100%;
+  height: 6px;
+  background-color: var(--background);
+  border-radius: 9px;
+  overflow: hidden;
 }
 
 .progressline {
-  width: 174px;
-  height: 6px;
+  height: 100%;
+  background-color: var(--accent);
   border-radius: 9px;
-  background-color: var(--background);
   position: relative;
+  transition: width var(--transition);
 }
 
 .progressIndicator {
-  width: 12px;
-  height: 12px;
   position: absolute;
-  background-color: var(--main-white);
-  border-radius: 50%;
-  border: 1px solid var(--accent);
   top: 50%;
-  left: -5%;
-  transform: translateX(50%) translateY(-50%);
+  right: 0;
+  transform: translate(50%, -50%);
+  transition: transform var(--transition);
 }
 
 .progressBarList {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   font-weight: 400;
   font-size: 10px;
   line-height: 1;
@@ -53,7 +55,7 @@
 /* ______Tablet adaptation _______ */
 @media screen and (min-width: 768px) {
   .progressBarWrapp {
-    gap: 8px;
+    gap: 6px;
     padding: 20px;
     width: 295px;
     height: 106px;
@@ -65,8 +67,7 @@
     line-height: 1.49;
   }
 
-  .progressline {
-    width: 255px;
+  .progressBar {
     height: 8px;
   }
 
