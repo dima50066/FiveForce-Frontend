@@ -1,17 +1,15 @@
 import { useSelector } from 'react-redux';
+import { selectUserWaterNorm } from '../../redux/user/selectors.js';
 import css from './WaterDailyNorma.module.css';
 
 const WaterDailyNorma = () => {
-  // const user = useSelector(selectUser);
+  const countWater = useSelector(selectUserWaterNorm);
 
-  const dailynorma = 1.5;
-  // if (user.dailyWater) {
-  //   dailynorma = user.dailyWater;
-  // }
+  const dailyNorm = countWater > 0 ? (countWater / 1000).toFixed(1) : 1.5;
 
   return (
     <div className={css.waterDailyNormaWrapp}>
-      <p className={css.waterDailyNorma}>{dailynorma} L</p>
+      <p className={css.waterDailyNorma}>{dailyNorm} L</p>
       <p className={css.waterDailyNormaText}>My daily norma</p>
     </div>
   );
