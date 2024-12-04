@@ -1,0 +1,17 @@
+.userPanel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--background);
+  border-radius: 10px;
+}
+
+.userName {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.userBar {
+  /* Оставим место для компонента UserBar */
+}
