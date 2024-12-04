@@ -1,14 +1,16 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../redux/user/operations';
 import css from './LogModal.module.css';
 
 const LogModal = ({ onCancel }) => {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
+      navigate('/signin');
     } catch (error) {
       console.error('Logout failed:', error.message || error);
     }

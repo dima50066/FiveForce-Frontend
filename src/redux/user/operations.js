@@ -25,9 +25,8 @@ export const register = createAsyncThunk(
   async (userInfo, thunkAPI) => {
     try {
       const response = await axiosInstance.post('/users/register', userInfo);
-      const { token, user } = response.data;
-      setAuthHeader(token);
-      return { token, user };
+      const { user } = response.data;
+      return { user };
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || 'Registration failed'
@@ -47,6 +46,20 @@ export const logout = createAsyncThunk('user/logout', async (_, thunkAPI) => {
   }
 });
 
+export const refreshSession = createAsyncThunk(
+  'user/refreshSession',
+  async (_, thunkAPI) => {
+    try {
+      const response = await axiosInstance.post('/users/refresh');
+      const { token } = response.data.data;
+      setAuthHeader(token);
+      return token;
+    } catch (error) {
+      return thunkAPI.rejectWithValue('Unable to refresh session');
+    }
+  }
+);
+
 export const fetchUser = createAsyncThunk(
   'user/refreshUser',
   async (_, thunkAPI) => {
@@ -63,7 +76,11 @@ export const updateUser = createAsyncThunk(
   'user/updateUser',
   async (updateData, thunkAPI) => {
     try {
-      const response = await axiosInstance.patch('/users/current', updateData);
+      const response = await axiosInstance.patch('/users/current', updateData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return response.data.user;
     } catch (error) {
       return thunkAPI.rejectWithValue(
