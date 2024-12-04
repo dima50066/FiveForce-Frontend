@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import css from './EditWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
 
-const EditWaterModal = ({ onSave }) => {
-  const [waterAmount, setWaterAmount] = useState(250);
-  const [time, setTime] = useState('07:00');
+const EditWaterModal = ({ currentWater, id, onSave }) => {
+  const [waterAmount, setWaterAmount] = useState(currentWater?.amount || 250);
+  const [time, setTime] = useState(currentWater?.time || '07:00');
   const [error, setError] = useState(false);
   const [timeError, setTimeError] = useState(false);
+
+  useEffect(() => {
+    if (currentWater) {
+      setWaterAmount(currentWater.amount);
+      setTime(currentWater.time);
+    }
+  }, [currentWater]);
 
   const handleDecrease = () => {
     const newAmount = Math.max(waterAmount - 50, 50);
@@ -27,7 +34,7 @@ const EditWaterModal = ({ onSave }) => {
       return;
     }
 
-    onSave({ amount: waterAmount, time });
+    onSave({ id, updatedWater: { amount: waterAmount, time } });
   };
 
   return (

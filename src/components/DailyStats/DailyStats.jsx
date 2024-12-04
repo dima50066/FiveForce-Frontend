@@ -6,7 +6,11 @@ import AddWaterBtn from '../AddWaterBtn/AddWaterBtn';
 import Modal from '../../shared/Modal/Modal';
 import EditWaterModal from '../Modals/EditWaterModal/EditWaterModal';
 import DeleteModal from '../Modals/DeleteModal/DeleteModal';
-import { getDayWater } from '../../redux/water/operations';
+import {
+  getDayWater,
+  deleteWater,
+  updateWater,
+} from '../../redux/water/operations';
 import { selectActiveDay, selectDayWater } from '../../redux/water/selectors';
 import { setActiveDay } from '../../redux/water/slice';
 
@@ -50,6 +54,20 @@ export default function DailyStats() {
     setCurrentItem(null);
   };
 
+  const handleDelete = async () => {
+    try {
+      await dispatch(deleteWater(currentItem.id));
+      closeModal();
+    } catch (error) {
+      console.error('Failed to delete item:', error);
+    }
+  };
+
+  const handleSave = ({ id, updatedWater }) => {
+    dispatch(updateWater({ id, updatedWater }));
+    closeModal();
+  };
+
   return (
     <div className={css.dailyStats}>
       <div className={css.header}>
@@ -70,11 +88,20 @@ export default function DailyStats() {
       </div>
 
       <Modal isOpen={isEditModalOpen} onClose={closeModal}>
-        <EditWaterModal item={currentItem} onClose={closeModal} />
+        {currentItem && (
+          <EditWaterModal
+            currentWater={{
+              amount: currentItem.amount,
+              time: currentItem.time,
+            }}
+            id={currentItem.id}
+            onSave={handleSave}
+          />
+        )}
       </Modal>
 
       <Modal isOpen={isDeleteModalOpen} onClose={closeModal}>
-        <DeleteModal item={currentItem} onClose={closeModal} />
+        <DeleteModal onDelete={handleDelete} onCancel={closeModal} />
       </Modal>
     </div>
   );
