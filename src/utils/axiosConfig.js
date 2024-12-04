@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_URL = 'https://five-force-aqua-track.vercel.app';
+const API_URL =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:5000'
+    : 'https://five-force-aqua-track.vercel.app';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,

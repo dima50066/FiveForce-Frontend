@@ -12,10 +12,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../redux/user/operations';
 import { selectIsRefreshing } from '../redux/user/selectors';
 import SettingModal from './SettingModal/SettingModal';
+import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
+import WaterLoader from '../shared/Loaders/WaterLoader';
 
 const App = () => {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
+
+  useEffect(() => {
+    const removeLoader = () => {
+      const loader = document.getElementById('loader-wrapper');
+      if (loader) {
+        loader.style.opacity = '0';
+        setTimeout(() => loader.remove(), 500);
+      }
+    };
+
+    removeLoader();
+  }, []);
 
   useEffect(() => {
     dispatch(fetchUser());
@@ -31,9 +45,11 @@ const App = () => {
       />
       <SharedLayout>
         {isRefreshing ? (
-          <div className="text-center p-4">Loading...</div>
+          <div className="text-center p-4">
+            <WaterLoader />
+          </div>
         ) : (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<WaterLoader />}>
             <Routes>
               <Route
                 path="/"
@@ -69,6 +85,7 @@ const App = () => {
                 }
               />
               <Route path="/setting" element={<SettingModal />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
         )}

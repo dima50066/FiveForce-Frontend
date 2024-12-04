@@ -13,7 +13,16 @@ import {
 } from './operations';
 
 const initialState = {
-  user: null,
+  user: {
+    id: '',
+    name: '',
+    email: '',
+    avatar: '',
+    gender: '',
+    weight: 0,
+    activeTime: 0,
+    dailyNorm: 0,
+  },
   token: null,
   isLoggedIn: false,
   isLoading: false,

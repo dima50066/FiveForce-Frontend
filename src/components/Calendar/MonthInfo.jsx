@@ -1,11 +1,11 @@
 import CalendarPagination from '../../components/CalendarPagination/CalendarPagination';
-import Calendar from '../../components/Calendar/Calendar';
+import Calendar from './MonthInfo';
 import css from './MonthInfo.module.css';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMonthWater } from '../../redux/water/selectors.js';
-import { getMonthInfo } from '../../redux/water/operations.js';
+import { getMonthWater } from '../../redux/water/operations.js';
 
 export default function MonthInfo() {
   const [date, setDate] = useState(new Date());
@@ -13,7 +13,7 @@ export default function MonthInfo() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMonthInfo(new Date(date).getTime()));
+    dispatch(getMonthWater(new Date(date).getTime()));
   }, [dispatch, date]);
 
   const handlePrevMonth = () => {

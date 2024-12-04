@@ -1,20 +1,27 @@
-import CalendarPagination from './CalendarPagination/CalendarPagination';
-import Calendar from './Calendar/Calendar';
-import css from './MonthInfo.module.css';
 import { useEffect, useState } from 'react';
-import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
-// import { selectMonthlyWaterData } from '../../redux/water/selectors.js';
-// import { fetchMonthlyWaterUsage } from '../../redux/water/operations.js';
+import { selectMonthWater } from '../../redux/water/selectors.js';
+import { getMonthWater } from '../../redux/water/operations.js';
+import Calendar from './Calendar/Calendar';
+import CalendarPagination from './CalendarPagination/CalendarPagination';
+import clsx from 'clsx';
+import css from './MonthInfo.module.css';
 
 export default function WaterUsageInfo() {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const dailyWaterData = useSelector(selectMonthlyWaterData);
+  const dailyWaterData = useSelector(selectMonthWater); // Redux селектор
   const dispatch = useDispatch();
 
+  // Логування обраної дати
+
+  // Виклик getMonthWater при зміні selectedDate
   useEffect(() => {
-    dispatch(fetchMonthlyWaterUsage(new Date(selectedDate).getTime()));
+    const timestamp = new Date(selectedDate).getTime();
+    dispatch(getMonthWater(timestamp));
   }, [dispatch, selectedDate]);
+
+  // Логування даних з Redux
+  useEffect(() => {}, [dailyWaterData]);
 
   const handlePreviousMonth = () => {
     setSelectedDate(prevDate => {
@@ -50,7 +57,7 @@ export default function WaterUsageInfo() {
   return (
     <div className={css.waterUsageInfoContainer}>
       <div className={css.paginationControlsContainer}>
-        <h2 className={clsx(css.title)}>Monthly Water Usage</h2>
+        <h2 className={clsx(css.title)}>Month</h2>
         <CalendarPagination
           onPrevious={handlePreviousMonth}
           onNext={handleNextMonth}

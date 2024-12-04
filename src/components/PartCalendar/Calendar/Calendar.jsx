@@ -1,10 +1,10 @@
 import css from './Calendar.module.css';
 import CalendarItem from '../CalendarItem/CalendarItem';
 import { useEffect } from 'react';
-// import { fetchDayWaterData } from '../../redux/water/operations';
+import { getDayWater } from '../../../redux/water/operations';
 import { useDispatch, useSelector } from 'react-redux';
-// import { selectActiveDay } from '../../redux/water/selectors';
-// import { updateActiveDay } from '../../redux/water/slice';
+import { selectActiveDay } from '../../../redux/water/selectors';
+import { setActiveDay } from '../../../redux/water/slice';
 
 export default function Calendar({ daysData }) {
   const activeDay = useSelector(selectActiveDay);
@@ -13,19 +13,29 @@ export default function Calendar({ daysData }) {
   useEffect(() => {
     if (!activeDay) {
       const now = new Date();
-      const currentDate = now.toISOString().split('T')[0] + 'T00:00:00.000Z';
-      dispatch(updateActiveDay(currentDate));
+      const currentDate = now.toISOString();
+      dispatch(setActiveDay(currentDate));
     }
   }, [dispatch, activeDay]);
 
   useEffect(() => {
     if (activeDay) {
-      dispatch(fetchDayWaterData(new Date(activeDay).getTime()));
+      const timestamp = Date.parse(activeDay);
+      if (!isNaN(timestamp)) {
+        dispatch(getDayWater(timestamp));
+      } else {
+        console.error('Invalid date format in activeDay:', activeDay);
+      }
     }
   }, [activeDay, dispatch]);
 
   const handleDayClick = day => {
-    dispatch(updateActiveDay(day));
+    if (day) {
+      const isoDate = new Date(day).toISOString();
+      dispatch(setActiveDay(isoDate));
+    } else {
+      console.error('Invalid day value:', day);
+    }
   };
 
   return (
