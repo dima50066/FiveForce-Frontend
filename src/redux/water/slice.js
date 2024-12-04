@@ -9,7 +9,7 @@ import {
 } from './operations';
 
 const initialState = {
-  activeDay: '',
+  activeDay: null,
   dayWater: { date: '', water: [] },
   monthWater: [],
   currentDay: [],
