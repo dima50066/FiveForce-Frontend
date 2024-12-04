@@ -1,10 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import css from './DeleteModal.module.css';
 
 const DeleteModal = ({ onDelete, onCancel }) => {
-  const dispatch = useDispatch();
-
   const handleDelete = async () => {
     try {
       await onDelete();
@@ -27,6 +24,7 @@ const DeleteModal = ({ onDelete, onCancel }) => {
         >
           Delete
         </button>
+
         <button
           className={css['delete-second-btn']}
           type="button"
