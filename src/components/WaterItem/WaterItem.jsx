@@ -16,7 +16,7 @@ export default function WaterItem({ id, amount, time, onDelete, onEdit }) {
         <img src="https://via.placeholder.com/30" alt="Water glass" />
       </div>
       <div className={css.details}>
-        <strong>{amount}</strong>
+        <strong>{amount} ml</strong>
         <p>{time}</p>
       </div>
       <div className={css.actions}>
