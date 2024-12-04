@@ -1,13 +1,13 @@
 import css from './WaterDetailedInfo.module.css';
-// import UserPanel from '../../components/UserPanel/UserPanel';
-// import DailyStats from '../../components/DailyStats/DailyStats';
+import UserPanel from '../../components/UserPanel/UserPanel';
 import MonthInfo from '../PartCalendar/MonthInfo';
+import DailyStats from '../../components/DailyStats/DailyStats';
 
 export default function DetailedWaterInfo() {
   return (
     <div className={css.detailedWaterInfoContainer}>
-      {/* <UserPanel />
-      <DailyStats /> */}
+      <UserPanel />
+      <DailyStats />
       <MonthInfo />
     </div>
   );
