@@ -1,33 +1,35 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import Icon from '../../shared/Icons/Icon';
 import css from './WaterProgressBar.module.css';
 
 import { selectUserWaterNorm } from '../../redux/user/selectors';
-import { selectDayWater } from '../../redux/water/selectors.js';
+import { selectDayWater, selectActiveDay } from '../../redux/water/selectors';
+import { getDayWater } from '../../redux/water/operations';
 
 const WaterProgressBar = () => {
-  // Денна норма води (мл)
+  const dispatch = useDispatch();
+  const activeDay = useSelector(selectActiveDay);
   const dailyWaterNorm = useSelector(selectUserWaterNorm);
-
-  // Дані про випиту воду за день
   const dayWater = useSelector(selectDayWater);
 
-  // Перевірка наявності даних
-  const waterData = dayWater?.water || [];
+  useEffect(() => {
+    if (activeDay) {
+      const timestamp = Date.parse(activeDay);
+      if (!isNaN(timestamp)) {
+        dispatch(getDayWater(timestamp));
+      } else {
+        console.error('Invalid date format in activeDay:', activeDay);
+      }
+    }
+  }, [activeDay, dispatch]);
 
-  // Обчислення загального обсягу випитої води (мл)
-  const totalDrinkingWater = waterData.reduce(
-    (acc, item) => acc + item.amount,
-    0
-  );
+  const totalDrinkingWater = dayWater?.totalDayWater || 0;
 
-  // Розрахунок відсотка
   const percentage = dailyWaterNorm
     ? Math.min(Math.round((totalDrinkingWater / dailyWaterNorm) * 100), 100)
     : 0;
 
-  // Хуки для плавного руху progressIndicator
   const [indicatorPosition, setIndicatorPosition] = useState(0);
 
   useEffect(() => {
@@ -37,7 +39,6 @@ const WaterProgressBar = () => {
   return (
     <div className={css.progressBarWrapp}>
       <h4 className={css.progressBarText}>Today</h4>
-
       <div className={css.progressBar}>
         <div
           className={css.progressline}
@@ -51,7 +52,6 @@ const WaterProgressBar = () => {
           />
         </div>
       </div>
-
       <ul className={css.progressBarList}>
         <li>0%</li>
         <li>50%</li>
