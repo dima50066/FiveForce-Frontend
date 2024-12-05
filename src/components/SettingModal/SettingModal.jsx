@@ -30,7 +30,7 @@ const SettingModal = () => {
       .nullable()
       .min(0, 'Weight must be at least 0 kg')
       .max(300, 'Weight must be less than 300 kg'),
-    activeHours: Yup.number()
+    activeTime: Yup.number()
       .transform((value, originalValue) =>
         originalValue === '' ? null : value
       )
@@ -57,9 +57,9 @@ const SettingModal = () => {
       name: user?.name || '',
       email: user?.email || '',
       weight: user?.weight || '0',
-      activeHours: user?.activeHours || '0',
+      activeTime: user?.activeTime || '0',
       waterIntake: user?.dailyNorm || '1.5',
-      gender: user?.gender || 'woman',
+      gender: user?.gender ?? 'woman',
       avatar: null,
     },
   });
@@ -74,7 +74,7 @@ const SettingModal = () => {
     formData.append('name', data.name);
     formData.append('email', data.email);
     formData.append('weight', data.weight);
-    formData.append('activeTime', data.activeHours);
+    formData.append('activeTime', data.activeTime);
     formData.append('dailyNorm', data.waterIntake * 1000);
     formData.append('gender', data.gender);
 
@@ -109,29 +109,31 @@ const SettingModal = () => {
   const radioIdWoman = useId();
   const radioIdMan = useId();
   const fileInputId = useId();
-  
+
   const [waterIntake, setWaterIntake] = useState(
     user?.dailyNorm ? user.dailyNorm / 1000 : 1.5
   );
-  const calculateWaterIntake = (weight, activeHours, gender) => {
-    let intake;
+  const calculateWaterIntake = (weight = 0, activeTime = 0, gender = 'woman') => {
+      
+    if (!weight && !activeTime) {
+      return 1.5;
+    }
+    let intake = 1.5;
     if (gender === 'woman') {
-      intake = weight * 0.03 + activeHours * 0.4;
+      intake = weight * 0.03 + activeTime * 0.4;
     } else if (gender === 'man') {
-      intake = weight * 0.04 + activeHours * 0.6;
-    } else {
-      intake = 0;
+      intake = weight * 0.04 + activeTime * 0.6;
     }
     return Math.min(intake, 5);
   };
 
   const handleInputChange = () => {
     const weight = parseFloat(getValues('weight')) || 0;
-    const activeHours = parseFloat(getValues('activeHours')) || 0;
+    const activeTime = parseFloat(getValues('activeTime')) || 0;
     const gender = getValues('gender') || 'woman';
     const calculatedWaterIntake = calculateWaterIntake(
       weight,
-      activeHours,
+      activeTime,
       gender
     );
     setWaterIntake(calculatedWaterIntake.toFixed(2));
@@ -172,6 +174,7 @@ const SettingModal = () => {
             type="radio"
             name="gender"
             value="woman"
+           checked={getValues('gender') === 'woman'}
             {...register('gender')}
             onChange={e => {
               setValue('gender', e.target.value);
@@ -292,23 +295,23 @@ const SettingModal = () => {
                 The time of active participation in sports:
               </label>
               <Controller
-                name="activeHours"
+                name="activeTime"
                 control={control}
                 render={({ field }) => (
                   <input
                     type="number"
                     id={timeId}
-                    className={`${css.input} ${errors.activeHours ? css.errorInput : ''}`}
+                    className={`${css.input} ${errors.activeTime ? css.errorInput : ''}`}
                     {...field}
                     onChange={e => {
-                      setValue('activeHours', e.target.value);
+                      setValue('activeTime', e.target.value);
                       handleInputChange();
                     }}
                   />
                 )}
               />
-              {errors.activeHours && (
-                <span className={css.error}>{errors.activeHours.message}</span>
+              {errors.activeTime && (
+                <span className={css.error}>{errors.activeTime.message}</span>
               )}
             </div>
           </div>
