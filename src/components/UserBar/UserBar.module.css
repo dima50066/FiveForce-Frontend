@@ -22,26 +22,25 @@
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   padding-bottom: 0;
-
   overflow-y: auto;
-
 }
 
 @media screen and (min-width: 768px) {
   .wrapper {
     top: 64px;
     max-width: 650px;
-   
   }
 
-    .modal.modalForm {
+  .modal.modalForm {
     max-height: calc(100vh - 64px);
-}}
+  }
+}
 
 @media screen and (min-width: 1440px) {
   .wrapper {
     max-width: 920px;
-  }}
+  }
+}
 
 .userBar {
   display: flex;
