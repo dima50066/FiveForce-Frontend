@@ -11,12 +11,13 @@ import { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../redux/user/operations';
 import { selectIsRefreshing } from '../redux/user/selectors';
-import SettingModal from './SettingModal/SettingModal';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import WaterLoader from '../shared/Loaders/WaterLoader';
 import { getDayWater } from '../redux/water/operations';
 import { setActiveDay } from '../redux/water/slice';
 import { selectActiveDay } from '../redux/water/selectors';
+import { refreshSession } from '../redux/user/operations';
+import { clearAuthHeader, setAuthHeader } from '../utils/axiosConfig';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -53,7 +54,23 @@ const App = () => {
   }, [activeDay, dispatch]);
 
   useEffect(() => {
-    dispatch(fetchUser());
+    const token = localStorage.getItem('token');
+    if (token && !isRefreshing) {
+      setAuthHeader(token); // Встановлюємо токен у заголовки
+      dispatch(fetchUser());
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    const handleSessionRefresh = async () => {
+      try {
+        await dispatch(refreshSession()).unwrap();
+      } catch {
+        clearAuthHeader();
+      }
+    };
+
+    handleSessionRefresh();
   }, [dispatch]);
 
   return (
