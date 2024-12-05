@@ -9,7 +9,7 @@ function GoogleAuthBtn() {
  <motion.a
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 1.01 }}
-        href="https://five-force-aqua-track.vercel.app/users/get-oauth-url"
+        href="https://fiveforce-aquatrack.onrender.com/users/get-oauth-url"
         className={css.btn}
       >
         <img src={google} className={css.icon}/>
