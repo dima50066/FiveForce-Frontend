@@ -14,10 +14,14 @@ import { selectIsRefreshing } from '../redux/user/selectors';
 import SettingModal from './SettingModal/SettingModal';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import WaterLoader from '../shared/Loaders/WaterLoader';
+import { getDayWater } from '../redux/water/operations';
+import { setActiveDay } from '../redux/water/slice';
+import { selectActiveDay } from '../redux/water/selectors';
 
 const App = () => {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
+  const activeDay = useSelector(selectActiveDay);
 
   useEffect(() => {
     const removeLoader = () => {
@@ -30,6 +34,23 @@ const App = () => {
 
     removeLoader();
   }, []);
+
+  useEffect(() => {
+    if (!activeDay) {
+      const now = new Date();
+      const currentDate = now.toISOString();
+      dispatch(setActiveDay(currentDate));
+    }
+  }, [dispatch, activeDay]);
+
+  useEffect(() => {
+    if (activeDay) {
+      const timestamp = Date.parse(activeDay);
+      if (!isNaN(timestamp)) {
+        dispatch(getDayWater(timestamp));
+      }
+    }
+  }, [activeDay, dispatch]);
 
   useEffect(() => {
     dispatch(fetchUser());
