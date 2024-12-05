@@ -1,12 +1,15 @@
 import React from 'react';
 import css from './DeleteModal.module.css';
+import { toast } from 'react-hot-toast';
 
 const DeleteModal = ({ onDelete, onCancel }) => {
   const handleDelete = async () => {
     try {
       await onDelete();
+      toast.success('Water successfully deleted!');
     } catch (error) {
       console.error('Delete failed:', error.message || error);
+      toast.error('Failed to delete water. Please try again.');
     }
   };
 

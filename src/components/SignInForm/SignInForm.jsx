@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { login } from '../../redux/user/operations';
 import css from './SignInForm.module.css';
 import Icon from '../../shared/Icons/Icon';

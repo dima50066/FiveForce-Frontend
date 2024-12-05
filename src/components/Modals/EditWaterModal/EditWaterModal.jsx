@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import css from './EditWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
+import { toast } from 'react-hot-toast';
 
 const EditWaterModal = ({ currentWater, id, onSave }) => {
   const [waterAmount, setWaterAmount] = useState(currentWater?.amount || 250);
@@ -45,6 +46,7 @@ const EditWaterModal = ({ currentWater, id, onSave }) => {
     setTimeError(false);
 
     onSave({ id, updatedWater: { amount: waterAmount, time } });
+    toast.success('Water entry updated successfully!');
   };
 
   const handleInputChange = e => {
@@ -53,6 +55,7 @@ const EditWaterModal = ({ currentWater, id, onSave }) => {
     if (!value || value < 0) {
       setWaterAmount(0);
       setError('Value must be a positive number');
+      
       return;
     }
 

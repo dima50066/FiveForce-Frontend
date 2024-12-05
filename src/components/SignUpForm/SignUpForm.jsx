@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { register } from '../../redux/user/operations';
 import { selectIsLoading, selectAuthError } from '../../redux/user/selectors'; // Підключення селекторів
 import css from './SignUpForm.module.css';

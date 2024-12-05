@@ -8,25 +8,21 @@ import Icon from '../../shared/Icons/Icon.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/user/operations.js';
 import { selectUserAvatar } from '../../redux/user/selectors.js';
+import { toast } from 'react-hot-toast';
 
-
-
-  
 const SettingModal = ({ isOpen, onClose }) => {
-  
   if (!isOpen) {
-    return null; 
+    return null;
   }
 
   const dispatch = useDispatch();
   const fileInputRef = useRef(null);
-  
+
   const userAvatar = useSelector(selectUserAvatar);
   const user = useSelector(state => state.auth.user);
   const [preview, setPreview] = useState(userAvatar || null);
   const [isLoading, setIsLoading] = useState(false);
 
-  
   const validationSchema = Yup.object({
     name: Yup.string()
       .required('Name is required')
@@ -50,9 +46,9 @@ const SettingModal = ({ isOpen, onClose }) => {
       .required('Water intake is required')
       .min(1.5, 'Cannot be less than 1.5')
       .max(5, 'Cannot be more than 5 liters')
-    .transform((value, originalValue) =>
-    originalValue === '' ? 1.5 : parseFloat(value)
-  ),
+      .transform((value, originalValue) =>
+        originalValue === '' ? 1.5 : parseFloat(value)
+      ),
     gender: Yup.string().required('Gender is required'),
   });
 
@@ -92,18 +88,14 @@ const SettingModal = ({ isOpen, onClose }) => {
 
     try {
       const result = await dispatch(updateUser(formData)).unwrap();
-      console.log('Form submitted successfully:', result);
-      alert('Дані успішно збережено!');
+      toast.success('Data sent successfully!');
       onClose();
     } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('Сталася помилка під час відправки даних.');
+      toast.error('Oops! Something went wrong!');
     } finally {
       setIsLoading(false);
     }
   };
-
- 
 
   const handleFileChange = event => {
     const file = event.target.files[0];
@@ -122,11 +114,10 @@ const SettingModal = ({ isOpen, onClose }) => {
   const radioIdWoman = useId();
   const radioIdMan = useId();
   const fileInputId = useId();
- 
+
   /* All with calculating water */
 
-
-useEffect(() => {
+  useEffect(() => {
     if (isOpen) {
       const initialWaterIntake = calculateWaterIntake(
         user?.weight || 0,
@@ -136,15 +127,17 @@ useEffect(() => {
       setWaterIntake(Math.max(initialWaterIntake, 1.5).toFixed(2));
       setValue('waterIntake', Math.max(initialWaterIntake, 1.5).toFixed(2));
     }
-}, [isOpen, user, setValue]);
+  }, [isOpen, user, setValue]);
 
   const [waterIntake, setWaterIntake] = useState(
     user?.dailyNorm ? user.dailyNorm / 1000 : 1.5
   );
 
-
-  const calculateWaterIntake = (weight = 0, activeTime = 0, gender = 'woman') => {
-   
+  const calculateWaterIntake = (
+    weight = 0,
+    activeTime = 0,
+    gender = 'woman'
+  ) => {
     let intake = 1.5;
     if (gender === 'woman') {
       intake = weight * 0.03 + activeTime * 0.4;
@@ -163,7 +156,7 @@ useEffect(() => {
       activeTime,
       gender
     );
-      calculatedWaterIntake = Math.max(calculatedWaterIntake, 1.5);
+    calculatedWaterIntake = Math.max(calculatedWaterIntake, 1.5);
     setWaterIntake(calculatedWaterIntake.toFixed(2));
     setValue('waterIntake', calculatedWaterIntake.toFixed(2));
   };
@@ -202,7 +195,7 @@ useEffect(() => {
             type="radio"
             name="gender"
             value="woman"
-           checked={getValues('gender') === 'woman'}
+            checked={getValues('gender') === 'woman'}
             {...register('gender')}
             onChange={e => {
               setValue('gender', e.target.value);

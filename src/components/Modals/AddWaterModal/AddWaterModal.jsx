@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import css from './AddWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
+import { toast } from 'react-hot-toast';
 
 const AddWaterModal = ({ onSave }) => {
   const [waterAmount, setWaterAmount] = useState(50);
@@ -52,6 +53,7 @@ const AddWaterModal = ({ onSave }) => {
     );
 
     onSave({ amount: waterAmount, time: date });
+      toast.success('Water intake successfully saved!');
   };
 
   return (
