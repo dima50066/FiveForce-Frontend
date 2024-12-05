@@ -11,12 +11,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 250px;
 }
 
 .date {
   font-size: 24px;
   font-weight: bold;
   color: var(--primary-color);
+  margin-right: auto; 
 }
 
 .waterListContainer {
@@ -25,4 +28,21 @@
   padding: 10px;
   background-color: var(--light-background);
   border-radius: 10px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column; 
+    align-items: flex-start; 
+  }
+
+  .date {
+    font-size: 20px;
+    margin-right: 0; 
+  }
+
+  .waterListContainer {
+    max-height: 200px;
+  }
 }

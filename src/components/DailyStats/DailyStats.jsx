@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import css from './DailyStats.module.css';
 import WaterList from '../WaterList/WaterList';
-import AddWaterBtn from '../AddWaterBtn/AddWaterBtn';
+import AddWaterRightBtn from '../AddWaterRightBtn/AddWaterRightBtn';
 import Modal from '../../shared/Modal/Modal';
 import EditWaterModal from '../Modals/EditWaterModal/EditWaterModal';
 import DeleteModal from '../Modals/DeleteModal/DeleteModal';
@@ -59,7 +59,7 @@ export default function DailyStats() {
             month: 'long',
           })}
         </h2>
-        <AddWaterBtn onAddWater={() => {}} />
+        <AddWaterRightBtn onAddWater={() => {}} />
       </div>
       <div className={css.waterListContainer}>
         <WaterList

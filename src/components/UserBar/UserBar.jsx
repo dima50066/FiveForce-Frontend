@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Popover } from 'react-tiny-popover';
 import css from './UserBar.module.css';
-import { selectUserName, selectUserAvatar } from '../../redux/user/selectors';
+import { selectUserName } from '../../redux/user/selectors';
 import Modal from '../../shared/Modal/Modal.jsx';
 import SettingModal from '../SettingModal/SettingModal';
 import LogModal from '../Modals/LogModal/LogModal';
@@ -12,8 +12,8 @@ export default function UserBar() {
   const [isSettingModalOpen, setIsSettingModalOpen] = useState(false);
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
 
-  const userName = useSelector(selectUserName);
-  const userAvatar = useSelector(selectUserAvatar);
+  const userName = useSelector(selectUserName) || 'Nadia';
+  const userAvatar = 'https://via.placeholder.com/40'; //  аватар
 
   const togglePopover = () => {
     setIsPopoverOpen(!isPopoverOpen);
