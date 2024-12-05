@@ -9,15 +9,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/user/operations.js';
 import { selectUserAvatar } from '../../redux/user/selectors.js';
 
-const SettingModal = () => {
-  const userAvatar = useSelector(selectUserAvatar);
-  const [preview, setPreview] = useState(userAvatar || null);
 
+
+  
+const SettingModal = ({ isOpen, onClose }) => {
+  
+  if (!isOpen) {
+    return null; 
+  }
+
+  const dispatch = useDispatch();
+  const fileInputRef = useRef(null);
+  
+  const userAvatar = useSelector(selectUserAvatar);
+  const user = useSelector(state => state.auth.user);
+  const [preview, setPreview] = useState(userAvatar || null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const user = useSelector(state => state.auth.user);
-  const dispatch = useDispatch();
-
+  
   const validationSchema = Yup.object({
     name: Yup.string()
       .required('Name is required')
@@ -40,7 +49,10 @@ const SettingModal = () => {
     waterIntake: Yup.number()
       .required('Water intake is required')
       .min(1.5, 'Cannot be less than 1.5')
-      .max(5, 'Cannot be more than 5 liters'),
+      .max(5, 'Cannot be more than 5 liters')
+    .transform((value, originalValue) =>
+    originalValue === '' ? 1.5 : parseFloat(value)
+  ),
     gender: Yup.string().required('Gender is required'),
   });
 
@@ -56,8 +68,8 @@ const SettingModal = () => {
     defaultValues: {
       name: user?.name || '',
       email: user?.email || '',
-      weight: user?.weight || '0',
-      activeTime: user?.activeTime || '0',
+      weight: user?.weight || null,
+      activeTime: user?.activeTime || null,
       waterIntake: user?.dailyNorm || '1.5',
       gender: user?.gender ?? 'woman',
       avatar: null,
@@ -82,6 +94,7 @@ const SettingModal = () => {
       const result = await dispatch(updateUser(formData)).unwrap();
       console.log('Form submitted successfully:', result);
       alert('Дані успішно збережено!');
+      onClose();
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Сталася помилка під час відправки даних.');
@@ -90,7 +103,7 @@ const SettingModal = () => {
     }
   };
 
-  const fileInputRef = useRef(null);
+ 
 
   const handleFileChange = event => {
     const file = event.target.files[0];
@@ -109,15 +122,29 @@ const SettingModal = () => {
   const radioIdWoman = useId();
   const radioIdMan = useId();
   const fileInputId = useId();
+ 
+  /* All with calculating water */
+
+
+useEffect(() => {
+    if (isOpen) {
+      const initialWaterIntake = calculateWaterIntake(
+        user?.weight || 0,
+        user?.activeTime || 0,
+        user?.gender || 'woman'
+      );
+      setWaterIntake(Math.max(initialWaterIntake, 1.5).toFixed(2));
+      setValue('waterIntake', Math.max(initialWaterIntake, 1.5).toFixed(2));
+    }
+}, [isOpen, user, setValue]);
 
   const [waterIntake, setWaterIntake] = useState(
     user?.dailyNorm ? user.dailyNorm / 1000 : 1.5
   );
+
+
   const calculateWaterIntake = (weight = 0, activeTime = 0, gender = 'woman') => {
-      
-    if (!weight && !activeTime) {
-      return 1.5;
-    }
+   
     let intake = 1.5;
     if (gender === 'woman') {
       intake = weight * 0.03 + activeTime * 0.4;
@@ -131,11 +158,12 @@ const SettingModal = () => {
     const weight = parseFloat(getValues('weight')) || 0;
     const activeTime = parseFloat(getValues('activeTime')) || 0;
     const gender = getValues('gender') || 'woman';
-    const calculatedWaterIntake = calculateWaterIntake(
+    let calculatedWaterIntake = calculateWaterIntake(
       weight,
       activeTime,
       gender
     );
+      calculatedWaterIntake = Math.max(calculatedWaterIntake, 1.5);
     setWaterIntake(calculatedWaterIntake.toFixed(2));
     setValue('waterIntake', calculatedWaterIntake.toFixed(2));
   };
