@@ -19,6 +19,7 @@ import { selectActiveDay } from '../redux/water/selectors';
 import { refreshSession } from '../redux/user/operations';
 import { clearAuthHeader, setAuthHeader } from '../utils/axiosConfig';
 
+
 const App = () => {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
