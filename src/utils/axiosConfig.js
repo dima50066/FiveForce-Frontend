@@ -4,6 +4,7 @@ const API_URL = 'https://fiveforce-aquatrack.onrender.com';
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
+  withCredentials: true,
 });
 
 const getToken = () => localStorage.getItem('token');

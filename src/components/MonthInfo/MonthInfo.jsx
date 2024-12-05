@@ -13,8 +13,11 @@ export default function MonthInfo() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMonthWater(new Date(date).getTime()));
-  }, [dispatch, date]);
+    const timestamp = new Date(date).getTime();
+    if (!daysList.some(day => day.timestamp === timestamp)) {
+      dispatch(getMonthWater(timestamp));
+    }
+  }, [dispatch, date, daysList]);
 
   const handlePrevMonth = () => {
     setDate(prevDate => {
