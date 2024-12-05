@@ -278,15 +278,6 @@ input:hover {
 }
 
 @media screen and (min-width: 768px) {
-  .wrapper {
-      
-      top: 64px;
-          max-width: 650px;
-    }
-  
-    .modalForm {
-      max-height: calc(100vh - 64px);
-    }
   .form {
       min-width: 568px;
     }
@@ -356,10 +347,7 @@ input:hover {
   
 }
 @media screen and (min-width: 1440px) {
-  .wrapper {
   
-      max-width: 920px;
-    }
     .coverForLaptop {
     display: flex;
       flex-direction: column;
