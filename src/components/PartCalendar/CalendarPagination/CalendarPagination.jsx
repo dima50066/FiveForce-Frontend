@@ -40,13 +40,13 @@ export default function PaginationControls({
             disabled={isPreviousDisabled}
             onClick={onPrevious}
           >
-            <FaAngleLeft />
+            <FaAngleLeft fill="#323f47"/>
           </button>
           <p className={css.title}>
             {monthNames[currentDate.getMonth()]}, {currentDate.getFullYear()}
           </p>
           <button className={css.navigationButton} onClick={onNext}>
-            <FaAngleRight />
+            <FaAngleRight fill="#323f47" />
           </button>
         </div>
       )}

@@ -11,7 +11,7 @@ export default function UserPanel() {
 
   return (
     <div className={css.userPanel}>
-      <p>
+      <p className={css.welcome}>
         {t('Hello')}, <span className={css.userName}>{userName || t('Guest')}</span>!
       </p>
       <UserBar />
