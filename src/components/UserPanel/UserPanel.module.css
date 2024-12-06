@@ -47,7 +47,7 @@
 /* Адаптивность */
 @media screen and (min-width: 768px) {
   .userPanel {
-    align-items: flex-start;
+  
     gap: 10px;
     justify-content: space-between;
   }
