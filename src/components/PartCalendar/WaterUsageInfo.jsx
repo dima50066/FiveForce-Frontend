@@ -5,10 +5,12 @@ import { getMonthWater } from '../../redux/water/operations.js';
 import Calendar from './Calendar/Calendar';
 import CalendarPagination from './CalendarPagination/CalendarPagination';
 import clsx from 'clsx';
-import css from './MonthInfo.module.css';
+import css from './WaterUsageInfo.module.css';
+import Statistics from '../Statistics/Statistics';
 
 export default function WaterUsageInfo() {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showStatistics, setShowStatistics] = useState(false); // Додаємо стан для статистики
   const dailyWaterData = useSelector(selectMonthWater);
   const dispatch = useDispatch();
 
@@ -16,8 +18,6 @@ export default function WaterUsageInfo() {
     const timestamp = new Date(selectedDate).getTime();
     dispatch(getMonthWater(timestamp));
   }, [dispatch, selectedDate]);
-
-  useEffect(() => {}, [dailyWaterData]);
 
   const handlePreviousMonth = () => {
     setSelectedDate(prevDate => {
@@ -57,11 +57,16 @@ export default function WaterUsageInfo() {
         <CalendarPagination
           onPrevious={handlePreviousMonth}
           onNext={handleNextMonth}
-          monthNames={monthNames}
           currentDate={selectedDate}
+          isStatistics={showStatistics}
+          toggleStatistics={() => setShowStatistics(prev => !prev)} // Передаємо функцію перемикання
         />
       </div>
-      <Calendar daysData={dailyWaterData} />
+      {showStatistics ? (
+        <Statistics /> // Рендеримо статистику
+      ) : (
+        <Calendar daysData={dailyWaterData} /> // Рендеримо календар
+      )}
     </div>
   );
 }
