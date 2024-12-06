@@ -17,12 +17,18 @@ const Statistics = () => {
     date: new Date(item.dateParam).getDate(),
     water: item.totalDayWater,
   }));
-
+const maxValue = Math.ceil(
+    data.reduce((max, item) => Math.max(max, item.water), 0) / 1000
+  );
+  const ticks = Array.from({ length: maxValue * 2 + 1 }, (_, i) => i * 0.5 * 1000);
   return (
     <ResponsiveContainer width="100%" height={300}>
       <AreaChart
         data={data}
-        margin={{ top: 16, right: 16, bottom: 16, left: 16 }}
+        margin={{
+          top: 47, right: 16, bottom: 0, left: 0
+          
+         }}
       >
         <defs>
           <linearGradient id="colorWater" x1="0" y1="0" x2="0" y2="1">
@@ -31,10 +37,16 @@ const Statistics = () => {
           </linearGradient>
         </defs>
         {/* Оновлюємо dataKey */}
-        <XAxis dataKey="date" />
+        <XAxis dataKey="date"  tick={{ fontSize: 14, fill: '#323f47' }} axisLine={false}
+  tickLine={false} />
         <YAxis
-          ticks={[0, 500, 1000, 1500, 2000, 2500]}
           domain={[0, 'dataMax']}
+          ticks={ticks}
+          tickFormatter={value => `${value / 1000} L`}
+          tick={{ fontSize: 14, fill: '#323f47' }}
+          axisLine={false} 
+          
+  tickLine={false}
         />
         <Tooltip
           content={({ payload }) => {

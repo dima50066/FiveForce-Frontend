@@ -52,6 +52,11 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
     e.preventDefault();
 
     try {
+      const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+      if (!timeRegex.test(time)) {
+    toast.error('Invalid time format. Please use HH:mm.');
+    return;
+  }
       const [hours, minutes] = time.split(':').map(Number);
       const currentDate = new Date();
       const updatedTime = new Date(

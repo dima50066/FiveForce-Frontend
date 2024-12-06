@@ -36,6 +36,7 @@ const AddWaterModal = ({ onSave }) => {
 
     if (!/^([01]\d|2[0-3]):([0-5]\d)$/.test(time)) {
       setTimeError(true);
+       toast.error('Invalid time format. Please use HH:mm.');
       return;
     }
 
