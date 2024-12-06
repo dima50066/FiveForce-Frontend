@@ -22,12 +22,12 @@ const AddWaterModal = ({ onSave }) => {
   }, []);
 
   const handleDecrease = () => {
-    const newAmount = Math.max(waterAmount - 50, 50);
+    const newAmount = Math.max(waterAmount - 50, 10);
     setWaterAmount(newAmount);
   };
 
   const handleIncrease = () => {
-    const newAmount = Math.min(waterAmount + 50, 1500);
+    const newAmount = Math.min(waterAmount + 50, 3000);
     setWaterAmount(newAmount);
   };
 
@@ -36,12 +36,13 @@ const AddWaterModal = ({ onSave }) => {
 
     if (!/^([01]\d|2[0-3]):([0-5]\d)$/.test(time)) {
       setTimeError(true);
-       toast.error('Invalid time format. Please use HH:mm.');
+      toast.error('Invalid time format. Please use HH:mm.');
       return;
     }
 
-    if (waterAmount < 50 || waterAmount > 1500) {
+    if (waterAmount < 10 || waterAmount > 3000) {
       setError(true);
+      toast.error(t('Value must be between 10 and 3000'));
       return;
     }
 
@@ -59,21 +60,47 @@ const AddWaterModal = ({ onSave }) => {
     toast.success(t('Water intake successfully saved!'));
   };
 
+  const handleWaterAmountChange = e => {
+    const value = e.target.value;
+
+    if (value === '') {
+      setWaterAmount('');
+      setError(false);
+      return;
+    }
+
+    const numericValue = Number(value);
+    if (isNaN(numericValue)) {
+      setError(true);
+    } else {
+      setWaterAmount(numericValue);
+      setError(numericValue < 10 || numericValue > 3000);
+    }
+  };
+
+  const handleBlur = () => {
+    if (waterAmount < 10 || waterAmount > 3000) {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  };
+
   return (
     <div className={css.container}>
       <form className={css.form} onSubmit={handleSubmit}>
         <h1 className={css.header}>{t('Add water')}</h1>
         <p className={css.text}>{t('Choose a value')}</p>
-        <p className={css.secondaryText}>{t('Amount of water:')}</p>{' '}
+        <p className={css.secondaryText}>{t('Amount of water:')}</p>
         <div className={css.counterContainer}>
           <button
             className={clsx(
               css.counterBtn,
-              waterAmount <= 50 && css.decrementBtn
+              waterAmount <= 10 && css.decrementBtn
             )}
             type="button"
             onClick={handleDecrease}
-            disabled={waterAmount <= 50}
+            disabled={waterAmount <= 10}
           >
             <Icon
               className={css.iconMinus}
@@ -86,11 +113,11 @@ const AddWaterModal = ({ onSave }) => {
           <button
             className={clsx(
               css.counterBtn,
-              waterAmount >= 1500 && css.incrementBtn
+              waterAmount >= 3000 && css.incrementBtn
             )}
             type="button"
             onClick={handleIncrease}
-            disabled={waterAmount >= 1500}
+            disabled={waterAmount >= 3000}
           >
             <Icon
               className={css.iconPlus}
@@ -122,25 +149,23 @@ const AddWaterModal = ({ onSave }) => {
           {t('Enter the value of the water used:')}
           <input
             className={clsx(css.baseInput, error && css.errorInput)}
-            type="number"
+            type="text"
             value={waterAmount}
-            onChange={e => {
-              const value = Number(e.target.value);
-              if (value < 50 || value > 1500) {
-                setError(true);
-              } else {
-                setError(false);
-                setWaterAmount(value);
-              }
-            }}
+            onChange={handleWaterAmountChange}
+            onBlur={handleBlur}
+            placeholder={t('Enter value')}
           />
           {error && (
             <span className={css.error}>
-              {t('Value must be between 50 and 1500')}
+              {t('Value must be between 10 and 3000')}
             </span>
           )}
         </label>
-        <button className={css.saveBtn} type="submit">
+        <button
+          className={css.saveBtn}
+          type="submit"
+          disabled={error || waterAmount === ''}
+        >
           {t('Save')}
         </button>
       </form>

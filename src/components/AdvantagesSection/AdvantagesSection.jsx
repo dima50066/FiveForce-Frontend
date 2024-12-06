@@ -20,7 +20,7 @@ import Customers2 from '../../shared/Images/Customers/customers2-tabl-desc.png';
 import Customers2_2x from '../../shared/Images/Customers/customers2-tabl-desc-2x.png';
 import Customers3 from '../../shared/Images/Customers/customers3-tabl-desc.png';
 import Customers3_2x from '../../shared/Images/Customers/customers3-tabl-desc-2x.png';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const AdvantagesSection = () => {
   const { t } = useTranslation();
@@ -46,7 +46,7 @@ const AdvantagesSection = () => {
                 srcSet={`${Customers1_2x} 2x, ${Customers1} 1x`}
                 media="(min-width: 768px)"
               />
-              <img src={Customers1} />
+              <img src={Customers1} alt="Customers1" />
             </picture>
           </li>
 
@@ -60,7 +60,7 @@ const AdvantagesSection = () => {
                 srcSet={`${Customers2_2x} 2x, ${Customers2} 1x`}
                 media="(min-width: 768px)"
               />
-              <img src={Customers2} />
+              <img src={Customers2} alt="Customers2" />
             </picture>
           </li>
 
@@ -74,7 +74,7 @@ const AdvantagesSection = () => {
                 srcSet={`${Customers3_2x} 2x, ${Customers3} 1x`}
                 media="(min-width: 768px)"
               />
-              <img src={Customers3} />
+              <img src={Customers3} alt="Customers3" />
             </picture>
           </li>
         </ul>
@@ -92,7 +92,9 @@ const AdvantagesSection = () => {
           {t('Habit drive')}
         </span>
         <p className={css.advantagesSectionView}>{t('View statistics')}</p>
-        <p className={css.advantagesSectionPersonal}>{t('Personal rate setting')}</p>
+        <p className={css.advantagesSectionPersonal}>
+          {t('Personal rate setting')}
+        </p>
       </div>
     </section>
   );

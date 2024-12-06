@@ -3,14 +3,14 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import css from './CalendarPagination.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 export default function PaginationControls({
   onNext,
   onPrevious,
   currentDate,
   isStatistics,
-  toggleStatistics, // Отримуємо функцію для перемикання
+  toggleStatistics,
 }) {
   const isPreviousDisabled =
     new Date(currentDate).getTime() <
@@ -53,7 +53,7 @@ export default function PaginationControls({
       <button
         className={css.toggleButton}
         type="button"
-        onClick={toggleStatistics} // Використовуємо функцію перемикання
+        onClick={toggleStatistics}
       >
         <Icon
           className={clsx(css.icon, isStatistics && css.iconActive)}
