@@ -14,7 +14,6 @@ const AddWaterRightBtn = () => {
 
   const openModal = () => {
     if (new Date(activeDay).getTime() > new Date().getTime()) {
-      alert("You can't drink water in the future");
       return;
     }
     setIsModalOpen(true);
@@ -33,14 +32,16 @@ const AddWaterRightBtn = () => {
       .then(() => {
         closeModal();
       })
-      .catch(error => {
-        alert(error || 'Failed to add water');
-      });
+      .catch(() => {});
   };
 
   return (
     <>
-      <button className={styles.addWaterRightBtn} type="button" onClick={openModal}>
+      <button
+        className={styles.addWaterRightBtn}
+        type="button"
+        onClick={openModal}
+      >
         <span className={styles.iconPlus}>+</span>
         Add water
       </button>

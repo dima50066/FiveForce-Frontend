@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './EditWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
+import { toast } from 'react-hot-toast';
 
 const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
   const [waterAmount, setWaterAmount] = useState(currentWater?.amount || 250);
@@ -48,20 +49,26 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    const [hours, minutes] = time.split(':').map(Number);
-    const currentDate = new Date();
-    const updatedTime = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDate(),
-      hours,
-      minutes
-    ).getTime();
+    try {
+      const [hours, minutes] = time.split(':').map(Number);
+      const currentDate = new Date();
+      const updatedTime = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+        hours,
+        minutes
+      ).getTime();
 
-    onSave({
-      id: waterId,
-      updatedWater: { amount: waterAmount, date: updatedTime },
-    });
+      onSave({
+        id: waterId,
+        updatedWater: { amount: waterAmount, date: updatedTime },
+      });
+
+      toast.success('Water entry updated successfully!');
+    } catch (error) {
+      toast.error('Failed to update water entry. Please try again.');
+    }
   };
 
   return (

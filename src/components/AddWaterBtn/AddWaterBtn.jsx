@@ -15,7 +15,6 @@ const AddWaterBtn = () => {
 
   const openModal = () => {
     if (new Date(activeDay).getTime() > new Date().getTime()) {
-      alert("You can't drink water in the future");
       return;
     }
     setIsModalOpen(true);
@@ -24,9 +23,16 @@ const AddWaterBtn = () => {
   const closeModal = () => setIsModalOpen(false);
 
   const handleSave = data => {
+    const newWaterDate = new Date(data.time).getTime();
+    const currentDate = new Date().getTime();
+
+    if (newWaterDate > currentDate) {
+      return;
+    }
+
     const newWater = {
       amount: data.amount,
-      date: new Date(data.time).getTime(),
+      date: newWaterDate,
     };
 
     dispatch(addWater(newWater))
@@ -34,9 +40,7 @@ const AddWaterBtn = () => {
       .then(() => {
         closeModal();
       })
-      .catch(error => {
-        alert(error || 'Failed to add water');
-      });
+      .catch(() => {});
   };
 
   return (
