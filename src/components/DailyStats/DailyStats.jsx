@@ -60,30 +60,7 @@ export default function DailyStats() {
         </h2>
         <AddWaterRightBtn onAddWater={() => {}} />
       </div>
-      <div className={css.waterListContainer}>
-        <WaterList
-          waterData={dayWater}
-          onDelete={openDeleteModal}
-          onEdit={openEditModal}
-        />
-      </div>
-
-      <Modal isOpen={isEditModalOpen} onClose={closeModal}>
-        {currentItem && (
-          <EditWaterModal
-            currentWater={{
-              amount: currentItem.amount,
-              time: currentItem.time,
-            }}
-            id={currentItem.id}
-            onSave={handleSave}
-          />
-        )}
-      </Modal>
-
-      <Modal isOpen={isDeleteModalOpen} onClose={closeModal}>
-        <DeleteModal onDelete={handleDelete} onCancel={closeModal} />
-      </Modal>
+      <WaterList />
     </div>
   );
 }

@@ -1,16 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import css from './EditWaterModal.module.css';
+import styles from './EditWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
 
-const EditWaterModal = ({ currentWater, id, onSave }) => {
+const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
   const [waterAmount, setWaterAmount] = useState(currentWater?.amount || 250);
-  const [time, setTime] = useState(currentWater?.time || '07:00');
+  const [time, setTime] = useState(
+    currentWater
+      ? new Date(currentWater.date).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
+      : '07:00'
+  );
 
   useEffect(() => {
     if (currentWater) {
       setWaterAmount(currentWater.amount);
-      setTime(currentWater.time);
+      setTime(
+        new Date(currentWater.date).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
+      );
     }
   }, [currentWater]);
 
@@ -27,7 +39,10 @@ const EditWaterModal = ({ currentWater, id, onSave }) => {
   };
 
   const handleInputChange = e => {
-    setWaterAmount(Number(e.target.value));
+    const value = Number(e.target.value);
+    if (value >= 50 && value <= 1500) {
+      setWaterAmount(value);
+    }
   };
 
   const handleSubmit = e => {
@@ -43,43 +58,46 @@ const EditWaterModal = ({ currentWater, id, onSave }) => {
       minutes
     ).getTime();
 
-    onSave({ id, updatedWater: { amount: waterAmount, date: updatedTime } });
+    onSave({
+      id: waterId,
+      updatedWater: { amount: waterAmount, date: updatedTime },
+    });
   };
 
   return (
-    <div className={css.container}>
-      <form className={css.form} onSubmit={handleSubmit}>
-        <h1 className={css.header}>Edit the entered amount of water</h1>
+    <div className={styles['container']}>
+      <form className={styles['form']} onSubmit={handleSubmit}>
+        <h1 className={styles['header']}>Edit the entered amount of water</h1>
 
-        <div className={css.counterContainer}>
+        <div className={styles['counterContainer']}>
           <button
             className={clsx(
-              css.counterBtn,
-              waterAmount <= 50 && css.decrementBtn
+              styles['counterBtn'],
+              waterAmount <= 50 && styles['decrementBtn']
             )}
             type="button"
             onClick={handleDecrease}
             disabled={waterAmount <= 50}
           >
             <Icon
-              className={css.iconMinus}
+              className={styles['iconMinus']}
               width="20"
               height="20"
               id="icon-minus"
             />
           </button>
-          <p className={css.count}>{waterAmount} ml</p>
+          <p className={styles['count']}>{waterAmount} ml</p>
           <button
             className={clsx(
-              css.counterBtn,
-              waterAmount >= 1500 && css.incrementBtn
+              styles['counterBtn'],
+              waterAmount >= 1500 && styles['incrementBtn']
             )}
             type="button"
             onClick={handleIncrease}
             disabled={waterAmount >= 1500}
           >
             <Icon
-              className={css.iconPlus}
+              className={styles['iconPlus']}
               width="20"
               height="20"
               id="icon-plus"
@@ -87,10 +105,10 @@ const EditWaterModal = ({ currentWater, id, onSave }) => {
           </button>
         </div>
 
-        <label className={css.baseLabel}>
+        <label className={styles['baseLabel']}>
           Recording time:
           <input
-            className={css.baseInput}
+            className={styles['baseInput']}
             value={time}
             onChange={handleTimeChange}
             maxLength="5"
@@ -98,19 +116,23 @@ const EditWaterModal = ({ currentWater, id, onSave }) => {
           />
         </label>
 
-        <label className={css.secondaryLabel}>
+        <label className={styles['secondaryLabel']}>
           Enter the value of the water used:
           <input
-            className={css.baseInput}
+            className={styles['baseInput']}
             type="number"
             value={waterAmount}
             onChange={handleInputChange}
+            min="50"
+            max="1500"
           />
         </label>
 
-        <button className={css.saveBtn} type="submit">
-          Save
-        </button>
+        <div className={styles['buttonContainer']}>
+          <button className={styles['saveBtn']} type="submit">
+            Save
+          </button>
+        </div>
       </form>
     </div>
   );

@@ -4,7 +4,7 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-min-width: 320px;
+  min-width: 320px;
   max-width: 344px;
   transition:
     top 0.3s ease,
@@ -39,20 +39,13 @@ min-width: 320px;
   }
 }
 
-.userBar {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end; 
-  gap: 10px; 
-}
-
 .profile {
   display: flex;
   align-items: center;
   gap: 8px;
   background-color: var(--main);
   padding: 5px 10px;
-  border-radius: 50px; 
+  border-radius: 50px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   color: var(--main-white);
 }
@@ -72,7 +65,7 @@ min-width: 320px;
 
 .arrow {
   font-size: 14px;
-  color: var(--main-white); 
+  color: var(--main-white);
 }
 
 .menu {

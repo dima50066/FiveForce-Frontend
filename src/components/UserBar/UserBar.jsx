@@ -2,21 +2,22 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Popover } from 'react-tiny-popover';
 import css from './UserBar.module.css';
-import { selectUserName } from '../../redux/user/selectors';
+import { selectUserName, selectUserAvatar } from '../../redux/user/selectors';
 import Modal from '../../shared/Modal/Modal.jsx';
 import SettingModal from '../SettingModal/SettingModal';
 import LogModal from '../Modals/LogModal/LogModal';
+import UserBarPopover from '../UserBarPopover/UserBarPopover';
 
 export default function UserBar() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isSettingModalOpen, setIsSettingModalOpen] = useState(false);
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
 
-  const userName = useSelector(selectUserName) || 'Nadia';
-  const userAvatar = 'https://via.placeholder.com/40'; //  аватар
+  const userName = useSelector(selectUserName) || 'Quest';
+  const userAvatar = useSelector(selectUserAvatar) || '';
 
   const togglePopover = () => {
-    setIsPopoverOpen(!isPopoverOpen);
+    setIsPopoverOpen(prev => !prev);
   };
 
   const handleOpenSettingModal = () => {
@@ -38,20 +39,17 @@ export default function UserBar() {
   };
 
   return (
-    <div className={css.userBar}>
+    <>
       <Popover
         isOpen={isPopoverOpen}
         positions={['bottom']}
         onClickOutside={() => setIsPopoverOpen(false)}
         content={
-          <div className={css.menu}>
-            <button className={css.menuItem} onClick={handleOpenSettingModal}>
-              Setting
-            </button>
-            <button className={css.menuItem} onClick={handleOpenLogModal}>
-              Log out
-            </button>
-          </div>
+          <UserBarPopover
+            closePopover={setIsPopoverOpen}
+            openSettingModal={handleOpenSettingModal}
+            openLogoutModal={handleOpenLogModal}
+          />
         }
       >
         <div className={css.profile} onClick={togglePopover}>
@@ -64,12 +62,13 @@ export default function UserBar() {
       <Modal
         isOpen={isSettingModalOpen}
         onClose={handleCloseSettingModal}
-        className={`${css.modal} ${css.modalForm}` }
-        classNameWrapper= {css.wrapper}
+        className={`${css.modal} ${css.modalForm}`}
+        classNameWrapper={css.wrapper}
       >
-        
-          <SettingModal isOpen={isSettingModalOpen}
-        onClose={() => setIsSettingModalOpen(false)}/>
+        <SettingModal
+          isOpen={isSettingModalOpen}
+          onClose={() => setIsSettingModalOpen(false)}
+        />
       </Modal>
 
       <Modal
@@ -80,6 +79,6 @@ export default function UserBar() {
       >
         <LogModal onCancel={handleCloseLogModal} />
       </Modal>
-    </div>
+    </>
   );
 }
