@@ -1,0 +1,6 @@
+.currentDate {
+  font-family: var(--font-family);
+  color: var(--main);
+  font-size: 28px;
+  line-height: 30px;
+}
