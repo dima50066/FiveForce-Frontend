@@ -3,16 +3,19 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../redux/user/operations';
 import css from './LogModal.module.css';
+import { toast } from 'react-hot-toast';
 
 const LogModal = ({ onCancel }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
+      toast.success('Logout is successfully!');
       navigate('/signin');
     } catch (error) {
-      console.error('Logout failed:', error.message || error);
+      toast.error('Logout failed! Please try again.');
     }
   };
 
@@ -31,9 +34,7 @@ const LogModal = ({ onCancel }) => {
         <button
           className={css['log-second-btn']}
           type="button"
-          onClick={() => {
-            onCancel();
-          }}
+          onClick={() => onCancel()}
         >
           Cancel
         </button>

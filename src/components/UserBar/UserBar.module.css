@@ -1,32 +1,71 @@
-.userBar {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
+.wrapper {
+  position: fixed;
+  top: 80px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 320px;
+  max-width: 344px;
+  transition:
+    top 0.3s ease,
+    max-width 0.3s ease,
+    padding 0.3s ease;
+}
+.modal.modalForm {
+  min-width: 320px;
   position: relative;
+  width: 100%;
+  border-radius: 0;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding-bottom: 0;
+  overflow-y: auto;
+}
+
+@media screen and (min-width: 768px) {
+  .wrapper {
+    top: 64px;
+    max-width: 650px;
+  }
+
+  .modal.modalForm {
+    max-height: calc(100vh - 64px);
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
+    max-width: 920px;
+  }
 }
 
 .profile {
   display: flex;
   align-items: center;
   gap: 8px;
+  background-color: var(--main);
+  padding: 5px 10px;
+  border-radius: 50px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  color: var(--main-white);
 }
 
 .avatar {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 2px solid var(--primary-color);
+  border: 2px solid var(--accent);
 }
 
 .userName {
   font-size: 16px;
   font-weight: bold;
-  color: var(--primary-color);
+  color: var(--main-white);
 }
 
 .arrow {
   font-size: 14px;
-  color: var(--secondary-color);
+  color: var(--main-white);
 }
 
 .menu {

@@ -1,71 +1,110 @@
-import React, { useState } from 'react';
-import css from './EditWaterModal.module.css';
+import React, { useState, useEffect } from 'react';
+import styles from './EditWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
+import { toast } from 'react-hot-toast';
 
-const EditWaterModal = ({ onSave }) => {
-  const [waterAmount, setWaterAmount] = useState(250);
-  const [time, setTime] = useState('07:00');
-  const [error, setError] = useState(false);
-  const [timeError, setTimeError] = useState(false);
+const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
+  const [waterAmount, setWaterAmount] = useState(currentWater?.amount || 250);
+  const [time, setTime] = useState(
+    currentWater
+      ? new Date(currentWater.date).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
+      : '07:00'
+  );
+
+  useEffect(() => {
+    if (currentWater) {
+      setWaterAmount(currentWater.amount);
+      setTime(
+        new Date(currentWater.date).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+        })
+      );
+    }
+  }, [currentWater]);
 
   const handleDecrease = () => {
-    const newAmount = Math.max(waterAmount - 50, 50);
-    setWaterAmount(newAmount);
+    setWaterAmount(prev => Math.max(prev - 50, 50));
   };
 
   const handleIncrease = () => {
-    const newAmount = Math.min(waterAmount + 50, 1500);
-    setWaterAmount(newAmount);
+    setWaterAmount(prev => Math.min(prev + 50, 1500));
+  };
+
+  const handleTimeChange = e => {
+    setTime(e.target.value);
+  };
+
+  const handleInputChange = e => {
+    const value = Number(e.target.value);
+    if (value >= 50 && value <= 1500) {
+      setWaterAmount(value);
+    }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (!/^([01]\d|2[0-3]):([0-5]\d)$/.test(time)) {
-      setTimeError(true);
-      return;
-    }
+    try {
+      const [hours, minutes] = time.split(':').map(Number);
+      const currentDate = new Date();
+      const updatedTime = new Date(
+        currentDate.getFullYear(),
+        currentDate.getMonth(),
+        currentDate.getDate(),
+        hours,
+        minutes
+      ).getTime();
 
-    onSave({ amount: waterAmount, time });
+      onSave({
+        id: waterId,
+        updatedWater: { amount: waterAmount, date: updatedTime },
+      });
+
+      toast.success('Water entry updated successfully!');
+    } catch (error) {
+      toast.error('Failed to update water entry. Please try again.');
+    }
   };
 
   return (
-    <div className={css.container}>
-      <form className={css.form} onSubmit={handleSubmit}>
-        <h1 className={css.header}>Edit the entered amount of water</h1>
-        <p className={css.text}>Correct entered:</p>
-        <p className={css.secondaryText}>Amount of water:</p>
+    <div className={styles['container']}>
+      <form className={styles['form']} onSubmit={handleSubmit}>
+        <h1 className={styles['header']}>Edit the entered amount of water</h1>
 
-        <div className={css.counterContainer}>
+        <div className={styles['counterContainer']}>
           <button
             className={clsx(
-              css.counterBtn,
-              waterAmount <= 50 && css.decrementBtn
+              styles['counterBtn'],
+              waterAmount <= 50 && styles['decrementBtn']
             )}
             type="button"
             onClick={handleDecrease}
             disabled={waterAmount <= 50}
           >
             <Icon
-              className={css.iconMinus}
+              className={styles['iconMinus']}
               width="20"
               height="20"
               id="icon-minus"
             />
           </button>
-          <p className={css.count}>{waterAmount} ml</p>
+          <p className={styles['count']}>{waterAmount} ml</p>
           <button
             className={clsx(
-              css.counterBtn,
-              waterAmount >= 1500 && css.incrementBtn
+              styles['counterBtn'],
+              waterAmount >= 1500 && styles['incrementBtn']
             )}
             type="button"
             onClick={handleIncrease}
             disabled={waterAmount >= 1500}
           >
             <Icon
-              className={css.iconPlus}
+              className={styles['iconPlus']}
               width="20"
               height="20"
               id="icon-plus"
@@ -73,47 +112,34 @@ const EditWaterModal = ({ onSave }) => {
           </button>
         </div>
 
-        <label className={css.baseLabel}>
+        <label className={styles['baseLabel']}>
           Recording time:
           <input
-            className={clsx(css.baseInput, timeError && css.errorInput)}
+            className={styles['baseInput']}
             value={time}
-            onChange={e => {
-              setTime(e.target.value);
-              setTimeError(false);
-            }}
+            onChange={handleTimeChange}
             maxLength="5"
             placeholder="hh:mm"
           />
-          {timeError && (
-            <span className={css.error}>Time must be in hh:mm format</span>
-          )}
         </label>
 
-        <label className={css.secondaryLabel}>
+        <label className={styles['secondaryLabel']}>
           Enter the value of the water used:
           <input
-            className={clsx(css.baseInput, error && css.errorInput)}
+            className={styles['baseInput']}
             type="number"
             value={waterAmount}
-            onChange={e => {
-              const value = Number(e.target.value);
-              if (value < 50 || value > 1500) {
-                setError(true);
-              } else {
-                setError(false);
-                setWaterAmount(value);
-              }
-            }}
+            onChange={handleInputChange}
+            min="50"
+            max="1500"
           />
-          {error && (
-            <span className={css.error}>Value must be between 50 and 1500</span>
-          )}
         </label>
 
-        <button className={css.saveBtn} type="submit">
-          Save
-        </button>
+        <div className={styles['buttonContainer']}>
+          <button className={styles['saveBtn']} type="submit">
+            Save
+          </button>
+        </div>
       </form>
     </div>
   );

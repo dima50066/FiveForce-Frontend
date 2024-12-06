@@ -1,15 +1,15 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { register } from '../../redux/user/operations';
-import { selectIsLoading, selectAuthError } from '../../redux/user/selectors'; // Підключення селекторів
+import { selectIsLoading, selectAuthError } from '../../redux/user/selectors';
 import css from './SignUpForm.module.css';
 import Icon from '../../shared/Icons/Icon';
+import GoogleAuthBtn from '../GoogleAuthBtn/GoogleAuthBtn.jsx';
 
 const validationSchema = yup.object({
   email: yup
@@ -32,7 +32,6 @@ const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
 
-  // Використання селекторів для Redux-стану
   const isLoading = useSelector(selectIsLoading);
   const authError = useSelector(selectAuthError);
 
@@ -90,11 +89,11 @@ const SignUpForm = () => {
               onClick={() => setShowPassword(!showPassword)}
             >
               <Icon
-                 className={css.icon}
-                 id={showPassword? 'eye' : 'eyeOff'}
-                 width="20"
-                 height="20"
-                            />
+                className={css.icon}
+                id={showPassword ? 'eye' : 'eyeOff'}
+                width="20"
+                height="20"
+              />
             </button>
           </div>
           {errors.password && (
@@ -116,11 +115,11 @@ const SignUpForm = () => {
               onClick={() => setShowRepeatPassword(!showRepeatPassword)}
             >
               <Icon
-                 className={css.icon}
-                 id={showRepeatPassword? 'eye' : 'eyeOff'}
-                 width="20"
-                 height="20"
-                            />
+                className={css.icon}
+                id={showRepeatPassword ? 'eye' : 'eyeOff'}
+                width="20"
+                height="20"
+              />
             </button>
           </div>
           {errors.repeatPassword && (
@@ -131,6 +130,7 @@ const SignUpForm = () => {
       <button type="submit" className={css.button} disabled={isLoading}>
         {isLoading ? 'Signing Up...' : 'Sign Up'}
       </button>
+      <GoogleAuthBtn />
     </form>
   );
 };

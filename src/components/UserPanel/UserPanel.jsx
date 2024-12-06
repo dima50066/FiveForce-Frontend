@@ -12,9 +12,7 @@ export default function UserPanel() {
       <p>
         Hello, <span className={css.userName}>{userName || 'Guest'}</span>!
       </p>
-      <div className={css.userBar}>
-        <UserBar />
-      </div>
+      <UserBar />
     </div>
   );
 }

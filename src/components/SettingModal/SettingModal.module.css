@@ -1,39 +1,11 @@
 input:hover {
   outline: none;
 }
-.wrapper{
-position: fixed;
-  top: 80px;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 344px;
-  display: flex;
-  justify-content: center;
-  overflow-y: auto;
-  transition: top 0.3s ease, max-width 0.3s ease, padding 0.3s ease;
-}
-.modalForm {
-  min-width: 320px;
-  position: relative;
-    width: 100%;
-    max-height: calc(100vh - 80px);
-
-    border-radius: 0;
-border-top-left-radius: 15px;
-border-top-right-radius: 15px;
-    padding-bottom: 0;
-   
-    overflow-y: auto;
-    transition: padding-bottom 0.3s ease;
-}
-
 
 .form {
   display: flex;
   flex-direction: column;
-margin: 40px 20px;
+  margin: 40px 20px;
 }
 
 /* Titles */
@@ -82,15 +54,8 @@ margin: 40px 20px;
 .customUpload {
   display: flex;
   align-items: center;
-
   cursor: pointer;
-}
-.uploadIcon {
-  width: 18px;
-  height: 18px;
-}
-.inputFile {
-  display: none;
+  gap: 8px;
 }
 .btnUpload {
   font-size: 14px;
@@ -99,6 +64,13 @@ margin: 40px 20px;
   letter-spacing: -0.01em;
   color: #2f2f2f;
   cursor: pointer;
+}
+.uploadIcon {
+  width: 18px;
+  height: 18px;
+}
+.inputFile {
+  display: none;
 }
 
 /* All containers */
@@ -272,23 +244,14 @@ input:hover {
   justify-content: center;
   transition: background-color 0.3s ease;
 }
-.btnSubmit:focus{
+.btnSubmit:focus {
   background-color: #87d28d;
 }
 
 @media screen and (min-width: 768px) {
-  .wrapper {
-      
-      top: 64px;
-          max-width: 650px;
-    }
-  
-    .modalForm {
-      max-height: calc(100vh - 64px);
-    }
   .form {
-      min-width: 568px;
-    }
+    min-width: 568px;
+  }
   .title {
     font-size: 28px;
     line-height: 1.14286;
@@ -349,30 +312,25 @@ input:hover {
     padding: 16px 50px;
     width: 141px;
     height: 56px;
-      font-size: 16px;
-      line-height: 1.5;
+    font-size: 16px;
+    line-height: 1.5;
   }
-  
 }
 @media screen and (min-width: 1440px) {
-  .wrapper {
-  
-      max-width: 920px;
-    }
-    .coverForLaptop {
+  .coverForLaptop {
     display: flex;
-      flex-direction: column;
-      flex-wrap: wrap;
-      max-height: 594px;
-     gap: 40px;
-    }
-        .miniCoverLaptop{
-         width: 400px;
-         
-    }
-        .form{
-          min-width: 840px;
-        }
-        .withoutMargin{
-          margin: 0;
-        }}
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-height: 594px;
+    gap: 40px;
+  }
+  .miniCoverLaptop {
+    width: 400px;
+  }
+  .form {
+    min-width: 840px;
+  }
+  .withoutMargin {
+    margin: 0;
+  }
+}
