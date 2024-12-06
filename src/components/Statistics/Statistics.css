@@ -1,0 +1,65 @@
+.statistics-container {
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+}
+
+.statistics-chart {
+  background: linear-gradient(
+    180deg,
+    rgba(245, 250, 255, 1),
+    rgba(255, 255, 255, 1)
+  );
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.statistics-header {
+  font-size: 26px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.statistics-tooltip {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.statistics-x-axis {
+  font-size: 14px;
+  color: #555;
+}
+
+.statistics-y-axis {
+  font-size: 14px;
+  color: #555;
+}
+
+.statistics-loading,
+.statistics-error,
+.statistics-no-data {
+  font-size: 18px;
+  color: #333;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.statistics-loading {
+  color: #008cba;
+}
+
+.statistics-error {
+  color: #ff4444;
+}
+
+.statistics-no-data {
+  color: #aaa;
+}
