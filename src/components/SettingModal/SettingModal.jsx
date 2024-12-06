@@ -10,6 +10,7 @@ import { updateUser } from '../../redux/user/operations.js';
 import { selectUserAvatar } from '../../redux/user/selectors.js';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-hot-toast';
+import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher'; // Підключення LanguageSwitcher
 
 const SettingModal = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
@@ -26,31 +27,33 @@ const SettingModal = ({ isOpen, onClose }) => {
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .required('Name is required')
-      .min(3, 'Name must be at least 3 characters'),
-    email: Yup.string().email('Invalid email').required('Email is required'),
+      .required(t('Name is required'))
+      .min(3, t('Name must be at least 3 characters')),
+    email: Yup.string()
+      .email(t('Invalid email'))
+      .required(t('Email is required')),
     weight: Yup.number()
       .transform((value, originalValue) =>
         originalValue === '' ? null : value
       )
       .nullable()
-      .min(0, 'Weight must be at least 0 kg')
-      .max(300, 'Weight must be less than 300 kg'),
+      .min(0, t('Weight must be at least 0 kg'))
+      .max(300, t('Weight must be less than 300 kg')),
     activeHours: Yup.number()
       .transform((value, originalValue) =>
         originalValue === '' ? null : value
       )
       .nullable()
-      .min(0, 'Cannot be less than 0')
-      .max(24, 'Cannot be more than 24 hours'),
+      .min(0, t('Cannot be less than 0'))
+      .max(24, t('Cannot be more than 24 hours')),
     waterIntake: Yup.number()
-      .required('Water intake is required')
-      .min(1.5, 'Cannot be less than 1.5')
-      .max(5, 'Cannot be more than 5 liters')
+      .required(t('Water intake is required'))
+      .min(1.5, t('Cannot be less than 1.5'))
+      .max(5, t('Cannot be more than 5 liters'))
       .transform((value, originalValue) =>
         originalValue === '' ? 1.5 : parseFloat(value)
       ),
-    gender: Yup.string().required('Gender is required'),
+    gender: Yup.string().required(t('Gender is required')),
   });
 
   const {
@@ -89,10 +92,10 @@ const SettingModal = ({ isOpen, onClose }) => {
 
     try {
       const result = await dispatch(updateUser(formData)).unwrap();
-      toast.success('Data sent successfully!');
+      toast.success(t('Data sent successfully!'));
       onClose();
     } catch (error) {
-      toast.error('Oops! Something went wrong!');
+      toast.error(t('Oops! Something went wrong!'));
     } finally {
       setIsLoading(false);
     }
@@ -115,8 +118,6 @@ const SettingModal = ({ isOpen, onClose }) => {
   const radioIdWoman = useId();
   const radioIdMan = useId();
   const fileInputId = useId();
-
-  /* All with calculating water */
 
   useEffect(() => {
     if (isOpen) {
@@ -141,11 +142,9 @@ const SettingModal = ({ isOpen, onClose }) => {
   ) => {
     let intake = 1.5;
     if (gender === 'woman') {
-      intake = weight * 0.03 + activeHours * 0.4;
+      intake = weight * 0.03 + activeTime * 0.4;
     } else if (gender === 'man') {
-      intake = weight * 0.04 + activeHours * 0.6;
-    } else {
-      intake = 0;
+      intake = weight * 0.04 + activeTime * 0.6;
     }
     return Math.min(intake, 5);
   };
@@ -159,14 +158,16 @@ const SettingModal = ({ isOpen, onClose }) => {
       activeHours,
       gender
     );
-    calculatedWaterIntake = Math.max(calculatedWaterIntake, 1.5);
-    setWaterIntake(calculatedWaterIntake.toFixed(2));
-    setValue('waterIntake', calculatedWaterIntake.toFixed(2));
+    setWaterIntake(Math.max(calculatedWaterIntake, 1.5).toFixed(2));
+    setValue('waterIntake', Math.max(calculatedWaterIntake, 1.5).toFixed(2));
   };
 
   return (
     <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
-      <h2 className={css.title}>{t('Setting')}</h2>
+      <div className={css.header}>
+        <h2 className={css.title}>{t('Setting')}</h2>
+        <LanguageSwitcher />
+      </div>
       <div className={css.avatarCover}>
         {preview ? (
           <img src={preview} alt="Avatar Preview" className={css.img} />
@@ -189,6 +190,7 @@ const SettingModal = ({ isOpen, onClose }) => {
           </label>
         </div>
       </div>
+
       <div className={css.partCover}>
         <h3 className={css.secondTitle}>{t('Your gender identity')}</h3>
         <div className={css.radioCover}>
@@ -374,6 +376,7 @@ const SettingModal = ({ isOpen, onClose }) => {
           )}
         </div>
       </div>
+
       <button type="submit" className={css.btnSubmit}>
         {isLoading ? t('Saving...') : t('Save')}
       </button>

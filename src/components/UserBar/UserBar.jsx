@@ -56,8 +56,8 @@ export default function UserBar() {
         }
       >
         <div className={css.profile} onClick={togglePopover}>
-          <img src={userAvatar} className={css.avatar} />
           <span className={css.userName}>{userName}</span>
+          <img src={userAvatar} className={css.avatar} />
           <span className={css.arrow}>{isPopoverOpen ? t('▲') : t('▼')}</span>
         </div>
       </Popover>

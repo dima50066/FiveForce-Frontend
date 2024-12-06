@@ -5,7 +5,6 @@ import { getMonthWater } from '../../redux/water/operations.js';
 import Calendar from './Calendar/Calendar';
 import CalendarPagination from './CalendarPagination/CalendarPagination';
 import clsx from 'clsx';
-import css from './MonthInfo.module.css';
 import { useTranslation } from 'react-i18next';
 import css from './WaterUsageInfo.module.css';
 import Statistics from '../Statistics/Statistics';

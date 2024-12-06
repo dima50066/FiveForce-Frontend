@@ -1,3 +1,10 @@
+import React, { useState, useEffect } from 'react';
+import styles from './EditWaterModal.module.css';
+import clsx from 'clsx';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+import Icon from '../../../shared/Icons/Icon';
+
 const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
   const { t } = useTranslation();
   const [waterAmount, setWaterAmount] = useState(currentWater?.amount || 250);
@@ -137,13 +144,6 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
         <div className={styles['buttonContainer']}>
           <button className={styles['saveBtn']} type="submit">
             {t('Save')}
-          </button>
-          <button
-            className={styles['cancelBtn']}
-            type="button"
-            onClick={onCancel}
-          >
-            {t('Cancel')}
           </button>
         </div>
       </form>
