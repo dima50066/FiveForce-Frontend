@@ -12,6 +12,7 @@
 }
 
 .navigationButton {
+  
   display: flex;
   justify-content: center;
   border: none;
@@ -21,6 +22,7 @@
 }
 
 .navigationButton:disabled {
+  
   cursor: not-allowed;
   opacity: 0.5;
 }

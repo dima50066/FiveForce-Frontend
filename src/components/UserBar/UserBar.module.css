@@ -58,9 +58,17 @@
 }
 
 .userName {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: var(--main-white);
+  line-height: 1.28571;
+}
+@media screen and (min-width: 768px) {
+.userName{
+    font-size: 16px;
+  line-height: 1.5;
+
+  }
 }
 
 .arrow {

@@ -75,10 +75,10 @@ export default function WaterItem() {
                   height={45}
                   id="icon-water-glass"
                 />
-                <div>
-                  <strong>
+                <div>  
+                  <p className={styles.fullAmount}>
                     {water.amount} {t('ml')}
-                  </strong>
+                  </p>
                   <p className={styles.date}>
                     {new Date(water.date).toLocaleTimeString([], {
                       hour: '2-digit',
