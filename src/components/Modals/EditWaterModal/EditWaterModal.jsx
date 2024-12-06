@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import css from './EditWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
+import { useTranslation } from "react-i18next";
 
 const EditWaterModal = ({ currentWater, id, onSave }) => {
+  const { t } = useTranslation();
   const [waterAmount, setWaterAmount] = useState(currentWater?.amount || 250);
   const [time, setTime] = useState(currentWater?.time || '07:00');
-  const [error, setError] = useState('');
+  const [error, setError] = useState(false);
   const [timeError, setTimeError] = useState(false);
 
   useEffect(() => {
@@ -19,13 +21,11 @@ const EditWaterModal = ({ currentWater, id, onSave }) => {
   const handleDecrease = () => {
     const newAmount = Math.max(waterAmount - 50, 50);
     setWaterAmount(newAmount);
-    setError('');
   };
 
   const handleIncrease = () => {
     const newAmount = Math.min(waterAmount + 50, 1500);
     setWaterAmount(newAmount);
-    setError('');
   };
 
   const handleSubmit = e => {
@@ -36,44 +36,15 @@ const EditWaterModal = ({ currentWater, id, onSave }) => {
       return;
     }
 
-    if (waterAmount < 50 || waterAmount > 1500) {
-      setError('Value must be between 50 and 1500');
-      return;
-    }
-
-    setError('');
-    setTimeError(false);
-
     onSave({ id, updatedWater: { amount: waterAmount, time } });
-  };
-
-  const handleInputChange = e => {
-    const value = Number(e.target.value);
-
-    if (!value || value < 0) {
-      setWaterAmount(0);
-      setError('Value must be a positive number');
-      return;
-    }
-
-    if (value >= 50 && value <= 1500) {
-      setWaterAmount(value);
-      setError('');
-    } else if (value > 1500) {
-      setWaterAmount(1500);
-      setError('Value must be between 50 and 1500');
-    } else {
-      setWaterAmount(value);
-      setError('Value must be at least 50');
-    }
   };
 
   return (
     <div className={css.container}>
       <form className={css.form} onSubmit={handleSubmit}>
-        <h1 className={css.header}>Edit the entered amount of water</h1>
-        <p className={css.text}>Correct entered:</p>
-        <p className={css.secondaryText}>Amount of water:</p>
+        <h1 className={css.header}>{t('Edit the entered amount of water')}</h1>
+        <p className={css.text}>{t('Correct entered:')}</p>
+        <p className={css.secondaryText}>{t('Amount of water:')}</p>
 
         <div className={css.counterContainer}>
           <button
@@ -112,7 +83,7 @@ const EditWaterModal = ({ currentWater, id, onSave }) => {
         </div>
 
         <label className={css.baseLabel}>
-          Recording time:
+          {t('Recording time:')}
           <input
             className={clsx(css.baseInput, timeError && css.errorInput)}
             value={time}
@@ -121,26 +92,36 @@ const EditWaterModal = ({ currentWater, id, onSave }) => {
               setTimeError(false);
             }}
             maxLength="5"
-            placeholder="hh:mm"
+            placeholder={t('hh:mm')}
           />
           {timeError && (
-            <span className={css.error}>Time must be in hh:mm format</span>
+            <span className={css.error}>{t('Time must be in hh:mm format')}</span>
           )}
         </label>
 
         <label className={css.secondaryLabel}>
-          Enter the value of the water used:
+          {t('Enter the value of the water used:')}
           <input
             className={clsx(css.baseInput, error && css.errorInput)}
             type="number"
             value={waterAmount}
-            onChange={handleInputChange}
+            onChange={e => {
+              const value = Number(e.target.value);
+              if (value < 50 || value > 1500) {
+                setError(true);
+              } else {
+                setError(false);
+                setWaterAmount(value);
+              }
+            }}
           />
-          {error && <span className={css.error}>{error}</span>}
+          {error && (
+            <span className={css.error}>{t('Value must be between 50 and 1500')}</span>
+          )}
         </label>
 
         <button className={css.saveBtn} type="submit">
-          Save
+          {t('Save')}
         </button>
       </form>
     </div>

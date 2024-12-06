@@ -1,8 +1,10 @@
 import React from 'react';
 import css from './WaterList.module.css';
 import WaterItem from '../WaterItem/WaterItem';
+import { useTranslation } from "react-i18next";
 
 export default function WaterList({ waterData, onDelete, onEdit }) {
+  const { t } = useTranslation();
   return (
     <ul className={css.waterList}>
       {waterData && waterData.length > 0 ? (
@@ -21,7 +23,7 @@ export default function WaterList({ waterData, onDelete, onEdit }) {
         ))
       ) : (
         <div className={css.noData}>
-          <p>No records found</p>
+          <p>{t('No records found')}</p>
         </div>
       )}
     </ul>

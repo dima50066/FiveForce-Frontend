@@ -3,8 +3,10 @@ import { selectUserWaterNorm } from '../../redux/user/selectors';
 import { selectDayWater } from '../../redux/water/selectors';
 import Icon from '../../shared/Icons/Icon';
 import css from './WaterProgressBar.module.css';
+import { useTranslation } from "react-i18next";
 
 const WaterProgressBar = () => {
+  const { t } = useTranslation();
   const dailyWaterNorm = useSelector(selectUserWaterNorm);
   const dayWater = useSelector(selectDayWater);
 
@@ -16,7 +18,7 @@ const WaterProgressBar = () => {
 
   return (
     <div className={css.progressBarWrapp}>
-      <h4 className={css.progressBarText}>Today</h4>
+      <h4 className={css.progressBarText}>{t('Today')}</h4>
       <div className={css.progressBar}>
         <div className={css.progressline} style={{ width: `${percentage}%` }}>
           <Icon

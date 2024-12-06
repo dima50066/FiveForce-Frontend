@@ -6,19 +6,21 @@ import Calendar from './Calendar/Calendar';
 import CalendarPagination from './CalendarPagination/CalendarPagination';
 import clsx from 'clsx';
 import css from './MonthInfo.module.css';
+import { useTranslation } from "react-i18next";
 
 export default function WaterUsageInfo() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const dailyWaterData = useSelector(selectMonthWater);
   const dispatch = useDispatch();
-
+  
   useEffect(() => {
     const timestamp = new Date(selectedDate).getTime();
     dispatch(getMonthWater(timestamp));
   }, [dispatch, selectedDate]);
-
+  
   useEffect(() => {}, [dailyWaterData]);
-
+  const { t } = useTranslation();
+  
   const handlePreviousMonth = () => {
     setSelectedDate(prevDate => {
       const newDate = new Date(prevDate);
@@ -36,24 +38,24 @@ export default function WaterUsageInfo() {
   };
 
   const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    t('January'),
+    t('February'),
+    t('March'),
+    t('April'),
+    t('May'),
+    t('June'),
+    t('July'),
+    t('August'),
+    t('September'),
+    t('October'),
+    t('November'),
+    t('December'),
   ];
 
   return (
     <div className={css.waterUsageInfoContainer}>
       <div className={css.paginationControlsContainer}>
-        <h2 className={clsx(css.title)}>Month</h2>
+        <h2 className={clsx(css.title)}>{t('Month')}</h2>
         <CalendarPagination
           onPrevious={handlePreviousMonth}
           onNext={handleNextMonth}

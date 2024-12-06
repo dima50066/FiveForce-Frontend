@@ -3,6 +3,7 @@ import css from './CalendarPagination.module.css';
 import Icon from '../../../shared/Icons/Icon';
 
 import clsx from 'clsx';
+import { useTranslation } from "react-i18next";
 
 export default function PaginationControls({
   isOpen,
@@ -14,19 +15,20 @@ export default function PaginationControls({
   const isPreviousDisabled =
     new Date(currentDate).getTime() <
     new Date('2023-02-01T00:00:00.000Z').getTime();
+  const { t } = useTranslation();
   const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
+    t('January'),
+    t('February'),
+    t('March'),
+    t('April'),
+    t('May'),
+    t('June'),
+    t('July'),
+    t('August'),
+    t('September'),
+    t('October'),
+    t('November'),
+    t('December'),
   ];
 
   return (

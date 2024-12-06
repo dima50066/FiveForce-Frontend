@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -11,23 +10,10 @@ import { selectIsLoading, selectAuthError } from '../../redux/user/selectors'; /
 import css from './SignUpForm.module.css';
 import Icon from '../../shared/Icons/Icon';
 import GoogleAuthBtn from '../GoogleAuthBtn/GoogleAuthBtn.jsx';
-
-const validationSchema = yup.object({
-  email: yup
-    .string()
-    .email('Invalid email format')
-    .required('Email is required'),
-  password: yup
-    .string()
-    .min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
-  repeatPassword: yup
-    .string()
-    .oneOf([yup.ref('password'), null], 'Passwords must match')
-    .required('Repeat Password is required'),
-});
+import { useTranslation } from "react-i18next";
 
 const SignUpForm = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -36,6 +22,21 @@ const SignUpForm = () => {
   // Використання селекторів для Redux-стану
   const isLoading = useSelector(selectIsLoading);
   const authError = useSelector(selectAuthError);
+
+  const validationSchema = yup.object({
+    email: yup
+      .string()
+      .email(t('Invalid email format'))
+      .required(t('Email is required')),
+    password: yup
+      .string()
+      .min(6, t('Password must be at least 6 characters'))
+      .required(t('Password is required')),
+    repeatPassword: yup
+      .string()
+      .oneOf([yup.ref('password'), null], t('Passwords must match'))
+      .required(t('Repeat Password is required')),
+  });
 
   const {
     register: formRegister,
@@ -50,10 +51,10 @@ const SignUpForm = () => {
     try {
       const { repeatPassword, ...payload } = data;
       await dispatch(register(payload)).unwrap();
-      toast.success('Registration successful!');
+      toast.success(t('Registration successful!'));
       navigate('/tracker');
     } catch (error) {
-      toast.error(authError || 'Registration failed. Please try again.');
+      toast.error(authError || t('Registration failed. Please try again.'));
     }
   };
 
@@ -65,23 +66,23 @@ const SignUpForm = () => {
     >
       <div className={css.cntInpit}>
         <label className={css.label}>
-          <span className={css.labelText}>Email</span>
+          <span className={css.labelText}>{t('Email')}</span>
           <input
             type="email"
-            placeholder="Enter your email"
+            placeholder={t('Enter your email')}
             className={`${css.input} ${errors.email ? css.errorInput : ''}`}
             {...formRegister('email')}
           />
           {errors.email && (
-            <span className={css.error}>{errors.email.message}</span>
+            <span className={css.error}>{t(errors.email.message)}</span>
           )}
         </label>
         <label className={css.label}>
-          <span className={css.labelText}>Password</span>
+          <span className={css.labelText}>{t('Password')}</span>
           <div className={css.passwordField}>
             <input
               type={showPassword ? 'text' : 'password'}
-              placeholder="Enter your password"
+              placeholder={t('Enter your password')}
               className={`${css.input} ${errors.password ? css.errorInput : ''}`}
               {...formRegister('password')}
             />
@@ -91,23 +92,23 @@ const SignUpForm = () => {
               onClick={() => setShowPassword(!showPassword)}
             >
               <Icon
-                 className={css.icon}
-                 id={showPassword? 'eye' : 'eyeOff'}
-                 width="20"
-                 height="20"
-                            />
+                className={css.icon}
+                id={showPassword? 'eye' : 'eyeOff'}
+                width="20"
+                height="20"
+              />
             </button>
           </div>
           {errors.password && (
-            <span className={css.error}>{errors.password.message}</span>
+            <span className={css.error}>{t(errors.password.message)}</span>
           )}
         </label>
         <label className={css.label}>
-          <span className={css.labelText}>Repeat Password</span>
+          <span className={css.labelText}>{t('Repeat Password')}</span>
           <div className={css.passwordField}>
             <input
               type={showRepeatPassword ? 'text' : 'password'}
-              placeholder="Repeat your password"
+              placeholder={t('Repeat your password')}
               className={`${css.input} ${errors.repeatPassword ? css.errorInput : ''}`}
               {...formRegister('repeatPassword')}
             />
@@ -117,20 +118,20 @@ const SignUpForm = () => {
               onClick={() => setShowRepeatPassword(!showRepeatPassword)}
             >
               <Icon
-                 className={css.icon}
-                 id={showRepeatPassword? 'eye' : 'eyeOff'}
-                 width="20"
-                 height="20"
-                            />
+                className={css.icon}
+                id={showRepeatPassword? 'eye' : 'eyeOff'}
+                width="20"
+                height="20"
+              />
             </button>
           </div>
           {errors.repeatPassword && (
-            <span className={css.error}>{errors.repeatPassword.message}</span>
+            <span className={css.error}>{t(errors.repeatPassword.message)}</span>
           )}
         </label>
       </div>
       <button type="submit" className={css.button} disabled={isLoading}>
-        {isLoading ? 'Signing Up...' : 'Sign Up'}
+        {isLoading ? t('Signing Up...') : t('Sign Up')}
       </button>
       <GoogleAuthBtn />
     </form>

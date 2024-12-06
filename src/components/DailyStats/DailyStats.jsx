@@ -1,5 +1,4 @@
 import { useSelector, useDispatch } from 'react-redux';
-
 import { useState } from 'react';
 import { selectActiveDay, selectDayWater } from '../../redux/water/selectors';
 import css from './DailyStats.module.css';
@@ -9,8 +8,10 @@ import Modal from '../../shared/Modal/Modal';
 import EditWaterModal from '../Modals/EditWaterModal/EditWaterModal';
 import DeleteModal from '../Modals/DeleteModal/DeleteModal';
 import { deleteWater, updateWater } from '../../redux/water/operations';
+import { useTranslation } from "react-i18next";
 
 export default function DailyStats() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const activeDay = useSelector(selectActiveDay);
   const dayWater = useSelector(selectDayWater)?.WaterData || [];
@@ -40,7 +41,7 @@ export default function DailyStats() {
       await dispatch(deleteWater(currentItem.id));
       closeModal();
     } catch (error) {
-      console.error('Failed to delete item:', error);
+      console.error(t('Failed to delete item:'), error);
     }
   };
 

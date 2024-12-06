@@ -6,12 +6,14 @@ import { selectUserName, selectUserAvatar } from '../../redux/user/selectors';
 import Modal from '../../shared/Modal/Modal.jsx';
 import SettingModal from '../SettingModal/SettingModal';
 import LogModal from '../Modals/LogModal/LogModal';
+import { useTranslation } from "react-i18next";
 
 export default function UserBar() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const [isSettingModalOpen, setIsSettingModalOpen] = useState(false);
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
-
+  
+  const { t } = useTranslation();
   const userName = useSelector(selectUserName);
   const userAvatar = useSelector(selectUserAvatar);
 
@@ -46,16 +48,16 @@ export default function UserBar() {
         content={
           <div className={css.menu}>
             <button className={css.menuItem} onClick={handleOpenSettingModal}>
-              Setting
+              {t('Setting')}
             </button>
             <button className={css.menuItem} onClick={handleOpenLogModal}>
-              Log out
+              {t('Log out')}
             </button>
           </div>
         }
       >
         <div className={css.profile} onClick={togglePopover}>
-          <img src={userAvatar} alt="User Avatar" className={css.avatar} />
+          <img src={userAvatar} className={css.avatar} />
           <span className={css.userName}>{userName}</span>
           <span className={css.arrow}>{isPopoverOpen ? '▲' : '▼'}</span>
         </div>
@@ -64,12 +66,10 @@ export default function UserBar() {
       <Modal
         isOpen={isSettingModalOpen}
         onClose={handleCloseSettingModal}
-        className={`${css.modal} ${css.modalForm}` }
-        classNameWrapper= {css.wrapper}
+        className={`${css.modal} ${css.modalForm}`}
+        classNameWrapper={css.wrapper}
       >
-        
-          <SettingModal isOpen={isSettingModalOpen}
-        onClose={() => setIsSettingModalOpen(false)}/>
+        <SettingModal />
       </Modal>
 
       <Modal

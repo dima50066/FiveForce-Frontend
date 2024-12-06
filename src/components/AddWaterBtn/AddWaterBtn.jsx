@@ -7,15 +7,17 @@ import Modal from '../../shared/Modal/Modal.jsx';
 import AddWaterModal from '../Modals/AddWaterModal/AddWaterModal.jsx';
 
 import css from './AddWaterBtn.module.css';
+import { useTranslation } from "react-i18next";
 
 const AddWaterBtn = () => {
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const activeDay = useSelector(selectActiveDay);
 
   const openModal = () => {
     if (new Date(activeDay).getTime() > new Date().getTime()) {
-      alert("You can't drink water in the future");
+      alert(t("You can't drink water in the future"));
       return;
     }
     setIsModalOpen(true);
@@ -35,7 +37,7 @@ const AddWaterBtn = () => {
         closeModal();
       })
       .catch(error => {
-        alert(error || 'Failed to add water');
+        alert(t('Failed to add water'));
       });
   };
 
@@ -43,7 +45,7 @@ const AddWaterBtn = () => {
     <>
       <button className={css.addWaterBtn} type="button" onClick={openModal}>
         <Icon className={css.iconPlus} id="icon-plus" width={16} height={16} />
-        Add water
+        {t('Add water')}
       </button>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>

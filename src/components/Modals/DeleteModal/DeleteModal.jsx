@@ -1,20 +1,22 @@
 import React from 'react';
 import css from './DeleteModal.module.css';
+import { useTranslation } from "react-i18next";
 
 const DeleteModal = ({ onDelete, onCancel }) => {
+  const { t } = useTranslation();
   const handleDelete = async () => {
     try {
       await onDelete();
     } catch (error) {
-      console.error('Delete failed:', error.message || error);
+      console.error(t('Delete failed:'), error.message || error);
     }
   };
 
   return (
     <div className={css['delete-info']}>
-      <h3 className={css['delete-h3']}>Delete entry</h3>
+      <h3 className={css['delete-h3']}>{t('Delete entry')}</h3>
       <p className={css['delete-question']}>
-        Are you sure you want to delete the entry?
+        {t('Are you sure you want to delete the entry?')}
       </p>
       <div className={css['btns-delete-wrap']}>
         <button
@@ -22,7 +24,7 @@ const DeleteModal = ({ onDelete, onCancel }) => {
           type="button"
           onClick={handleDelete}
         >
-          Delete
+          {t('Delete')}
         </button>
 
         <button
@@ -30,7 +32,7 @@ const DeleteModal = ({ onDelete, onCancel }) => {
           type="button"
           onClick={onCancel}
         >
-          Cancel
+          {t('Cancel')}
         </button>
       </div>
     </div>
