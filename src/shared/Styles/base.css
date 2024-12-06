@@ -22,6 +22,9 @@ body {
 .modalIsOpen {
   overflow: hidden;
 }
+.modalOpen{
+  overflow: hidden;
+}
 
 button {
   cursor: pointer;
