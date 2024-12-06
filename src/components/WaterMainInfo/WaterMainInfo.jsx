@@ -4,8 +4,9 @@ import WaterProgressBar from '../../components/WaterProgressBar/WaterProgressBar
 import AddWaterBtn from '../../components/AddWaterBtn/AddWaterBtn.jsx';
 
 import css from './WaterMainInfo.module.css';
-
+import { useTranslation } from "react-i18next";
 const WaterMainInfo = () => {
+    const { t } = useTranslation();
   return (
     <div className={css.waterMainInfoContainer}>
       <Logo />

@@ -1,0 +1,21 @@
+.switcher {
+  display: flex;
+  gap: 8px;
+}
+
+.button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.button:hover .icon {
+  opacity: 0.8;
+}

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import styles from './EditWaterModal.module.css';
-import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
-import { toast } from 'react-hot-toast';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+import Icon from '../../../shared/Icons/Icon';
 
 const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
+  const { t } = useTranslation();
   const [waterAmount, setWaterAmount] = useState(currentWater?.amount || 250);
   const [time, setTime] = useState(
     currentWater
@@ -70,16 +72,18 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
         updatedWater: { amount: waterAmount, date: updatedTime },
       });
 
-      toast.success('Water entry updated successfully!');
+      toast.success(t('Water entry updated successfully!'));
     } catch (error) {
-      toast.error('Failed to update water entry. Please try again.');
+      toast.error(t('Failed to update water entry. Please try again.'));
     }
   };
 
   return (
     <div className={styles['container']}>
       <form className={styles['form']} onSubmit={handleSubmit}>
-        <h1 className={styles['header']}>Edit the entered amount of water</h1>
+        <h1 className={styles['header']}>
+          {t('Edit the entered amount of water')}
+        </h1>
 
         <div className={styles['counterContainer']}>
           <button
@@ -98,7 +102,9 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
               id="icon-minus"
             />
           </button>
-          <p className={styles['count']}>{waterAmount} ml</p>
+          <p className={styles['count']}>
+            {waterAmount} {t('ml')}
+          </p>
           <button
             className={clsx(
               styles['counterBtn'],
@@ -118,18 +124,18 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
         </div>
 
         <label className={styles['baseLabel']}>
-          Recording time:
+          {t('Recording time')}:
           <input
             className={styles['baseInput']}
             value={time}
             onChange={handleTimeChange}
             maxLength="5"
-            placeholder="hh:mm"
+            placeholder={t('hh:mm')}
           />
         </label>
 
         <label className={styles['secondaryLabel']}>
-          Enter the value of the water used:
+          {t('Enter the value of the water used')}:
           <input
             className={styles['baseInput']}
             type="number"
@@ -142,7 +148,7 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
 
         <div className={styles['buttonContainer']}>
           <button className={styles['saveBtn']} type="submit">
-            Save
+            {t('Save')}
           </button>
         </div>
       </form>

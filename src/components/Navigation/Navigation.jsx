@@ -1,14 +1,16 @@
 import { NavLink } from 'react-router-dom';
 import css from './Navigation.module.css';
+import { useTranslation } from "react-i18next";
 
 const Navigation = () => {
+  const { t } = useTranslation();
   return (
     <nav className={css.navButton}>
       <NavLink className={css.navButtonSignUp} to="/signup">
-        Try tracker
+        {t('Try tracker')}
       </NavLink>
       <NavLink className={css.navButtonSignIn} to="/signin">
-        Sign In
+        {t('Sign In')}
       </NavLink>
     </nav>
   );

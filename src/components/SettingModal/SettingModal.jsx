@@ -8,48 +8,52 @@ import Icon from '../../shared/Icons/Icon.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/user/operations.js';
 import { selectUserAvatar } from '../../redux/user/selectors.js';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-hot-toast';
+import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher'; // Підключення LanguageSwitcher
 
 const SettingModal = ({ isOpen, onClose }) => {
-  if (!isOpen) {
-    return null;
-  }
+  const { t } = useTranslation();
 
-  const dispatch = useDispatch();
   const fileInputRef = useRef(null);
 
   const userAvatar = useSelector(selectUserAvatar);
-  const user = useSelector(state => state.auth.user);
   const [preview, setPreview] = useState(userAvatar || null);
+
   const [isLoading, setIsLoading] = useState(false);
+
+  const user = useSelector(state => state.auth.user);
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object({
     name: Yup.string()
-      .required('Name is required')
-      .min(3, 'Name must be at least 3 characters'),
-    email: Yup.string().email('Invalid email').required('Email is required'),
+      .required(t('Name is required'))
+      .min(3, t('Name must be at least 3 characters')),
+    email: Yup.string()
+      .email(t('Invalid email'))
+      .required(t('Email is required')),
     weight: Yup.number()
       .transform((value, originalValue) =>
         originalValue === '' ? null : value
       )
       .nullable()
-      .min(0, 'Weight must be at least 0 kg')
-      .max(300, 'Weight must be less than 300 kg'),
-    activeTime: Yup.number()
+      .min(0, t('Weight must be at least 0 kg'))
+      .max(300, t('Weight must be less than 300 kg')),
+    activeHours: Yup.number()
       .transform((value, originalValue) =>
         originalValue === '' ? null : value
       )
       .nullable()
-      .min(0, 'Cannot be less than 0')
-      .max(24, 'Cannot be more than 24 hours'),
+      .min(0, t('Cannot be less than 0'))
+      .max(24, t('Cannot be more than 24 hours')),
     waterIntake: Yup.number()
-      .required('Water intake is required')
-      .min(1.5, 'Cannot be less than 1.5')
-      .max(5, 'Cannot be more than 5 liters')
+      .required(t('Water intake is required'))
+      .min(1.5, t('Cannot be less than 1.5'))
+      .max(5, t('Cannot be more than 5 liters'))
       .transform((value, originalValue) =>
         originalValue === '' ? 1.5 : parseFloat(value)
       ),
-    gender: Yup.string().required('Gender is required'),
+    gender: Yup.string().required(t('Gender is required')),
   });
 
   const {
@@ -64,10 +68,10 @@ const SettingModal = ({ isOpen, onClose }) => {
     defaultValues: {
       name: user?.name || '',
       email: user?.email || '',
-      weight: user?.weight || null,
-      activeTime: user?.activeTime || null,
+      weight: user?.weight || '0',
+      activeHours: user?.activeHours || '0',
       waterIntake: user?.dailyNorm || '1.5',
-      gender: user?.gender ?? 'woman',
+      gender: user?.gender || 'woman',
       avatar: null,
     },
   });
@@ -82,16 +86,16 @@ const SettingModal = ({ isOpen, onClose }) => {
     formData.append('name', data.name);
     formData.append('email', data.email);
     formData.append('weight', data.weight);
-    formData.append('activeTime', data.activeTime);
+    formData.append('activeTime', data.activeHours);
     formData.append('dailyNorm', data.waterIntake * 1000);
     formData.append('gender', data.gender);
 
     try {
       const result = await dispatch(updateUser(formData)).unwrap();
-      toast.success('Data sent successfully!');
+      toast.success(t('Data sent successfully!'));
       onClose();
     } catch (error) {
-      toast.error('Oops! Something went wrong!');
+      toast.error(t('Oops! Something went wrong!'));
     } finally {
       setIsLoading(false);
     }
@@ -114,8 +118,6 @@ const SettingModal = ({ isOpen, onClose }) => {
   const radioIdWoman = useId();
   const radioIdMan = useId();
   const fileInputId = useId();
-
-  /* All with calculating water */
 
   useEffect(() => {
     if (isOpen) {
@@ -149,21 +151,23 @@ const SettingModal = ({ isOpen, onClose }) => {
 
   const handleInputChange = () => {
     const weight = parseFloat(getValues('weight')) || 0;
-    const activeTime = parseFloat(getValues('activeTime')) || 0;
+    const activeHours = parseFloat(getValues('activeHours')) || 0;
     const gender = getValues('gender') || 'woman';
-    let calculatedWaterIntake = calculateWaterIntake(
+    const calculatedWaterIntake = calculateWaterIntake(
       weight,
-      activeTime,
+      activeHours,
       gender
     );
-    calculatedWaterIntake = Math.max(calculatedWaterIntake, 1.5);
-    setWaterIntake(calculatedWaterIntake.toFixed(2));
-    setValue('waterIntake', calculatedWaterIntake.toFixed(2));
+    setWaterIntake(Math.max(calculatedWaterIntake, 1.5).toFixed(2));
+    setValue('waterIntake', Math.max(calculatedWaterIntake, 1.5).toFixed(2));
   };
 
   return (
     <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
-      <h2 className={css.title}>Setting</h2>
+      <div className={css.header}>
+        <h2 className={css.title}>{t('Setting')}</h2>
+        <LanguageSwitcher />
+      </div>
       <div className={css.avatarCover}>
         {preview ? (
           <img src={preview} alt="Avatar Preview" className={css.img} />
@@ -182,12 +186,13 @@ const SettingModal = ({ isOpen, onClose }) => {
           />
           <label htmlFor={fileInputId} className={css.customUpload}>
             <Icon className={css.uploadIcon} id="upload" />
-            <span className={css.btnUpload}>Upload a photo</span>
+            <span className={css.btnUpload}>{t('Upload a photo')}</span>
           </label>
         </div>
       </div>
+
       <div className={css.partCover}>
-        <h3 className={css.secondTitle}>Your gender identity</h3>
+        <h3 className={css.secondTitle}>{t('Your gender identity')}</h3>
         <div className={css.radioCover}>
           <input
             id={radioIdWoman}
@@ -203,7 +208,7 @@ const SettingModal = ({ isOpen, onClose }) => {
             }}
           />
           <label htmlFor={radioIdWoman} className={css.labelRadio}>
-            Woman
+            {t('Woman')}
           </label>
           <input
             id={radioIdMan}
@@ -218,7 +223,7 @@ const SettingModal = ({ isOpen, onClose }) => {
             }}
           />
           <label htmlFor={radioIdMan} className={css.labelRadio}>
-            Man
+            {t('Man')}
           </label>
         </div>
       </div>
@@ -227,7 +232,7 @@ const SettingModal = ({ isOpen, onClose }) => {
           <div className={`${css.partCover} ${css.box}`}>
             <div>
               <label htmlFor={nameId} className={css.secondTitle}>
-                Your name
+                {t('Your name')}
               </label>
               <input
                 type="text"
@@ -241,7 +246,7 @@ const SettingModal = ({ isOpen, onClose }) => {
             </div>
             <div>
               <label htmlFor={emailId} className={css.secondTitle}>
-                Email
+                {t('Email')}
               </label>
               <input
                 type="email"
@@ -256,31 +261,31 @@ const SettingModal = ({ isOpen, onClose }) => {
           </div>
           <div className={`${css.partCover} ${css.withoutMargin}`}>
             <h3 className={`${css.secondTitle} ${css.updateDailyUp}`}>
-              My daily norma
+              {t('My daily norma')}
             </h3>
             <div className={css.formulaCover}>
               <div>
-                <p className={css.descr}>For woman:</p>
+                <p className={css.descr}>{t('For woman')}:</p>
                 <p className={css.greenDscr}>V=(M*0,03) + (T*0,4)</p>
               </div>
               <div>
-                <p className={css.descr}>For man:</p>
+                <p className={css.descr}>{t('For man')}:</p>
                 <p className={css.greenDscr}>V=(M*0,04) + (T*0,6)</p>
               </div>
             </div>
             <p className={css.formulaDescr}>
-              <span className={css.formulaStar}>*</span> V is the volume of the
-              water norm in liters per day, M is your body weight, T is the time
-              of active sports, or another type of activity commensurate in
-              terms of loads (in the absence of these, you must set 0)
+              <span className={css.formulaStar}>*</span>{' '}
+              {t(
+                'V is the volume of the water norm in liters per day, M is your body weight, T is the time of active sports, or another type of activity commensurate in terms of loads (in the absence of these, you must set 0)'
+              )}
             </p>
             <h3 className={`${css.secondTitle} ${css.updateDailyDown}`}>
-              My daily norma
+              {t('My daily norma')}
             </h3>
             <div className={css.coverMarkIcon}>
               <Icon id="icon-alert" width={18} height={18} />
               <p className={`${css.descr} ${css.actives}`}>
-                Active time in hours
+                {t('Active time in hours')}
               </p>
             </div>
           </div>
@@ -289,7 +294,7 @@ const SettingModal = ({ isOpen, onClose }) => {
           <div className={`${css.partCover} ${css.box}`}>
             <div>
               <label htmlFor={weightId} className={css.descr}>
-                Your weight in kilograms:
+                {t('Your weight in kilograms:')}
               </label>
               <Controller
                 name="weight"
@@ -313,37 +318,39 @@ const SettingModal = ({ isOpen, onClose }) => {
             </div>
             <div>
               <label htmlFor={timeId} className={css.descr}>
-                The time of active participation in sports:
+                {t('The time of active participation in sports:')}
               </label>
               <Controller
-                name="activeTime"
+                name="activeHours"
                 control={control}
                 render={({ field }) => (
                   <input
                     type="number"
                     id={timeId}
-                    className={`${css.input} ${errors.activeTime ? css.errorInput : ''}`}
+                    className={`${css.input} ${errors.activeHours ? css.errorInput : ''}`}
                     {...field}
                     onChange={e => {
-                      setValue('activeTime', e.target.value);
+                      setValue('activeHours', e.target.value);
                       handleInputChange();
                     }}
                   />
                 )}
               />
-              {errors.activeTime && (
-                <span className={css.error}>{errors.activeTime.message}</span>
+              {errors.activeHours && (
+                <span className={css.error}>{errors.activeHours.message}</span>
               )}
             </div>
           </div>
           <div className={css.limitAmount}>
             <p className={`${css.descr} ${css.descrTablet}`}>
-              The required amount of water in liters per day:
+              {t('The required amount of water in liters per day:')}
             </p>
-            <p className={css.greenDscr}>{waterIntake} L</p>
+            <p className={css.greenDscr}>
+              {waterIntake} {t('L')}
+            </p>
           </div>
           <label htmlFor={amountId} className={css.secondTitle}>
-            Write down how much water you will drink:
+            {t('Write down how much water you will drink:')}
           </label>
           <Controller
             name="waterIntake"
@@ -369,8 +376,9 @@ const SettingModal = ({ isOpen, onClose }) => {
           )}
         </div>
       </div>
+
       <button type="submit" className={css.btnSubmit}>
-        {isLoading ? 'Saving...' : 'Save'}
+        {isLoading ? t('Saving...') : t('Save')}
       </button>
     </form>
   );

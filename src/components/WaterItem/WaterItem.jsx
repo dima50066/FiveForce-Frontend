@@ -8,8 +8,10 @@ import { selectDayWater } from '../../redux/water/selectors';
 import { deleteWater, updateWater } from '../../redux/water/operations';
 import clsx from 'clsx';
 import Modal from '../../shared/Modal/Modal';
+import { useTranslation } from 'react-i18next';
 
 export default function WaterItem() {
+  const { t } = useTranslation();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [selectedWaterId, setSelectedWaterId] = useState(null);
@@ -31,11 +33,16 @@ export default function WaterItem() {
   };
 
   const handleDelete = async waterId => {
+    const idAsString = String(waterId);
+    if (!idAsString || idAsString === 'undefined') {
+      console.error('Invalid waterId after conversion:', idAsString);
+      return;
+    }
     try {
-      await dispatch(deleteWater(waterId));
+      await dispatch(deleteWater(idAsString));
       setIsDeleteModalOpen(false);
     } catch (error) {
-      console.error('Error deleting water entry:', error.message || error);
+      console.error(t('Error deleting water entry:'), error.message || error);
     }
   };
 
@@ -51,7 +58,7 @@ export default function WaterItem() {
       await dispatch(updateWater(updatedData));
       setIsEditModalOpen(false);
     } catch (error) {
-      console.error('Error updating water entry:', error.message || error);
+      console.error(t('Error updating water entry:'), error.message || error);
     }
   };
 
@@ -69,7 +76,9 @@ export default function WaterItem() {
                   id="icon-water-glass"
                 />
                 <div>
-                  <strong>{water.amount} ml</strong>
+                  <strong>
+                    {water.amount} {t('ml')}
+                  </strong>
                   <p className={styles.date}>
                     {new Date(water.date).toLocaleTimeString([], {
                       hour: '2-digit',
@@ -93,7 +102,9 @@ export default function WaterItem() {
                   </button>
                   <button
                     className={styles.deleteButton}
-                    onClick={() => handleOpenDeleteModal(water._id)}
+                    onClick={() =>
+                      water._id && handleOpenDeleteModal(water._id)
+                    }
                   >
                     <Icon
                       className={styles.iconDelete}
@@ -115,7 +126,7 @@ export default function WaterItem() {
             height={45}
             id="icon-water-glass"
           />
-          <p className={clsx(styles.text)}>No records found</p>
+          <p className={clsx(styles.text)}>{t('No records found')}</p>
         </div>
       )}
 

@@ -20,8 +20,10 @@ import Customers2 from '../../shared/Images/Customers/customers2-tabl-desc.png';
 import Customers2_2x from '../../shared/Images/Customers/customers2-tabl-desc-2x.png';
 import Customers3 from '../../shared/Images/Customers/customers3-tabl-desc.png';
 import Customers3_2x from '../../shared/Images/Customers/customers3-tabl-desc-2x.png';
+import { useTranslation } from "react-i18next";
 
 const AdvantagesSection = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const usersCount = useSelector(selectUsersCount);
   const isLoading = useSelector(state => state.users?.isLoading);
@@ -44,7 +46,7 @@ const AdvantagesSection = () => {
                 srcSet={`${Customers1_2x} 2x, ${Customers1} 1x`}
                 media="(min-width: 768px)"
               />
-              <img src={Customers1} alt="Customer avatar" />
+              <img src={Customers1} />
             </picture>
           </li>
 
@@ -58,7 +60,7 @@ const AdvantagesSection = () => {
                 srcSet={`${Customers2_2x} 2x, ${Customers2} 1x`}
                 media="(min-width: 768px)"
               />
-              <img src={Customers2} alt="Customer avatar" />
+              <img src={Customers2} />
             </picture>
           </li>
 
@@ -72,25 +74,25 @@ const AdvantagesSection = () => {
                 srcSet={`${Customers3_2x} 2x, ${Customers3} 1x`}
                 media="(min-width: 768px)"
               />
-              <img src={Customers3} alt="Customer avatar" />
+              <img src={Customers3} />
             </picture>
           </li>
         </ul>
 
         <p className={css.advantagesCustomersText}>
           {isLoading || usersCount === 0
-            ? 'Our happy customers'
-            : `${usersCount} happy customers`}
+            ? t('Our happy customers')
+            : t('{{count}} happy customers', { count: usersCount })}
         </p>
       </div>
 
       <div className={css.advantagesSectionBenefits}>
         <span className={css.advantagesSectionHabit}>
           <Icon className={css.iconCircle} id="circle" width={8} height={8} />
-          Habit drive
+          {t('Habit drive')}
         </span>
-        <p className={css.advantagesSectionView}>View statistics</p>
-        <p className={css.advantagesSectionPersonal}>Personal rate setting</p>
+        <p className={css.advantagesSectionView}>{t('View statistics')}</p>
+        <p className={css.advantagesSectionPersonal}>{t('Personal rate setting')}</p>
       </div>
     </section>
   );
