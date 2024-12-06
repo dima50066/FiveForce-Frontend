@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -28,7 +27,6 @@ const SignInForm = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  // Використання селекторів
   const isLoading = useSelector(selectIsLoading);
   const authError = useSelector(selectAuthError);
 
@@ -45,7 +43,7 @@ const SignInForm = () => {
     try {
       await dispatch(login(data)).unwrap();
       toast.success('Login successful!');
-      navigate('/tracker'); // Перенаправлення на TrackerPage
+      navigate('/tracker');
     } catch (error) {
       toast.error(authError || 'Login failed. Please try again.');
     }
@@ -80,12 +78,12 @@ const SignInForm = () => {
               className={css.iconButton}
               onClick={() => setShowPassword(!showPassword)}
             >
-            <Icon
-                 className={css.icon}
-                 id={showPassword ? 'eye' : 'eyeOff'}
-                 width="20"
-                 height="20"
-                            />
+              <Icon
+                className={css.icon}
+                id={showPassword ? 'eye' : 'eyeOff'}
+                width="20"
+                height="20"
+              />
             </button>
           </div>
           {errors.password && (
