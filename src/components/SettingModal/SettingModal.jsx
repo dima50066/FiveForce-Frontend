@@ -10,20 +10,30 @@ import { updateUser } from '../../redux/user/operations.js';
 import { selectUserAvatar } from '../../redux/user/selectors.js';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-hot-toast';
-import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher'; // Підключення LanguageSwitcher
+import LanguageSwitcher from '../LanguageSwitcher/LanguageSwitcher'; 
 
 const SettingModal = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
 
   const fileInputRef = useRef(null);
-
   const userAvatar = useSelector(selectUserAvatar);
   const [preview, setPreview] = useState(userAvatar || null);
-
   const [isLoading, setIsLoading] = useState(false);
-
   const user = useSelector(state => state.auth.user);
   const dispatch = useDispatch();
+
+
+ useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('modalOpen');
+    } else {
+      document.body.classList.remove('modalOpen');
+    }
+    return () => document.body.classList.remove('modalOpen');
+ }, [isOpen]);
+  
+  
+  /* Validation*/
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -75,7 +85,7 @@ const SettingModal = ({ isOpen, onClose }) => {
       avatar: null,
     },
   });
-
+  /* send Submit */
   const onSubmit = async data => {
     setIsLoading(true);
 
@@ -100,6 +110,8 @@ const SettingModal = ({ isOpen, onClose }) => {
       setIsLoading(false);
     }
   };
+
+  /* changing Avatar */
 
   const handleFileChange = event => {
     const file = event.target.files[0];
@@ -162,7 +174,7 @@ const SettingModal = ({ isOpen, onClose }) => {
     setValue('waterIntake', Math.max(calculatedWaterIntake, 1.5).toFixed(2));
   };
 
-  return (
+    return isOpen ? (
     <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
       <div className={css.header}>
         <h2 className={css.title}>{t('Setting')}</h2>
@@ -381,7 +393,7 @@ const SettingModal = ({ isOpen, onClose }) => {
         {isLoading ? t('Saving...') : t('Save')}
       </button>
     </form>
-  );
+  ) : null;
 };
 
 export default SettingModal;
