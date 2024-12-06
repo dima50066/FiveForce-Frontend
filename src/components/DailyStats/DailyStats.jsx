@@ -5,7 +5,8 @@ import css from './DailyStats.module.css';
 import WaterList from '../WaterList/WaterList';
 import AddWaterRightBtn from '../AddWaterRightBtn/AddWaterRightBtn';
 import { deleteWater, updateWater } from '../../redux/water/operations';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
+import ChooseDate from '../ChooseDate/ChooseDate';
 
 export default function DailyStats() {
   const { t } = useTranslation();
@@ -35,12 +36,7 @@ export default function DailyStats() {
   return (
     <div className={css.dailyStats}>
       <div className={css.header}>
-        <h2 className={css.date}>
-          {new Date(activeDay).toLocaleDateString('en-US', {
-            day: 'numeric',
-            month: 'long',
-          })}
-        </h2>
+        <ChooseDate />
         <AddWaterRightBtn />
       </div>
       <WaterList />

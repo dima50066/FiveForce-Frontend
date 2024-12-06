@@ -13,6 +13,7 @@ export default function ChooseDate() {
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
+    // Якщо активний день дорівнює сьогоднішньому, відображаємо "Today water"
     if (activeDay.toDateString() === new Date().toDateString()) {
       setCurrentDate(t('Today water'));
     } else {

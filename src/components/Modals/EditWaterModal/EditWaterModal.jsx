@@ -16,6 +16,7 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
         })
       : '07:00'
   );
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     if (currentWater) {
@@ -30,11 +31,11 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
   }, [currentWater]);
 
   const handleDecrease = () => {
-    setWaterAmount(prev => Math.max(prev - 50, 50));
+    setWaterAmount(prev => Math.max(prev - 50, 10));
   };
 
   const handleIncrease = () => {
-    setWaterAmount(prev => Math.min(prev + 50, 1500));
+    setWaterAmount(prev => Math.min(prev + 50, 3000));
   };
 
   const handleTimeChange = e => {
@@ -42,21 +43,36 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
   };
 
   const handleInputChange = e => {
-    const value = Number(e.target.value);
-    if (value >= 50 && value <= 1500) {
-      setWaterAmount(value);
+    setWaterAmount(e.target.value);
+    setError(false);
+  };
+
+  const handleBlur = () => {
+    const value = Number(waterAmount);
+    if (value < 10 || value > 3000 || isNaN(value)) {
+      setError(true);
+    } else {
+      setError(false);
     }
   };
 
   const handleSubmit = e => {
     e.preventDefault();
 
+    const value = Number(waterAmount);
+    if (value < 10 || value > 3000 || isNaN(value)) {
+      setError(true);
+      toast.error(t('Value must be between 10 and 3000'));
+      return;
+    }
+
     try {
       const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
       if (!timeRegex.test(time)) {
-    toast.error('Invalid time format. Please use HH:mm.');
-    return;
-  }
+        toast.error('Invalid time format. Please use HH:mm.');
+        return;
+      }
+
       const [hours, minutes] = time.split(':').map(Number);
       const currentDate = new Date();
       const updatedTime = new Date(
@@ -69,7 +85,7 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
 
       onSave({
         id: waterId,
-        updatedWater: { amount: waterAmount, date: updatedTime },
+        updatedWater: { amount: value, date: updatedTime },
       });
 
       toast.success(t('Water entry updated successfully!'));
@@ -89,11 +105,11 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
           <button
             className={clsx(
               styles['counterBtn'],
-              waterAmount <= 50 && styles['decrementBtn']
+              waterAmount <= 10 && styles['decrementBtn']
             )}
             type="button"
             onClick={handleDecrease}
-            disabled={waterAmount <= 50}
+            disabled={waterAmount <= 10}
           >
             <Icon
               className={styles['iconMinus']}
@@ -108,11 +124,11 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
           <button
             className={clsx(
               styles['counterBtn'],
-              waterAmount >= 1500 && styles['incrementBtn']
+              waterAmount >= 3000 && styles['incrementBtn']
             )}
             type="button"
             onClick={handleIncrease}
-            disabled={waterAmount >= 1500}
+            disabled={waterAmount >= 3000}
           >
             <Icon
               className={styles['iconPlus']}
@@ -137,17 +153,22 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
         <label className={styles['secondaryLabel']}>
           {t('Enter the value of the water used')}:
           <input
-            className={styles['baseInput']}
-            type="number"
+            className={clsx(styles['baseInput'], error && styles['errorInput'])}
+            type="text"
             value={waterAmount}
             onChange={handleInputChange}
-            min="50"
-            max="1500"
+            onBlur={handleBlur}
+            placeholder={t('Enter value')}
           />
+          {error && (
+            <span className={styles['error']}>
+              {t('Value must be between 10 and 3000')}
+            </span>
+          )}
         </label>
 
         <div className={styles['buttonContainer']}>
-          <button className={styles['saveBtn']} type="submit">
+          <button className={styles['saveBtn']} type="submit" disabled={error}>
             {t('Save')}
           </button>
         </div>
