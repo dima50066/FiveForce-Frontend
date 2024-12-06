@@ -1,24 +1,31 @@
 import React from 'react';
+import css from './DeleteModal.module.css';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'react-hot-toast';
 import styles from './DeleteModal.module.css';
 
 const DeleteModal = ({ waterId, onDelete, onCancel }) => {
+  const { t } = useTranslation();
+
   const handleDelete = async () => {
     try {
-      await onDelete();
-      toast.success('Water successfully deleted!');
+      if (!waterId) {
+        console.error('waterId is undefined');
+        return;
+      }
       await onDelete(waterId);
+      toast.success(t('Water successfully deleted!'));
     } catch (error) {
       console.error('Delete failed:', error.message || error);
-      toast.error('Failed to delete water. Please try again.');
+      toast.error(t('Failed to delete water. Please try again.'));
     }
   };
 
   return (
-    <div className={styles['delete-info']}>
-      <h3 className={styles['delete-h3']}>Delete entry</h3>
-      <p className={styles['delete-question']}>
-        Are you sure you want to delete the entry?
+    <div className={css['delete-info']}>
+      <h3 className={css['delete-h3']}>{t('Delete entry')}</h3>
+      <p className={css['delete-question']}>
+        {t('Are you sure you want to delete the entry?')}
       </p>
       <div className={styles['btns-delete-wrap']}>
         <button
@@ -26,7 +33,7 @@ const DeleteModal = ({ waterId, onDelete, onCancel }) => {
           type="button"
           onClick={handleDelete}
         >
-          Delete
+          {t('Delete')}
         </button>
 
         <button
@@ -34,7 +41,7 @@ const DeleteModal = ({ waterId, onDelete, onCancel }) => {
           type="button"
           onClick={onCancel}
         >
-          Cancel
+          {t('Cancel')}
         </button>
       </div>
     </div>

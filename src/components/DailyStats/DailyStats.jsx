@@ -5,8 +5,10 @@ import css from './DailyStats.module.css';
 import WaterList from '../WaterList/WaterList';
 import AddWaterRightBtn from '../AddWaterRightBtn/AddWaterRightBtn';
 import { deleteWater, updateWater } from '../../redux/water/operations';
+import { useTranslation } from "react-i18next";
 
 export default function DailyStats() {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const activeDay = useSelector(selectActiveDay);
 
@@ -21,7 +23,7 @@ export default function DailyStats() {
       await dispatch(deleteWater(currentItem.id));
       closeModal();
     } catch (error) {
-      console.error('Failed to delete item:', error);
+      console.error(t('Failed to delete item:'), error);
     }
   };
 

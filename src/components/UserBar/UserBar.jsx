@@ -6,6 +6,7 @@ import { selectUserName, selectUserAvatar } from '../../redux/user/selectors';
 import Modal from '../../shared/Modal/Modal.jsx';
 import SettingModal from '../SettingModal/SettingModal';
 import LogModal from '../Modals/LogModal/LogModal';
+import { useTranslation } from 'react-i18next';
 import UserBarPopover from '../UserBarPopover/UserBarPopover';
 
 export default function UserBar() {
@@ -13,7 +14,9 @@ export default function UserBar() {
   const [isSettingModalOpen, setIsSettingModalOpen] = useState(false);
   const [isLogModalOpen, setIsLogModalOpen] = useState(false);
 
-  const userName = useSelector(selectUserName) || 'Quest';
+  const { t } = useTranslation();
+
+  const userName = useSelector(selectUserName) || t('Guest');
   const userAvatar = useSelector(selectUserAvatar) || '';
 
   const togglePopover = () => {
@@ -53,9 +56,9 @@ export default function UserBar() {
         }
       >
         <div className={css.profile} onClick={togglePopover}>
-          <img src={userAvatar} alt="User Avatar" className={css.avatar} />
           <span className={css.userName}>{userName}</span>
-          <span className={css.arrow}>{isPopoverOpen ? '▲' : '▼'}</span>
+          <img src={userAvatar} className={css.avatar} />
+          <span className={css.arrow}>{isPopoverOpen ? t('▲') : t('▼')}</span>
         </div>
       </Popover>
 

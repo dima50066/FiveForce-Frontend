@@ -2,8 +2,10 @@ import clsx from 'clsx';
 import css from './CalendarItem.module.css';
 import { selectUserWaterNorm } from '../../../redux/user/selectors';
 import { useSelector } from 'react-redux';
+import { useTranslation } from "react-i18next";
 
 export default function CalendarItem({ item, activeDay, index }) {
+  const { t } = useTranslation();
   const dailyWaterNorm = useSelector(selectUserWaterNorm);
 
   const calculateWaterPercentage = totalDayWater => {

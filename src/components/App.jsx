@@ -9,7 +9,6 @@ import SignInPage from '../pages/SignInPage/SignInPage';
 import TrackerPage from '../pages/TrackerPage/TrackerPage';
 import { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../redux/user/operations';
 import { selectIsRefreshing, selectUser } from '../redux/user/selectors';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import WaterLoader from '../shared/Loaders/WaterLoader';
@@ -17,8 +16,7 @@ import { getDayWater } from '../redux/water/operations';
 import { setActiveDay } from '../redux/water/slice';
 import { selectActiveDay } from '../redux/water/selectors';
 import { refreshSession } from '../redux/user/operations';
-import { clearAuthHeader, setAuthHeader } from '../utils/axiosConfig';
-
+import { setAuthHeader } from '../utils/axiosConfig';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -42,7 +40,7 @@ const App = () => {
     const token = localStorage.getItem('token');
     if (token) {
       setAuthHeader(token);
-      dispatch(refreshSession()); // Refresh session on page reload
+      dispatch(refreshSession());
     }
   }, [dispatch]);
 

@@ -3,8 +3,10 @@ import CalendarItem from '../CalendarItem/CalendarItem';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectActiveDay } from '../../../redux/water/selectors';
 import { setActiveDay } from '../../../redux/water/slice';
+import { useTranslation } from "react-i18next";
 
 export default function Calendar({ daysData }) {
+  const { t } = useTranslation();
   const activeDay = useSelector(selectActiveDay);
   const dispatch = useDispatch();
 
@@ -13,7 +15,7 @@ export default function Calendar({ daysData }) {
       const isoDate = new Date(day).toISOString();
       dispatch(setActiveDay(isoDate));
     } else {
-      console.error('Invalid day value:', day);
+      console.error(t('Invalid day value:'), day);
     }
   };
 

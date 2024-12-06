@@ -3,8 +3,10 @@ import css from './AddWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 const AddWaterModal = ({ onSave }) => {
+  const { t } = useTranslation();
   const [waterAmount, setWaterAmount] = useState(50);
   const [time, setTime] = useState('');
   const [error, setError] = useState(false);
@@ -53,16 +55,15 @@ const AddWaterModal = ({ onSave }) => {
     );
 
     onSave({ amount: waterAmount, time: date });
-      toast.success('Water intake successfully saved!');
+    toast.success(t('Water intake successfully saved!'));
   };
 
   return (
     <div className={css.container}>
       <form className={css.form} onSubmit={handleSubmit}>
-        <h1 className={css.header}>Add water</h1>
-        <p className={css.text}>Choose a value:</p>
-        <p className={css.secondaryText}>Amount of water:</p>
-
+        <h1 className={css.header}>{t('Add water')}</h1>
+        <p className={css.text}>{t('Choose a value')}</p>
+        <p className={css.secondaryText}>{t('Amount of water:')}</p>{' '}
         <div className={css.counterContainer}>
           <button
             className={clsx(
@@ -98,9 +99,8 @@ const AddWaterModal = ({ onSave }) => {
             />
           </button>
         </div>
-
         <label className={css.baseLabel}>
-          Recording time:
+          {t('Recording time:')}
           <input
             className={clsx(css.baseInput, timeError && css.errorInput)}
             value={time}
@@ -109,15 +109,16 @@ const AddWaterModal = ({ onSave }) => {
               setTimeError(false);
             }}
             maxLength="5"
-            placeholder="hh:mm"
+            placeholder={t('HH:MM')}
           />
           {timeError && (
-            <span className={css.error}>Time must be in hh:mm format</span>
+            <span className={css.error}>
+              {t('Time must be in hh:mm format')}
+            </span>
           )}
         </label>
-
         <label className={css.secondaryLabel}>
-          Enter the value of the water used:
+          {t('Enter the value of the water used:')}
           <input
             className={clsx(css.baseInput, error && css.errorInput)}
             type="number"
@@ -133,12 +134,13 @@ const AddWaterModal = ({ onSave }) => {
             }}
           />
           {error && (
-            <span className={css.error}>Value must be between 50 and 1500</span>
+            <span className={css.error}>
+              {t('Value must be between 50 and 1500')}
+            </span>
           )}
         </label>
-
         <button className={css.saveBtn} type="submit">
-          Save
+          {t('Save')}
         </button>
       </form>
     </div>
