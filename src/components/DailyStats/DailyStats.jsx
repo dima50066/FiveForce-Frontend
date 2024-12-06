@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { selectActiveDay, selectDayWater } from '../../redux/water/selectors';
 import css from './DailyStats.module.css';
 import WaterList from '../WaterList/WaterList';
-import AddWaterBtn from '../AddWaterBtn/AddWaterBtn';
+import AddWaterRightBtn from '../AddWaterRightBtn/AddWaterRightBtn';
 import Modal from '../../shared/Modal/Modal';
 import EditWaterModal from '../Modals/EditWaterModal/EditWaterModal';
 import DeleteModal from '../Modals/DeleteModal/DeleteModal';
@@ -58,32 +58,9 @@ export default function DailyStats() {
             month: 'long',
           })}
         </h2>
-        <AddWaterBtn onAddWater={() => {}} />
+        <AddWaterRightBtn onAddWater={() => {}} />
       </div>
-      <div className={css.waterListContainer}>
-        <WaterList
-          waterData={dayWater}
-          onDelete={openDeleteModal}
-          onEdit={openEditModal}
-        />
-      </div>
-
-      <Modal isOpen={isEditModalOpen} onClose={closeModal}>
-        {currentItem && (
-          <EditWaterModal
-            currentWater={{
-              amount: currentItem.amount,
-              time: currentItem.time,
-            }}
-            id={currentItem.id}
-            onSave={handleSave}
-          />
-        )}
-      </Modal>
-
-      <Modal isOpen={isDeleteModalOpen} onClose={closeModal}>
-        <DeleteModal onDelete={handleDelete} onCancel={closeModal} />
-      </Modal>
+      <WaterList />
     </div>
   );
 }
