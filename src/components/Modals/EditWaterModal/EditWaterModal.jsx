@@ -1,41 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import css from './EditWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
 
-const EditWaterModal = ({ onSave }) => {
-  const [waterAmount, setWaterAmount] = useState(250);
-  const [time, setTime] = useState('07:00');
-  const [error, setError] = useState(false);
-  const [timeError, setTimeError] = useState(false);
+const EditWaterModal = ({ currentWater, id, onSave }) => {
+  const [waterAmount, setWaterAmount] = useState(currentWater?.amount || 250);
+  const [time, setTime] = useState(currentWater?.time || '07:00');
+
+  useEffect(() => {
+    if (currentWater) {
+      setWaterAmount(currentWater.amount);
+      setTime(currentWater.time);
+    }
+  }, [currentWater]);
 
   const handleDecrease = () => {
-    const newAmount = Math.max(waterAmount - 50, 50);
-    setWaterAmount(newAmount);
+    setWaterAmount(prev => Math.max(prev - 50, 50));
   };
 
   const handleIncrease = () => {
-    const newAmount = Math.min(waterAmount + 50, 1500);
-    setWaterAmount(newAmount);
+    setWaterAmount(prev => Math.min(prev + 50, 1500));
+  };
+
+  const handleTimeChange = e => {
+    setTime(e.target.value);
+  };
+
+  const handleInputChange = e => {
+    setWaterAmount(Number(e.target.value));
   };
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (!/^([01]\d|2[0-3]):([0-5]\d)$/.test(time)) {
-      setTimeError(true);
-      return;
-    }
+    const [hours, minutes] = time.split(':').map(Number);
+    const currentDate = new Date();
+    const updatedTime = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate(),
+      hours,
+      minutes
+    ).getTime();
 
-    onSave({ amount: waterAmount, time });
+    onSave({ id, updatedWater: { amount: waterAmount, date: updatedTime } });
   };
 
   return (
     <div className={css.container}>
       <form className={css.form} onSubmit={handleSubmit}>
         <h1 className={css.header}>Edit the entered amount of water</h1>
-        <p className={css.text}>Correct entered:</p>
-        <p className={css.secondaryText}>Amount of water:</p>
 
         <div className={css.counterContainer}>
           <button
@@ -76,39 +90,22 @@ const EditWaterModal = ({ onSave }) => {
         <label className={css.baseLabel}>
           Recording time:
           <input
-            className={clsx(css.baseInput, timeError && css.errorInput)}
+            className={css.baseInput}
             value={time}
-            onChange={e => {
-              setTime(e.target.value);
-              setTimeError(false);
-            }}
+            onChange={handleTimeChange}
             maxLength="5"
             placeholder="hh:mm"
           />
-          {timeError && (
-            <span className={css.error}>Time must be in hh:mm format</span>
-          )}
         </label>
 
         <label className={css.secondaryLabel}>
           Enter the value of the water used:
           <input
-            className={clsx(css.baseInput, error && css.errorInput)}
+            className={css.baseInput}
             type="number"
             value={waterAmount}
-            onChange={e => {
-              const value = Number(e.target.value);
-              if (value < 50 || value > 1500) {
-                setError(true);
-              } else {
-                setError(false);
-                setWaterAmount(value);
-              }
-            }}
+            onChange={handleInputChange}
           />
-          {error && (
-            <span className={css.error}>Value must be between 50 and 1500</span>
-          )}
         </label>
 
         <button className={css.saveBtn} type="submit">

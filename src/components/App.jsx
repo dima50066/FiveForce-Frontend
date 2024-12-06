@@ -10,14 +10,20 @@ import TrackerPage from '../pages/TrackerPage/TrackerPage';
 import { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../redux/user/operations';
-import { selectIsRefreshing } from '../redux/user/selectors';
-import SettingModal from './SettingModal/SettingModal';
+import { selectIsRefreshing, selectUser } from '../redux/user/selectors';
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import WaterLoader from '../shared/Loaders/WaterLoader';
+import { getDayWater } from '../redux/water/operations';
+import { setActiveDay } from '../redux/water/slice';
+import { selectActiveDay } from '../redux/water/selectors';
+import { refreshSession } from '../redux/user/operations';
+import { clearAuthHeader, setAuthHeader } from '../utils/axiosConfig';
 
 const App = () => {
   const dispatch = useDispatch();
   const isRefreshing = useSelector(selectIsRefreshing);
+  const user = useSelector(selectUser);
+  const activeDay = useSelector(selectActiveDay);
 
   useEffect(() => {
     const removeLoader = () => {
@@ -32,8 +38,29 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchUser());
+    const token = localStorage.getItem('token');
+    if (token) {
+      setAuthHeader(token);
+      dispatch(refreshSession()); // Refresh session on page reload
+    }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!activeDay && user && !isRefreshing) {
+      const now = new Date();
+      const currentDate = now.toISOString();
+      dispatch(setActiveDay(currentDate));
+    }
+  }, [dispatch, activeDay, user, isRefreshing]);
+
+  useEffect(() => {
+    if (activeDay && user && !isRefreshing) {
+      const timestamp = Date.parse(activeDay);
+      if (!isNaN(timestamp)) {
+        dispatch(getDayWater(timestamp));
+      }
+    }
+  }, [activeDay, dispatch, user, isRefreshing]);
 
   return (
     <>
@@ -84,7 +111,6 @@ const App = () => {
                   <PrivateRoute component={<TrackerPage />} redirectTo="/" />
                 }
               />
-              <Route path="/setting" element={<SettingModal />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>

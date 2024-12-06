@@ -1,13 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import css from './AddWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
 
 const AddWaterModal = ({ onSave }) => {
   const [waterAmount, setWaterAmount] = useState(50);
-  const [time, setTime] = useState('07:00');
+  const [time, setTime] = useState('');
   const [error, setError] = useState(false);
   const [timeError, setTimeError] = useState(false);
+
+  useEffect(() => {
+    const now = new Date();
+    const formattedTime = now.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    setTime(formattedTime);
+  }, []);
 
   const handleDecrease = () => {
     const newAmount = Math.max(waterAmount - 50, 50);

@@ -9,18 +9,14 @@ import css from './MonthInfo.module.css';
 
 export default function WaterUsageInfo() {
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const dailyWaterData = useSelector(selectMonthWater); // Redux селектор
+  const dailyWaterData = useSelector(selectMonthWater);
   const dispatch = useDispatch();
 
-  // Логування обраної дати
-
-  // Виклик getMonthWater при зміні selectedDate
   useEffect(() => {
     const timestamp = new Date(selectedDate).getTime();
     dispatch(getMonthWater(timestamp));
   }, [dispatch, selectedDate]);
 
-  // Логування даних з Redux
   useEffect(() => {}, [dailyWaterData]);
 
   const handlePreviousMonth = () => {

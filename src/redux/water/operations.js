@@ -1,11 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axiosInstance from '../../utils/axiosConfig';
+import { toUnixTimestamp } from '../../utils/formatDate';
 
 export const getDayWater = createAsyncThunk(
   'water/getDayWater',
   async (date, thunkAPI) => {
     try {
-      const response = await axiosInstance.get(`/water/day/${date}`);
+      const timestamp = toUnixTimestamp(date);
+      const response = await axiosInstance.get(`/water/day/${timestamp}`);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -18,7 +20,8 @@ export const getMonthWater = createAsyncThunk(
   'water/getMonthWater',
   async (date, thunkAPI) => {
     try {
-      const response = await axiosInstance.get(`/water/month/${date}`);
+      const timestamp = toUnixTimestamp(date);
+      const response = await axiosInstance.get(`/water/month/${timestamp}`);
       return response.data;
     } catch (error) {
       console.error(error);
@@ -32,6 +35,12 @@ export const addWater = createAsyncThunk(
   async (newWater, thunkAPI) => {
     try {
       const response = await axiosInstance.post('/water', newWater);
+      const activeDay = thunkAPI.getState().water.activeDay;
+
+      thunkAPI.dispatch(getDayWater(activeDay));
+      thunkAPI.dispatch(getMonthWater(activeDay));
+      thunkAPI.dispatch(getSummaryAmount());
+
       return response.data;
     } catch (error) {
       console.error(error);
@@ -45,6 +54,12 @@ export const updateWater = createAsyncThunk(
   async ({ id, updatedWater }, thunkAPI) => {
     try {
       const response = await axiosInstance.put(`/water/${id}`, updatedWater);
+      const activeDay = thunkAPI.getState().water.activeDay;
+
+      thunkAPI.dispatch(getDayWater(activeDay));
+      thunkAPI.dispatch(getMonthWater(activeDay));
+      thunkAPI.dispatch(getSummaryAmount());
+
       return response.data;
     } catch (error) {
       console.error(error);
@@ -58,6 +73,12 @@ export const deleteWater = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const response = await axiosInstance.delete(`/water/${id}`);
+      const activeDay = thunkAPI.getState().water.activeDay;
+
+      thunkAPI.dispatch(getDayWater(activeDay));
+      thunkAPI.dispatch(getMonthWater(activeDay));
+      thunkAPI.dispatch(getSummaryAmount());
+
       return response.data;
     } catch (error) {
       console.error(error);

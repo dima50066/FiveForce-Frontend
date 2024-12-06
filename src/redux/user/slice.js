@@ -10,26 +10,18 @@ import {
   fetchUsersCount,
   getGoogleOAuthUrl,
   loginWithGoogle,
+  refreshSession,
 } from './operations';
 
 const initialState = {
-  user: {
-    id: '',
-    name: '',
-    email: '',
-    avatar: '',
-    gender: '',
-    weight: 0,
-    activeTime: 0,
-    dailyNorm: 0,
-  },
-  token: null,
-  isLoggedIn: false,
+  user: null,
+  isLoggedIn: !!localStorage.getItem('token'),
   isLoading: false,
   isRefreshing: false,
   error: null,
   usersCount: 0,
   googleOAuthUrl: null,
+  token: localStorage.getItem('token') || null,
 };
 
 const authSlice = createSlice({
@@ -190,6 +182,23 @@ const authSlice = createSlice({
       .addCase(loginWithGoogle.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload?.message || action.error.message;
+      })
+      // refreshSession
+      .addCase(refreshSession.pending, state => {
+        state.isRefreshing = true;
+        state.error = null;
+      })
+      .addCase(refreshSession.fulfilled, (state, action) => {
+        state.isRefreshing = false;
+        state.token = action.payload;
+        state.isLoggedIn = true;
+      })
+      .addCase(refreshSession.rejected, (state, action) => {
+        state.isRefreshing = false;
+        state.error = action.payload || 'Session refresh failed';
+        state.isLoggedIn = false;
+        state.user = null;
+        state.token = null;
       });
   },
 });

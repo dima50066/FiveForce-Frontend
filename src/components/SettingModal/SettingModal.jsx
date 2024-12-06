@@ -1,4 +1,4 @@
-import React, { useId, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
@@ -9,15 +9,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/user/operations.js';
 import { selectUserAvatar } from '../../redux/user/selectors.js';
 
-const SettingModal = () => {
+
+
+  
+const SettingModal = ({ isOpen, onClose }) => {
+  
+  if (!isOpen) {
+    return null; 
+  }
+
+  const dispatch = useDispatch();
+  const fileInputRef = useRef(null);
+  
   const userAvatar = useSelector(selectUserAvatar);
+  const user = useSelector(state => state.auth.user);
   const [preview, setPreview] = useState(userAvatar || null);
-  const [waterIntake, setWaterIntake] = useState(1.5);
   const [isLoading, setIsLoading] = useState(false);
 
-  const user = useSelector(state => state.auth.user);
-  const dispatch = useDispatch();
-
+  
   const validationSchema = Yup.object({
     name: Yup.string()
       .required('Name is required')
@@ -30,7 +39,7 @@ const SettingModal = () => {
       .nullable()
       .min(0, 'Weight must be at least 0 kg')
       .max(300, 'Weight must be less than 300 kg'),
-    activeHours: Yup.number()
+    activeTime: Yup.number()
       .transform((value, originalValue) =>
         originalValue === '' ? null : value
       )
@@ -40,7 +49,10 @@ const SettingModal = () => {
     waterIntake: Yup.number()
       .required('Water intake is required')
       .min(1.5, 'Cannot be less than 1.5')
-      .max(5, 'Cannot be more than 5 liters'),
+      .max(5, 'Cannot be more than 5 liters')
+    .transform((value, originalValue) =>
+    originalValue === '' ? 1.5 : parseFloat(value)
+  ),
     gender: Yup.string().required('Gender is required'),
   });
 
@@ -50,15 +62,16 @@ const SettingModal = () => {
     formState: { errors },
     register,
     setValue,
+    getValues,
   } = useForm({
     resolver: yupResolver(validationSchema),
     defaultValues: {
       name: user?.name || '',
       email: user?.email || '',
-      weight: '0',
-      activeHours: '0',
-      waterIntake: '1.5',
-      gender: 'woman',
+      weight: user?.weight || null,
+      activeTime: user?.activeTime || null,
+      waterIntake: user?.dailyNorm || '1.5',
+      gender: user?.gender ?? 'woman',
       avatar: null,
     },
   });
@@ -73,7 +86,7 @@ const SettingModal = () => {
     formData.append('name', data.name);
     formData.append('email', data.email);
     formData.append('weight', data.weight);
-    formData.append('activeTime', data.activeHours);
+    formData.append('activeTime', data.activeTime);
     formData.append('dailyNorm', data.waterIntake * 1000);
     formData.append('gender', data.gender);
 
@@ -81,6 +94,7 @@ const SettingModal = () => {
       const result = await dispatch(updateUser(formData)).unwrap();
       console.log('Form submitted successfully:', result);
       alert('Дані успішно збережено!');
+      onClose();
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Сталася помилка під час відправки даних.');
@@ -89,21 +103,15 @@ const SettingModal = () => {
     }
   };
 
-  const fileInputRef = useRef(null);
+ 
 
   const handleFileChange = event => {
     const file = event.target.files[0];
     if (file) {
-      console.log('Selected file:', file);
       const previewUrl = URL.createObjectURL(file);
       setPreview(previewUrl);
       setValue('avatar', file);
     }
-  };
-
-  const handleButtonClick = () => {
-    event.preventDefault();
-    fileInputRef.current.click();
   };
 
   const nameId = useId();
@@ -114,6 +122,51 @@ const SettingModal = () => {
   const radioIdWoman = useId();
   const radioIdMan = useId();
   const fileInputId = useId();
+ 
+  /* All with calculating water */
+
+
+useEffect(() => {
+    if (isOpen) {
+      const initialWaterIntake = calculateWaterIntake(
+        user?.weight || 0,
+        user?.activeTime || 0,
+        user?.gender || 'woman'
+      );
+      setWaterIntake(Math.max(initialWaterIntake, 1.5).toFixed(2));
+      setValue('waterIntake', Math.max(initialWaterIntake, 1.5).toFixed(2));
+    }
+}, [isOpen, user, setValue]);
+
+  const [waterIntake, setWaterIntake] = useState(
+    user?.dailyNorm ? user.dailyNorm / 1000 : 1.5
+  );
+
+
+  const calculateWaterIntake = (weight = 0, activeTime = 0, gender = 'woman') => {
+   
+    let intake = 1.5;
+    if (gender === 'woman') {
+      intake = weight * 0.03 + activeTime * 0.4;
+    } else if (gender === 'man') {
+      intake = weight * 0.04 + activeTime * 0.6;
+    }
+    return Math.min(intake, 5);
+  };
+
+  const handleInputChange = () => {
+    const weight = parseFloat(getValues('weight')) || 0;
+    const activeTime = parseFloat(getValues('activeTime')) || 0;
+    const gender = getValues('gender') || 'woman';
+    let calculatedWaterIntake = calculateWaterIntake(
+      weight,
+      activeTime,
+      gender
+    );
+      calculatedWaterIntake = Math.max(calculatedWaterIntake, 1.5);
+    setWaterIntake(calculatedWaterIntake.toFixed(2));
+    setValue('waterIntake', calculatedWaterIntake.toFixed(2));
+  };
 
   return (
     <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
@@ -136,10 +189,8 @@ const SettingModal = () => {
           />
           <label htmlFor={fileInputId} className={css.customUpload}>
             <Icon className={css.uploadIcon} id="upload" />
+            <span className={css.btnUpload}>Upload a photo</span>
           </label>
-          <button className={css.btnUpload} onClick={handleButtonClick}>
-            Upload a photo
-          </button>
         </div>
       </div>
       <div className={css.partCover}>
@@ -151,7 +202,12 @@ const SettingModal = () => {
             type="radio"
             name="gender"
             value="woman"
+           checked={getValues('gender') === 'woman'}
             {...register('gender')}
+            onChange={e => {
+              setValue('gender', e.target.value);
+              handleInputChange();
+            }}
           />
           <label htmlFor={radioIdWoman} className={css.labelRadio}>
             Woman
@@ -163,6 +219,10 @@ const SettingModal = () => {
             name="gender"
             value="man"
             {...register('gender')}
+            onChange={e => {
+              setValue('gender', e.target.value);
+              handleInputChange();
+            }}
           />
           <label htmlFor={radioIdMan} className={css.labelRadio}>
             Man
@@ -247,6 +307,10 @@ const SettingModal = () => {
                     id={weightId}
                     className={`${css.input} ${errors.weight ? css.errorInput : ''}`}
                     {...field}
+                    onChange={e => {
+                      setValue('weight', e.target.value);
+                      handleInputChange();
+                    }}
                   />
                 )}
               />
@@ -259,19 +323,23 @@ const SettingModal = () => {
                 The time of active participation in sports:
               </label>
               <Controller
-                name="activeHours"
+                name="activeTime"
                 control={control}
                 render={({ field }) => (
                   <input
                     type="number"
                     id={timeId}
-                    className={`${css.input} ${errors.activeHours ? css.errorInput : ''}`}
+                    className={`${css.input} ${errors.activeTime ? css.errorInput : ''}`}
                     {...field}
+                    onChange={e => {
+                      setValue('activeTime', e.target.value);
+                      handleInputChange();
+                    }}
                   />
                 )}
               />
-              {errors.activeHours && (
-                <span className={css.error}>{errors.activeHours.message}</span>
+              {errors.activeTime && (
+                <span className={css.error}>{errors.activeTime.message}</span>
               )}
             </div>
           </div>
@@ -279,7 +347,7 @@ const SettingModal = () => {
             <p className={`${css.descr} ${css.descrTablet}`}>
               The required amount of water in liters per day:
             </p>
-            <p className={css.greenDscr}>{waterIntake * 1000} L</p>
+            <p className={css.greenDscr}>{waterIntake} L</p>
           </div>
           <label htmlFor={amountId} className={css.secondTitle}>
             Write down how much water you will drink:
@@ -296,7 +364,7 @@ const SettingModal = () => {
                 {...field}
                 value={waterIntake}
                 onChange={e => {
-                  const value = parseFloat(e.target.value) || 0;
+                  const value = parseFloat(e.target.value) || 1.5;
                   setWaterIntake(value);
                   field.onChange(e);
                 }}

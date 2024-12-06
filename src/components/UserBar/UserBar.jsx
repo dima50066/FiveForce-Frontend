@@ -64,10 +64,12 @@ export default function UserBar() {
       <Modal
         isOpen={isSettingModalOpen}
         onClose={handleCloseSettingModal}
-        className={css.modal}
-        classNameWrapper={css.modalWrapper}
+        className={`${css.modal} ${css.modalForm}` }
+        classNameWrapper= {css.wrapper}
       >
-        <SettingModal />
+        
+          <SettingModal isOpen={isSettingModalOpen}
+        onClose={() => setIsSettingModalOpen(false)}/>
       </Modal>
 
       <Modal

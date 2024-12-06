@@ -10,8 +10,11 @@ export default function WaterList({ waterData, onDelete, onEdit }) {
           <WaterItem
             key={item._id}
             id={item._id}
-            amount={`${item.amount} ml`}
-            time={new Date(item.date).toLocaleTimeString()}
+            amount={item.amount}
+            time={new Date(item.date).toLocaleTimeString([], {
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
             onDelete={onDelete}
             onEdit={onEdit}
           />
