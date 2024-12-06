@@ -4,13 +4,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
-import { toast } from 'react-toastify';
+import { toast } from 'react-hot-toast';
 import { login } from '../../redux/user/operations';
 import css from './SignInForm.module.css';
 import Icon from '../../shared/Icons/Icon';
 import { selectIsLoading, selectAuthError } from '../../redux/user/selectors';
 import GoogleAuthBtn from '../GoogleAuthBtn/GoogleAuthBtn.jsx';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const SignInForm = () => {
   const dispatch = useDispatch();
@@ -29,7 +29,6 @@ const SignInForm = () => {
       .required(t('Password is required')),
   });
 
-  // Використання селекторів
   const isLoading = useSelector(selectIsLoading);
   const authError = useSelector(selectAuthError);
 
@@ -46,7 +45,7 @@ const SignInForm = () => {
     try {
       await dispatch(login(data)).unwrap();
       toast.success(t('Login successful!'));
-      navigate('/tracker'); 
+      navigate('/tracker');
     } catch (error) {
       toast.error(authError || t('Login failed. Please try again.'));
     }

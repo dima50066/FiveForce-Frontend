@@ -6,21 +6,24 @@ import Calendar from './Calendar/Calendar';
 import CalendarPagination from './CalendarPagination/CalendarPagination';
 import clsx from 'clsx';
 import css from './MonthInfo.module.css';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
+import css from './WaterUsageInfo.module.css';
+import Statistics from '../Statistics/Statistics';
 
 export default function WaterUsageInfo() {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [showStatistics, setShowStatistics] = useState(false);
   const dailyWaterData = useSelector(selectMonthWater);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     const timestamp = new Date(selectedDate).getTime();
     dispatch(getMonthWater(timestamp));
   }, [dispatch, selectedDate]);
-  
+
   useEffect(() => {}, [dailyWaterData]);
   const { t } = useTranslation();
-  
+
   const handlePreviousMonth = () => {
     setSelectedDate(prevDate => {
       const newDate = new Date(prevDate);
@@ -59,11 +62,12 @@ export default function WaterUsageInfo() {
         <CalendarPagination
           onPrevious={handlePreviousMonth}
           onNext={handleNextMonth}
-          monthNames={monthNames}
           currentDate={selectedDate}
+          isStatistics={showStatistics}
+          toggleStatistics={() => setShowStatistics(prev => !prev)}
         />
       </div>
-      <Calendar daysData={dailyWaterData} />
+      {showStatistics ? <Statistics /> : <Calendar daysData={dailyWaterData} />}
     </div>
   );
 }

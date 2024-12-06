@@ -14,9 +14,7 @@ export default function UserPanel() {
       <p>
         {t('Hello')}, <span className={css.userName}>{userName || t('Guest')}</span>!
       </p>
-      <div className={css.userBar}>
-        <UserBar />
-      </div>
+      <UserBar />
     </div>
   );
 }

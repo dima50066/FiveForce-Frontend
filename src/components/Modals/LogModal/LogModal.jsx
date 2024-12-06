@@ -3,7 +3,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../redux/user/operations';
 import css from './LogModal.module.css';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-hot-toast';
 
 const LogModal = ({ onCancel }) => {
   const { t } = useTranslation();
@@ -13,9 +14,10 @@ const LogModal = ({ onCancel }) => {
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
+      toast.success('Logout is successfully!');
       navigate('/signin');
     } catch (error) {
-      console.error(t('Logout failed:'), error.message || error);
+      toast.error(t('Logout failed! Please try again.'));
     }
   };
 
@@ -34,9 +36,7 @@ const LogModal = ({ onCancel }) => {
         <button
           className={css['log-second-btn']}
           type="button"
-          onClick={() => {
-            onCancel();
-          }}
+          onClick={() => onCancel()}
         >
           {t('Cancel')}
         </button>

@@ -8,9 +8,14 @@ import Icon from '../../shared/Icons/Icon.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUser } from '../../redux/user/operations.js';
 import { selectUserAvatar } from '../../redux/user/selectors.js';
-import { useTranslation } from "react-i18next";
-const SettingModal = () => {
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-hot-toast';
+
+const SettingModal = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
+
+  const fileInputRef = useRef(null);
+
   const userAvatar = useSelector(selectUserAvatar);
   const [preview, setPreview] = useState(userAvatar || null);
 
@@ -41,7 +46,10 @@ const SettingModal = () => {
     waterIntake: Yup.number()
       .required('Water intake is required')
       .min(1.5, 'Cannot be less than 1.5')
-      .max(5, 'Cannot be more than 5 liters'),
+      .max(5, 'Cannot be more than 5 liters')
+      .transform((value, originalValue) =>
+        originalValue === '' ? 1.5 : parseFloat(value)
+      ),
     gender: Yup.string().required('Gender is required'),
   });
 
@@ -81,17 +89,14 @@ const SettingModal = () => {
 
     try {
       const result = await dispatch(updateUser(formData)).unwrap();
-      console.log('Form submitted successfully:', result);
-      alert('Дані успішно збережено!');
+      toast.success('Data sent successfully!');
+      onClose();
     } catch (error) {
-      console.error('Error submitting form:', error);
-      alert('Сталася помилка під час відправки даних.');
+      toast.error('Oops! Something went wrong!');
     } finally {
       setIsLoading(false);
     }
   };
-
-  const fileInputRef = useRef(null);
 
   const handleFileChange = event => {
     const file = event.target.files[0];
@@ -110,12 +115,31 @@ const SettingModal = () => {
   const radioIdWoman = useId();
   const radioIdMan = useId();
   const fileInputId = useId();
-  
+
+  /* All with calculating water */
+
+  useEffect(() => {
+    if (isOpen) {
+      const initialWaterIntake = calculateWaterIntake(
+        user?.weight || 0,
+        user?.activeTime || 0,
+        user?.gender || 'woman'
+      );
+      setWaterIntake(Math.max(initialWaterIntake, 1.5).toFixed(2));
+      setValue('waterIntake', Math.max(initialWaterIntake, 1.5).toFixed(2));
+    }
+  }, [isOpen, user, setValue]);
+
   const [waterIntake, setWaterIntake] = useState(
     user?.dailyNorm ? user.dailyNorm / 1000 : 1.5
   );
-  const calculateWaterIntake = (weight, activeHours, gender) => {
-    let intake;
+
+  const calculateWaterIntake = (
+    weight = 0,
+    activeTime = 0,
+    gender = 'woman'
+  ) => {
+    let intake = 1.5;
     if (gender === 'woman') {
       intake = weight * 0.03 + activeHours * 0.4;
     } else if (gender === 'man') {
@@ -135,6 +159,7 @@ const SettingModal = () => {
       activeHours,
       gender
     );
+    calculatedWaterIntake = Math.max(calculatedWaterIntake, 1.5);
     setWaterIntake(calculatedWaterIntake.toFixed(2));
     setValue('waterIntake', calculatedWaterIntake.toFixed(2));
   };
@@ -173,6 +198,7 @@ const SettingModal = () => {
             type="radio"
             name="gender"
             value="woman"
+            checked={getValues('gender') === 'woman'}
             {...register('gender')}
             onChange={e => {
               setValue('gender', e.target.value);
@@ -180,7 +206,7 @@ const SettingModal = () => {
             }}
           />
           <label htmlFor={radioIdWoman} className={css.labelRadio}>
-          {t('Woman')}
+            {t('Woman')}
           </label>
           <input
             id={radioIdMan}
@@ -195,7 +221,7 @@ const SettingModal = () => {
             }}
           />
           <label htmlFor={radioIdMan} className={css.labelRadio}>
-          {t('Man')}
+            {t('Man')}
           </label>
         </div>
       </div>
@@ -204,7 +230,7 @@ const SettingModal = () => {
           <div className={`${css.partCover} ${css.box}`}>
             <div>
               <label htmlFor={nameId} className={css.secondTitle}>
-              {t('Your name')}
+                {t('Your name')}
               </label>
               <input
                 type="text"
@@ -218,7 +244,7 @@ const SettingModal = () => {
             </div>
             <div>
               <label htmlFor={emailId} className={css.secondTitle}>
-              {t('Email')}
+                {t('Email')}
               </label>
               <input
                 type="email"
@@ -233,7 +259,7 @@ const SettingModal = () => {
           </div>
           <div className={`${css.partCover} ${css.withoutMargin}`}>
             <h3 className={`${css.secondTitle} ${css.updateDailyUp}`}>
-            {t('My daily norma')}
+              {t('My daily norma')}
             </h3>
             <div className={css.formulaCover}>
               <div>
@@ -246,15 +272,18 @@ const SettingModal = () => {
               </div>
             </div>
             <p className={css.formulaDescr}>
-              <span className={css.formulaStar}>*</span> {t('V is the volume of the water norm in liters per day, M is your body weight, T is the time of active sports, or another type of activity commensurate in terms of loads (in the absence of these, you must set 0)')}
+              <span className={css.formulaStar}>*</span>{' '}
+              {t(
+                'V is the volume of the water norm in liters per day, M is your body weight, T is the time of active sports, or another type of activity commensurate in terms of loads (in the absence of these, you must set 0)'
+              )}
             </p>
             <h3 className={`${css.secondTitle} ${css.updateDailyDown}`}>
-            {t('My daily norma')}
+              {t('My daily norma')}
             </h3>
             <div className={css.coverMarkIcon}>
               <Icon id="icon-alert" width={18} height={18} />
               <p className={`${css.descr} ${css.actives}`}>
-              {t('Active time in hours')}
+                {t('Active time in hours')}
               </p>
             </div>
           </div>
@@ -263,7 +292,7 @@ const SettingModal = () => {
           <div className={`${css.partCover} ${css.box}`}>
             <div>
               <label htmlFor={weightId} className={css.descr}>
-              {t('Your weight in kilograms:')}
+                {t('Your weight in kilograms:')}
               </label>
               <Controller
                 name="weight"
@@ -287,7 +316,7 @@ const SettingModal = () => {
             </div>
             <div>
               <label htmlFor={timeId} className={css.descr}>
-              {t('The time of active participation in sports:')}
+                {t('The time of active participation in sports:')}
               </label>
               <Controller
                 name="activeHours"
@@ -312,12 +341,14 @@ const SettingModal = () => {
           </div>
           <div className={css.limitAmount}>
             <p className={`${css.descr} ${css.descrTablet}`}>
-            {t("The required amount of water in liters per day:")}
+              {t('The required amount of water in liters per day:')}
             </p>
-            <p className={css.greenDscr}>{waterIntake} {t('L')}</p>
+            <p className={css.greenDscr}>
+              {waterIntake} {t('L')}
+            </p>
           </div>
           <label htmlFor={amountId} className={css.secondTitle}>
-          {t('Write down how much water you will drink:')}
+            {t('Write down how much water you will drink:')}
           </label>
           <Controller
             name="waterIntake"
@@ -344,7 +375,7 @@ const SettingModal = () => {
         </div>
       </div>
       <button type="submit" className={css.btnSubmit}>
-      {isLoading ? t('Saving...') : t('Save')}
+        {isLoading ? t('Saving...') : t('Save')}
       </button>
     </form>
   );

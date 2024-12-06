@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import css from './AddWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-hot-toast';
 
 const AddWaterModal = ({ onSave }) => {
   const { t } = useTranslation();
@@ -45,6 +46,7 @@ const AddWaterModal = ({ onSave }) => {
     );
 
     onSave({ amount: waterAmount, time: date });
+    toast.success('Water intake successfully saved!');
   };
 
   return (
@@ -103,7 +105,9 @@ const AddWaterModal = ({ onSave }) => {
             placeholder={t('hh:mm')}
           />
           {timeError && (
-            <span className={css.error}>{t('Time must be in hh:mm format')}</span>
+            <span className={css.error}>
+              {t('Time must be in hh:mm format')}
+            </span>
           )}
         </label>
 
@@ -124,7 +128,9 @@ const AddWaterModal = ({ onSave }) => {
             }}
           />
           {error && (
-            <span className={css.error}>{t('Value must be between 50 and 1500')}</span>
+            <span className={css.error}>
+              {t('Value must be between 50 and 1500')}
+            </span>
           )}
         </label>
 

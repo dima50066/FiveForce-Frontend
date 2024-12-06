@@ -3,10 +3,7 @@ import { useState } from 'react';
 import { selectActiveDay, selectDayWater } from '../../redux/water/selectors';
 import css from './DailyStats.module.css';
 import WaterList from '../WaterList/WaterList';
-import AddWaterBtn from '../AddWaterBtn/AddWaterBtn';
-import Modal from '../../shared/Modal/Modal';
-import EditWaterModal from '../Modals/EditWaterModal/EditWaterModal';
-import DeleteModal from '../Modals/DeleteModal/DeleteModal';
+import AddWaterRightBtn from '../AddWaterRightBtn/AddWaterRightBtn';
 import { deleteWater, updateWater } from '../../redux/water/operations';
 import { useTranslation } from "react-i18next";
 
@@ -14,25 +11,10 @@ export default function DailyStats() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const activeDay = useSelector(selectActiveDay);
-  const dayWater = useSelector(selectDayWater)?.WaterData || [];
 
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [currentItem, setCurrentItem] = useState(null);
 
-  const openEditModal = item => {
-    setCurrentItem(item);
-    setIsEditModalOpen(true);
-  };
-
-  const openDeleteModal = item => {
-    setCurrentItem(item);
-    setIsDeleteModalOpen(true);
-  };
-
   const closeModal = () => {
-    setIsEditModalOpen(false);
-    setIsDeleteModalOpen(false);
     setCurrentItem(null);
   };
 
@@ -59,32 +41,9 @@ export default function DailyStats() {
             month: 'long',
           })}
         </h2>
-        <AddWaterBtn onAddWater={() => {}} />
+        <AddWaterRightBtn />
       </div>
-      <div className={css.waterListContainer}>
-        <WaterList
-          waterData={dayWater}
-          onDelete={openDeleteModal}
-          onEdit={openEditModal}
-        />
-      </div>
-
-      <Modal isOpen={isEditModalOpen} onClose={closeModal}>
-        {currentItem && (
-          <EditWaterModal
-            currentWater={{
-              amount: currentItem.amount,
-              time: currentItem.time,
-            }}
-            id={currentItem.id}
-            onSave={handleSave}
-          />
-        )}
-      </Modal>
-
-      <Modal isOpen={isDeleteModalOpen} onClose={closeModal}>
-        <DeleteModal onDelete={handleDelete} onCancel={closeModal} />
-      </Modal>
+      <WaterList />
     </div>
   );
 }

@@ -6,7 +6,7 @@ export const getDayWater = createAsyncThunk(
   'water/getDayWater',
   async (date, thunkAPI) => {
     try {
-      const timestamp = toUnixTimestamp(date); // Використовуємо утиліту
+      const timestamp = toUnixTimestamp(date);
       const response = await axiosInstance.get(`/water/day/${timestamp}`);
       return response.data;
     } catch (error) {
@@ -20,7 +20,7 @@ export const getMonthWater = createAsyncThunk(
   'water/getMonthWater',
   async (date, thunkAPI) => {
     try {
-      const timestamp = toUnixTimestamp(date); // Використовуємо утиліту
+      const timestamp = toUnixTimestamp(date);
       const response = await axiosInstance.get(`/water/month/${timestamp}`);
       return response.data;
     } catch (error) {
@@ -37,8 +37,8 @@ export const addWater = createAsyncThunk(
       const response = await axiosInstance.post('/water', newWater);
       const activeDay = thunkAPI.getState().water.activeDay;
 
-      thunkAPI.dispatch(getDayWater(activeDay)); // Форматування дати тепер у getDayWater
-      thunkAPI.dispatch(getMonthWater(activeDay)); // Форматування дати тепер у getMonthWater
+      thunkAPI.dispatch(getDayWater(activeDay));
+      thunkAPI.dispatch(getMonthWater(activeDay));
       thunkAPI.dispatch(getSummaryAmount());
 
       return response.data;
@@ -56,8 +56,8 @@ export const updateWater = createAsyncThunk(
       const response = await axiosInstance.put(`/water/${id}`, updatedWater);
       const activeDay = thunkAPI.getState().water.activeDay;
 
-      thunkAPI.dispatch(getDayWater(activeDay)); // Форматування дати тепер у getDayWater
-      thunkAPI.dispatch(getMonthWater(activeDay)); // Форматування дати тепер у getMonthWater
+      thunkAPI.dispatch(getDayWater(activeDay));
+      thunkAPI.dispatch(getMonthWater(activeDay));
       thunkAPI.dispatch(getSummaryAmount());
 
       return response.data;
@@ -75,8 +75,8 @@ export const deleteWater = createAsyncThunk(
       const response = await axiosInstance.delete(`/water/${id}`);
       const activeDay = thunkAPI.getState().water.activeDay;
 
-      thunkAPI.dispatch(getDayWater(activeDay)); // Форматування дати тепер у getDayWater
-      thunkAPI.dispatch(getMonthWater(activeDay)); // Форматування дати тепер у getMonthWater
+      thunkAPI.dispatch(getDayWater(activeDay));
+      thunkAPI.dispatch(getMonthWater(activeDay));
       thunkAPI.dispatch(getSummaryAmount());
 
       return response.data;

@@ -1,17 +1,66 @@
 .userPanel {
+  font-family: 'Gilroy', sans-serif;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 100%;
+  letter-spacing: -0.01em;
+  color: var(--main);
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
-  padding: 20px;
-  background-color: var(--background);
-  border-radius: 10px;
+  gap: 20px;
+  width: 100%;
 }
 
 .userName {
   font-weight: bold;
   color: var(--primary-color);
+  font-family: Gilroy;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 38px;
+  letter-spacing: -0.01em;
+  margin-right: auto;
 }
 
-.userBar {
-  /* Оставим место для компонента UserBar */
+.profile {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--primary-color);
+  margin-right: 10px;
+}
+
+.arrow {
+  font-size: 14px;
+  color: var(--secondary-color);
+}
+
+/* Адаптивность */
+@media screen and (min-width: 768px) {
+  .userPanel {
+    align-items: flex-start;
+    gap: 10px;
+    justify-content: space-between;
+  }
+
+  .userName {
+    font-size: 28px;
+    margin-right: 0;
+  }
+
+  .userBar {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .avatar {
+    width: 32px;
+    height: 32px;
+  }
 }

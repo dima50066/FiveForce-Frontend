@@ -7,7 +7,6 @@ import Icon from '../../shared/Icons/Icon';
 import { fetchUsersCount } from '../../redux/user/operations';
 import { selectUsersCount } from '../../redux/user/selectors';
 
-// фото мобільні
 import Customers1Mob from '../../shared/Images/Customers/customers1-mobile.png';
 import Customers1Mob_2x from '../../shared/Images/Customers/customers1-mobile-2x.png';
 import Customers2Mob from '../../shared/Images/Customers/customers2-mobile.png';
@@ -15,7 +14,6 @@ import Customers2Mob_2x from '../../shared/Images/Customers/customers2-mobile-2x
 import Customers3Mob from '../../shared/Images/Customers/customers3-mobile.png';
 import Customers3Mob_2x from '../../shared/Images/Customers/customers3-mobile-2x.png';
 
-// фото для планшетів і десктопів
 import Customers1 from '../../shared/Images/Customers/customers1-tabl-desc.png';
 import Customers1_2x from '../../shared/Images/Customers/customers1-tabl-desc-2x.png';
 import Customers2 from '../../shared/Images/Customers/customers2-tabl-desc.png';
