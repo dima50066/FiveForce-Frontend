@@ -1,59 +1,65 @@
 .statistics-container {
-  width: 100%;
-  margin: 0 auto;
+  width: 90%;
+  margin: 20px auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .statistics-chart {
-  background: linear-gradient(180deg, rgba(224, 255, 224, 0.8), rgba(255, 255, 255, 1));
+  background: linear-gradient(
+    180deg,
+    rgba(245, 250, 255, 1),
+    rgba(255, 255, 255, 1)
+  );
   border-radius: 12px;
+  padding: 10px;
 }
 
 .statistics-header {
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 20px;
+  font-size: 26px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 25px;
   text-align: center;
 }
 
 .statistics-tooltip {
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 8px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
 }
 
 .statistics-x-axis {
   font-size: 14px;
-  color: #666;
+  color: #555;
 }
 
 .statistics-y-axis {
   font-size: 14px;
-  color: #666;
+  color: #555;
 }
 
 .statistics-loading,
 .statistics-error,
 .statistics-no-data {
   font-size: 18px;
-  color: #ff6666;
+  color: #333;
   text-align: center;
   margin-top: 50px;
 }
 
 .statistics-loading {
-  color: #00bfff;
+  color: #008cba;
 }
 
 .statistics-error {
-  color: #ff6666;
+  color: #ff4444;
 }
 
 .statistics-no-data {
-  color: #888;
+  color: #aaa;
 }

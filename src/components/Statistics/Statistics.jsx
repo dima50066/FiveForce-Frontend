@@ -1,26 +1,23 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   ResponsiveContainer,
   AreaChart,
   Area,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
-  Legend,
 } from 'recharts';
-
-const data = [
-  { date: '16', water: 1500 },
-  { date: '17', water: 1750 },
-  { date: '18', water: 1800 },
-  { date: '19', water: 1500 },
-  { date: '20', water: 2000 },
-  { date: '21', water: 1400 },
-  { date: '22', water: 1700 },
-];
+import { selectMonthWater } from '../../redux/water/selectors';
 
 const Statistics = () => {
+  const rawData = useSelector(selectMonthWater);
+
+  const data = rawData.map(item => ({
+    date: new Date(item.dateParam).getDate(),
+    water: item.totalDayWater,
+  }));
+
   return (
     <ResponsiveContainer width="100%" height={300}>
       <AreaChart
@@ -33,13 +30,12 @@ const Statistics = () => {
             <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
           </linearGradient>
         </defs>
-
+        {/* Оновлюємо dataKey */}
         <XAxis dataKey="date" />
         <YAxis
-        ticks={[0, 500, 1000, 1500, 2000, 2500]}
-        domain={[0, 'dataMax']}
-      />
-
+          ticks={[0, 500, 1000, 1500, 2000, 2500]}
+          domain={[0, 'dataMax']}
+        />
         <Tooltip
           content={({ payload }) => {
             if (payload && payload.length) {

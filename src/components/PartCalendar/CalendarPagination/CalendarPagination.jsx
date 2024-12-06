@@ -1,15 +1,15 @@
+import React from 'react';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 import css from './CalendarPagination.module.css';
 import Icon from '../../../shared/Icons/Icon';
-
 import clsx from 'clsx';
 
 export default function PaginationControls({
-  isOpen,
-  toggleOpenState,
   onNext,
   onPrevious,
   currentDate,
+  isStatistics,
+  toggleStatistics, // Отримуємо функцію для перемикання
 }) {
   const isPreviousDisabled =
     new Date(currentDate).getTime() <
@@ -31,28 +31,30 @@ export default function PaginationControls({
 
   return (
     <div className={css.paginationControlsContainer}>
-      <div className={css.navigationButtonsContainer}>
-        <button
-          className={css.navigationButton}
-          disabled={isPreviousDisabled}
-          onClick={onPrevious}
-        >
-          <FaAngleLeft />
-        </button>
-        <p className={css.title}>
-          {monthNames[currentDate.getMonth()]}, {currentDate.getFullYear()}
-        </p>
-        <button className={css.navigationButton} onClick={onNext}>
-          <FaAngleRight />
-        </button>
-      </div>
+      {!isStatistics && (
+        <div className={css.navigationButtonsContainer}>
+          <button
+            className={css.navigationButton}
+            disabled={isPreviousDisabled}
+            onClick={onPrevious}
+          >
+            <FaAngleLeft />
+          </button>
+          <p className={css.title}>
+            {monthNames[currentDate.getMonth()]}, {currentDate.getFullYear()}
+          </p>
+          <button className={css.navigationButton} onClick={onNext}>
+            <FaAngleRight />
+          </button>
+        </div>
+      )}
       <button
         className={css.toggleButton}
         type="button"
-        onClick={toggleOpenState}
+        onClick={toggleStatistics} // Використовуємо функцію перемикання
       >
         <Icon
-          className={clsx(css.icon, !isOpen && css.iconInactive)}
+          className={clsx(css.icon, isStatistics && css.iconActive)}
           id="pieChart"
           height={20}
           width={20}
