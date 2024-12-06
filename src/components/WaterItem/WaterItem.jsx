@@ -33,8 +33,13 @@ export default function WaterItem() {
   };
 
   const handleDelete = async waterId => {
+    const idAsString = String(waterId);
+    if (!idAsString || idAsString === 'undefined') {
+      console.error('Invalid waterId after conversion:', idAsString);
+      return;
+    }
     try {
-      await dispatch(deleteWater(waterId));
+      await dispatch(deleteWater(idAsString));
       setIsDeleteModalOpen(false);
     } catch (error) {
       console.error(t('Error deleting water entry:'), error.message || error);
@@ -97,7 +102,9 @@ export default function WaterItem() {
                   </button>
                   <button
                     className={styles.deleteButton}
-                    onClick={() => handleOpenDeleteModal(water._id)}
+                    onClick={() =>
+                      water._id && handleOpenDeleteModal(water._id)
+                    }
                   >
                     <Icon
                       className={styles.iconDelete}

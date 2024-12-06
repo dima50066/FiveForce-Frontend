@@ -9,9 +9,12 @@ const DeleteModal = ({ waterId, onDelete, onCancel }) => {
 
   const handleDelete = async () => {
     try {
-      await onDelete();
-      toast.success(t('Water successfully deleted!'));
+      if (!waterId) {
+        console.error('waterId is undefined');
+        return;
+      }
       await onDelete(waterId);
+      toast.success(t('Water successfully deleted!'));
     } catch (error) {
       console.error('Delete failed:', error.message || error);
       toast.error(t('Failed to delete water. Please try again.'));

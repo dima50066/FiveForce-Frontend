@@ -1,16 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import css from './AddWaterModal.module.css';
 import Icon from '../../../shared/Icons/Icon';
 import clsx from 'clsx';
-import { useTranslation } from 'react-i18next';
 import { toast } from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 const AddWaterModal = ({ onSave }) => {
   const { t } = useTranslation();
   const [waterAmount, setWaterAmount] = useState(50);
-  const [time, setTime] = useState('07:00');
+  const [time, setTime] = useState('');
   const [error, setError] = useState(false);
   const [timeError, setTimeError] = useState(false);
+
+  useEffect(() => {
+    const now = new Date();
+    const formattedTime = now.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+    setTime(formattedTime);
+  }, []);
 
   const handleDecrease = () => {
     const newAmount = Math.max(waterAmount - 50, 50);
@@ -46,16 +55,15 @@ const AddWaterModal = ({ onSave }) => {
     );
 
     onSave({ amount: waterAmount, time: date });
-    toast.success('Water intake successfully saved!');
+    toast.success(t('Water intake successfully saved!'));
   };
 
   return (
     <div className={css.container}>
       <form className={css.form} onSubmit={handleSubmit}>
         <h1 className={css.header}>{t('Add water')}</h1>
-        <p className={css.text}>{t('Choose a value:')}</p>
-        <p className={css.secondaryText}>{t('Amount of water:')}</p>
-
+        <p className={css.text}>{t('Choose a value')}</p>
+        <p className={css.secondaryText}>{t('Amount of water:')}</p>{' '}
         <div className={css.counterContainer}>
           <button
             className={clsx(
@@ -91,7 +99,6 @@ const AddWaterModal = ({ onSave }) => {
             />
           </button>
         </div>
-
         <label className={css.baseLabel}>
           {t('Recording time:')}
           <input
@@ -102,7 +109,7 @@ const AddWaterModal = ({ onSave }) => {
               setTimeError(false);
             }}
             maxLength="5"
-            placeholder={t('hh:mm')}
+            placeholder={t('HH:MM')}
           />
           {timeError && (
             <span className={css.error}>
@@ -110,7 +117,6 @@ const AddWaterModal = ({ onSave }) => {
             </span>
           )}
         </label>
-
         <label className={css.secondaryLabel}>
           {t('Enter the value of the water used:')}
           <input
@@ -133,7 +139,6 @@ const AddWaterModal = ({ onSave }) => {
             </span>
           )}
         </label>
-
         <button className={css.saveBtn} type="submit">
           {t('Save')}
         </button>
