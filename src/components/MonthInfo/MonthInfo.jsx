@@ -6,18 +6,25 @@ import clsx from 'clsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMonthWater } from '../../redux/water/selectors.js';
 import { getMonthWater } from '../../redux/water/operations.js';
+import { selectIsRefreshing, selectUser } from '../../redux/user/selectors';
 
 export default function MonthInfo() {
   const [date, setDate] = useState(new Date());
   const daysList = useSelector(selectMonthWater);
+  const isRefreshing = useSelector(selectIsRefreshing);
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const timestamp = new Date(date).getTime();
-    if (!daysList.some(day => day.timestamp === timestamp)) {
+    if (
+      !isRefreshing &&
+      user &&
+      !daysList.some(day => day.timestamp === timestamp)
+    ) {
       dispatch(getMonthWater(timestamp));
     }
-  }, [dispatch, date, daysList]);
+  }, [dispatch, date, daysList, isRefreshing, user]);
 
   const handlePrevMonth = () => {
     setDate(prevDate => {
