@@ -7,6 +7,8 @@ import HomePage from '../pages/HomePage/HomePage';
 import SignUpPage from '../pages/SignUpPage/SignUpPage';
 import SignInPage from '../pages/SignInPage/SignInPage';
 import TrackerPage from '../pages/TrackerPage/TrackerPage';
+import PasswordResetPage from '../pages/Password/ResetPasswordPage';
+import PasswordRequestPage from '../pages/Password/RequestResetPage';
 import { Toaster } from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsRefreshing, selectUser } from '../redux/user/selectors';
@@ -111,6 +113,8 @@ const App = () => {
                 }
               />
               <Route path="*" element={<NotFoundPage />} />
+              <Route path="/request-reset" element={<PasswordRequestPage />} />
+              <Route path="/reset-password" element={<PasswordResetPage />} />
             </Routes>
           </Suspense>
         )}

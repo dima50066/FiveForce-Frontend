@@ -1,63 +1,77 @@
 .wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-    gap: 15px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 15px;
+}
 
 .text {
-    position: relative;
-    font-weight: 300;
-    color: var(--main-text);
+  position: relative;
+  font-weight: 300;
+  color: var(--main-text);
 }
 
 .icon {
-    width: 20px;
-    height: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .btn {
-    display: flex;
-    justify-content: center;
-    padding: 16px 35px;
-    align-items: center;
-    border-radius: 30px;
-    gap: 10px;
-    font-size: 14px;
-    background-color: var(--accent);;
-    text-decoration: none;
-    transition: all 0.2s ease-in-out;
-    position: relative; 
-    overflow: hidden; 
-    border: none; 
+  display: flex;
+  justify-content: center;
+  padding: 16px 35px;
+  align-items: center;
+  border-radius: 30px;
+  gap: 10px;
+  font-size: 14px;
+  background-color: var(--accent);
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+  border: none;
 }
 
 .btn::before {
-    content: '';
-    position: absolute;
-    top: 4px; 
-    left: 4px; 
-    right: 4px;
-    bottom: 4px; 
-    border: 2px solid var(--accent);
-    border-radius: 30px; 
-    pointer-events: none; 
-    transition: all 0.2s ease-in-out;
-  }
-  
-  .btn:hover {
-    background-color: var(--background);
-  }
-  
-  .btn:hover::before {
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    border-color: var(--accent); 
-  }
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  border: 2px solid var(--accent);
+  border-radius: 30px;
+  pointer-events: none;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: var(--background);
+}
+
+.btn:hover::before {
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border-color: var(--accent);
+}
 
 .textGoogle {
-    color: var(--main-text);
-  }
+  color: var(--main-text);
+}
+
+.disabled {
+  background-color: #ccc;
+  color: #888;
+  border: 1px solid #aaa;
+}
+
+.disabled:hover {
+  background-color: #ccc;
+}
+
+.disabled img {
+  filter: grayscale(100%);
+}
