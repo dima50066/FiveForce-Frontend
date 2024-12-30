@@ -17,7 +17,7 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 1;
-  color: #323f47
+  color: #323f47;
 }
 .waterDailyNormaText {
   font-size: 10px;
@@ -53,4 +53,14 @@
     margin-left: 32px;
     margin-bottom: 215px;
   }
+}
+
+/*Ukraine*/
+.waterDailyNormaWrappUk {
+}
+
+.waterDailyNormaUk {
+}
+
+.waterDailyNormaTextUk {
 }

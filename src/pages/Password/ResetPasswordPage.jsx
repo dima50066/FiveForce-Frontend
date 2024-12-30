@@ -6,6 +6,7 @@ import { useSearchParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import Icon from '../../shared/Icons/Icon';
 import css from './ResetPasswordPage.module.css';
+import { useTranslation } from 'react-i18next';
 
 const ResetPasswordPage = () => {
   const dispatch = useDispatch();
@@ -20,78 +21,97 @@ const ResetPasswordPage = () => {
 
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectAuthError);
+  const { t, i18n } = useTranslation();
+  const isUk = i18n.language === 'uk';
 
   const handleSubmit = async e => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match!');
+      toast.error(t('Passwords do not match!'));
       return;
     }
 
     try {
       await dispatch(resetPassword({ password, token })).unwrap();
-      toast.success('Password has been reset successfully!');
+      toast.success(t('Password has been reset successfully!'));
       setTimeout(() => {
-        navigate('/signin'); // Перенаправлення на сторінку входу
+        navigate('/signin');
       }, 2000);
     } catch (err) {
-      toast.error(err || 'Failed to reset password. Please try again.');
+      toast.error(err || t('Failed to reset password. Please try again.'));
     }
   };
 
   return (
-    <div className={css.container}>
-      <h1 className={css.heroTitle}>Set New Password</h1>
-      <form className={css.form} onSubmit={handleSubmit}>
-        <div className={css.inputContainer}>
+    <div className={`${css.container} ${isUk ? css.containerUk : ''}`}>
+      <h1 className={`${css.heroTitle} ${isUk ? css.heroTitleUk : ''}`}>
+        {t('Set New Password')}
+      </h1>
+      <form
+        className={`${css.form} ${isUk ? css.formUk : ''}`}
+        onSubmit={handleSubmit}
+      >
+        <div
+          className={`${css.inputContainer} ${
+            isUk ? css.inputContainerUk : ''
+          }`}
+        >
           <input
-            className={css.input}
+            className={`${css.input} ${isUk ? css.inputUk : ''}`}
             type={showPassword ? 'text' : 'password'}
             name="password"
-            placeholder="Enter new password"
+            placeholder={t('Enter new password')}
             value={password}
             onChange={e => setPassword(e.target.value)}
             required
           />
           <button
             type="button"
-            className={css.iconButton}
+            className={`${css.iconButton} ${isUk ? css.iconButtonUk : ''}`}
             onClick={() => setShowPassword(prev => !prev)}
           >
             <Icon
-              className={css.icon}
+              className={`${css.icon} ${isUk ? css.iconUk : ''}`}
               id={showPassword ? 'eye' : 'eyeOff'}
               width="20"
               height="20"
             />
           </button>
         </div>
-        <div className={css.inputContainer}>
+        <div
+          className={`${css.inputContainer} ${
+            isUk ? css.inputContainerUk : ''
+          }`}
+        >
           <input
-            className={css.input}
+            className={`${css.input} ${isUk ? css.inputUk : ''}`}
             type={showConfirmPassword ? 'text' : 'password'}
             name="confirmPassword"
-            placeholder="Confirm new password"
+            placeholder={t('Confirm new password')}
             value={confirmPassword}
             onChange={e => setConfirmPassword(e.target.value)}
             required
           />
           <button
             type="button"
-            className={css.iconButton}
+            className={`${css.iconButton} ${isUk ? css.iconButtonUk : ''}`}
             onClick={() => setShowConfirmPassword(prev => !prev)}
           >
             <Icon
-              className={css.icon}
+              className={`${css.icon} ${isUk ? css.iconUk : ''}`}
               id={showConfirmPassword ? 'eye' : 'eyeOff'}
               width="20"
               height="20"
             />
           </button>
         </div>
-        <button className={css.button} type="submit" disabled={isLoading}>
-          {isLoading ? 'Resetting...' : 'Reset Password'}
+        <button
+          className={`${css.button} ${isUk ? css.buttonUk : ''}`}
+          type="submit"
+          disabled={isLoading}
+        >
+          {isLoading ? t('Resetting...') : t('Reset Password')}
         </button>
       </form>
     </div>

@@ -5,13 +5,15 @@ import { selectActiveDay } from '../../redux/water/selectors';
 import Icon from '../../shared/Icons/Icon';
 import Modal from '../../shared/Modal/Modal.jsx';
 import AddWaterModal from '../Modals/AddWaterModal/AddWaterModal.jsx';
-
 import css from './AddWaterBtn.module.css';
+import { useTranslation } from 'react-i18next';
 
 const AddWaterBtn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const dispatch = useDispatch();
   const activeDay = useSelector(selectActiveDay);
+  const { t, i18n } = useTranslation();
+  const isUk = i18n.language === 'uk'; // Перевірка обраної мови
 
   const openModal = () => {
     if (new Date(activeDay).getTime() > new Date().getTime()) {
@@ -45,9 +47,18 @@ const AddWaterBtn = () => {
 
   return (
     <>
-      <button className={css.addWaterBtn} type="button" onClick={openModal}>
-        <Icon className={css.iconPlus} id="icon-plus" width={16} height={16} />
-        Add water
+      <button
+        className={`${css.addWaterBtn} ${isUk ? css.addWaterBtnUk : ''}`}
+        type="button"
+        onClick={openModal}
+      >
+        <Icon
+          className={`${css.iconPlus} ${isUk ? css.iconPlusUk : ''}`}
+          id="icon-plus"
+          width={16}
+          height={16}
+        />
+        {t('Add water')}
       </button>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
