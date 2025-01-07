@@ -1,4 +1,5 @@
 import { Suspense, useEffect } from 'react';
+import i18next from 'i18next';
 import { Routes, Route } from 'react-router-dom';
 import RestrictedRoute from './Routes/RestrictedRoute';
 import PrivateRoute from './Routes/PrivateRoute';
@@ -62,6 +63,31 @@ const App = () => {
       }
     }
   }, [activeDay, dispatch, user, isRefreshing]);
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language');
+    if (savedLanguage) {
+      i18next.changeLanguage(savedLanguage);
+    }
+  }, []);
+
+  const updateBodyClass = language => {
+    const body = document.body;
+
+    body.classList.remove('lang-en', 'lang-uk');
+
+    body.classList.add(`lang-${language}`);
+  };
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem('language') || 'en';
+    i18next.changeLanguage(savedLanguage);
+    updateBodyClass(savedLanguage);
+
+    i18next.on('languageChanged', lng => {
+      updateBodyClass(lng);
+    });
+  }, []);
 
   return (
     <>

@@ -2,12 +2,15 @@ import React from 'react';
 import css from './UserBarPopover.module.css';
 import Icon from '../../shared/Icons/Icon';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 export default function UserBarPopover({
   closePopover,
   openSettingModal,
   openLogoutModal,
 }) {
+  const { t } = useTranslation();
+
   const onLogoutClick = () => {
     openLogoutModal(true);
     closePopover(false);
@@ -31,7 +34,7 @@ export default function UserBarPopover({
           height="15"
           className={css.settingIcon}
         />
-        Setting
+        {t('Settings')}
       </button>
       <button
         className={clsx(css.logoutBtn)}
@@ -39,7 +42,7 @@ export default function UserBarPopover({
         onClick={onLogoutClick}
       >
         <Icon id="logOut" width="15" height="15" className={css.logoutIcon} />
-        Log out
+        {t('Log out')}
       </button>
     </div>
   );

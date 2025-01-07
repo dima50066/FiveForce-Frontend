@@ -140,7 +140,7 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
         </div>
 
         <label className={styles['baseLabel']}>
-          {t('Recording time')}:
+          {t('Recording time:')}
           <input
             className={styles['baseInput']}
             value={time}
@@ -151,7 +151,7 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
         </label>
 
         <label className={styles['secondaryLabel']}>
-          {t('Enter the value of the water used')}:
+          {t('Enter the value of the water used:')}
           <input
             className={clsx(styles['baseInput'], error && styles['errorInput'])}
             type="text"
