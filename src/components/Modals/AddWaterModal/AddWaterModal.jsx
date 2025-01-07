@@ -90,7 +90,7 @@ const AddWaterModal = ({ onSave }) => {
     <div className={css.container}>
       <form className={css.form} onSubmit={handleSubmit}>
         <h1 className={css.header}>{t('Add water')}</h1>
-        <p className={css.text}>{t('Choose a value')}</p>
+        <p className={css.text}>{t('Choose a value:')}</p>
         <p className={css.secondaryText}>{t('Amount of water:')}</p>
         <div className={css.counterContainer}>
           <button

@@ -8,12 +8,10 @@ const LanguageSwitcher = () => {
   const { t } = useTranslation();
 
   const changeLanguage = lng => {
-    console.log(`Changing language to: ${lng}`);
     i18next
       .changeLanguage(lng)
       .then(() => {
         localStorage.setItem('language', lng);
-        console.log(`Language changed to: ${lng}`);
       })
       .catch(err => console.error(`Error changing language to ${lng}:`, err));
   };

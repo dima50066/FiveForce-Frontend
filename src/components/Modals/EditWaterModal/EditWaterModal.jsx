@@ -56,7 +56,7 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
     }
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const value = Number(waterAmount);
@@ -69,27 +69,31 @@ const EditWaterModal = ({ waterId, currentWater, onSave, onCancel }) => {
     try {
       const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
       if (!timeRegex.test(time)) {
-        toast.error('Invalid time format. Please use HH:mm.');
+        toast.error(t('Invalid time format. Please use HH:mm.'));
         return;
       }
 
       const [hours, minutes] = time.split(':').map(Number);
-      const currentDate = new Date();
+
+      // Використання дати з currentWater
+      const selectedDate = new Date(currentWater.date);
       const updatedTime = new Date(
-        currentDate.getFullYear(),
-        currentDate.getMonth(),
-        currentDate.getDate(),
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate(),
         hours,
         minutes
       ).getTime();
 
-      onSave({
+      // Виклик onSave і обробка результату
+      await onSave({
         id: waterId,
         updatedWater: { amount: value, date: updatedTime },
       });
 
       toast.success(t('Water entry updated successfully!'));
     } catch (error) {
+      console.error(error);
       toast.error(t('Failed to update water entry. Please try again.'));
     }
   };
